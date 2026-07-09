@@ -1,8 +1,8 @@
 #pragma once
 #include "ConsoleInputSource.h"
-#include "..\Minecraft.World\ArrayWithLength.h"
-#include "..\Minecraft.World\SharedConstants.h"
-#include "..\Minecraft.World\C4JThread.h"
+#include "../Minecraft.World/ArrayWithLength.h"
+#include "../Minecraft.World/SharedConstants.h"
+#include "../Minecraft.World/C4JThread.h"
 
 class ServerConnection;
 class Settings;
@@ -44,6 +44,7 @@ typedef struct _NetworkGameInitData
 	LevelGenerationOptions *levelGen;
 	DWORD texturePackId;
 	bool findSeed;
+	bool dedicatedNoLocalHostPlayer;
 	unsigned int xzSize;
 	unsigned char hellScale;
 	ESavePlatform savePlatform;
@@ -57,6 +58,7 @@ typedef struct _NetworkGameInitData
 		levelGen = nullptr;
 		texturePackId = 0;
 		findSeed = false;
+		dedicatedNoLocalHostPlayer = false;
 		xzSize = LEVEL_LEGACY_WIDTH;
 		hellScale = HELL_LEVEL_LEGACY_SCALE;
 		savePlatform = SAVE_FILE_PLATFORM_LOCAL;
@@ -119,6 +121,7 @@ public:
 	int maxBuildHeight;
 	int playerIdleTimeout;
 	bool forceGameType;
+	int m_spawnProtectionRadius;
 
 private:
 	// 4J Added

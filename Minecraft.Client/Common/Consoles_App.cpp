@@ -1,63 +1,66 @@
 ﻿#include "stdafx.h"
-#include "..\..\Minecraft.World\net.minecraft.world.entity.item.h"
-#include "..\..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\..\Minecraft.World\net.minecraft.world.level.tile.entity.h"
-#include "..\..\Minecraft.World\net.minecraft.world.phys.h"
-#include "..\..\Minecraft.World\InputOutputStream.h"
-#include "..\..\Minecraft.World\compression.h"
-#include "..\Options.h"
-#include "..\MinecraftServer.h"
-#include "..\MultiPlayerLevel.h"
-#include "..\GameRenderer.h"
-#include "..\ProgressRenderer.h"
-#include "..\LevelRenderer.h"
-#include "..\MobSkinMemTextureProcessor.h"
-#include "..\Minecraft.h"
-#include "..\ClientConnection.h"
-#include "..\MultiPlayerLocalPlayer.h"
-#include "..\LocalPlayer.h"
-#include "..\..\Minecraft.World\Player.h"
-#include "..\..\Minecraft.World\Inventory.h"
-#include "..\..\Minecraft.World\Level.h"
-#include "..\..\Minecraft.World\FurnaceTileEntity.h"
-#include "..\..\Minecraft.World\Container.h"
-#include "..\..\Minecraft.World\DispenserTileEntity.h"
-#include "..\..\Minecraft.World\SignTileEntity.h"
-#include "..\StatsCounter.h"
-#include "..\GameMode.h"
-#include "..\Xbox\Social\SocialManager.h"
-#include "Tutorial\TutorialMode.h"
+#include "../../Minecraft.World/net.minecraft.world.entity.item.h"
+#include "../../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../../Minecraft.World/net.minecraft.world.level.tile.entity.h"
+#include "../../Minecraft.World/net.minecraft.world.phys.h"
+#include "../../Minecraft.World/InputOutputStream.h"
+#include "../../Minecraft.World/compression.h"
+#include "../Options.h"
+#include "../MinecraftServer.h"
+#include "../MultiPlayerLevel.h"
+#include "../GameRenderer.h"
+#include "../ProgressRenderer.h"
+#include "../LevelRenderer.h"
+#include "../MobSkinMemTextureProcessor.h"
+#include "../Minecraft.h"
+#include "../ClientConnection.h"
+#include "../MultiPlayerLocalPlayer.h"
+#include "../LocalPlayer.h"
+#include "../../Minecraft.World/Player.h"
+#include "../../Minecraft.World/Inventory.h"
+#include "../../Minecraft.World/Level.h"
+#include "../../Minecraft.World/FurnaceTileEntity.h"
+#include "../../Minecraft.World/Container.h"
+#include "../../Minecraft.World/DispenserTileEntity.h"
+#include "../../Minecraft.World/SignTileEntity.h"
+#include "../StatsCounter.h"
+#include "../GameMode.h"
+#include "../Xbox/Social/SocialManager.h"
+#include "Tutorial/TutorialMode.h"
 #if defined _XBOX || defined _WINDOWS64
-#include "..\Xbox\XML\ATGXmlParser.h"
-#include "..\Xbox\XML\xmlFilesCallback.h"
+#include "../Xbox/XML/ATGXmlParser.h"
+#include "../Xbox/XML/xmlFilesCallback.h"
 #endif
 #include "Minecraft_Macros.h"
-#include "..\PlayerList.h"
-#include "..\ServerPlayer.h"
-#include "GameRules\ConsoleGameRules.h"
-#include "GameRules\ConsoleSchematicFile.h"
-#include "..\User.h"
-#include "..\..\Minecraft.World\LevelData.h"
-#include "..\..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\EntityRenderDispatcher.h"
-#include "..\..\Minecraft.World\compression.h"
-#include "..\TexturePackRepository.h"
-#include "..\DLCTexturePack.h"
-#include "DLC\DLCPack.h"
-#include "..\StringTable.h"
-#ifndef _XBOX
-#include "..\ArchiveFile.h"
+#include "../PlayerList.h"
+#include "../ServerPlayer.h"
+#include "GameRules/ConsoleGameRules.h"
+#include "GameRules/ConsoleSchematicFile.h"
+#include "../User.h"
+#include "../../Minecraft.World/LevelData.h"
+#if defined(_WINDOWS64) && defined(MINECRAFT_SERVER_BUILD)
+#include "../../Minecraft.Server/ServerLogManager.h"
 #endif
-#include "..\Minecraft.h"
+#include "../../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../EntityRenderDispatcher.h"
+#include "../../Minecraft.World/compression.h"
+#include "../TexturePackRepository.h"
+#include "../DLCTexturePack.h"
+#include "DLC/DLCPack.h"
+#include "../StringTable.h"
+#ifndef _XBOX
+#include "../ArchiveFile.h"
+#endif
+#include "../Minecraft.h"
 #ifdef _XBOX
-#include "..\Xbox\GameConfig\Minecraft.spa.h"
-#include "..\Xbox\Network\NetworkPlayerXbox.h"
-#include "XUI\XUI_TextEntry.h"
-#include "XUI\XUI_XZP_Icons.h"
-#include "XUI\XUI_PauseMenu.h"
+#include "../Xbox/GameConfig/Minecraft.spa.h"
+#include "../Xbox/Network/NetworkPlayerXbox.h"
+#include "XUI/XUI_TextEntry.h"
+#include "XUI/XUI_XZP_Icons.h"
+#include "XUI/XUI_PauseMenu.h"
 #else
-#include "UI\UI.h"
-#include "UI\UIScene_PauseMenu.h"
+#include "UI/UI.h"
+#include "UI/UIScene_PauseMenu.h"
 #endif
 #ifdef __PS3__
 #include <sys/tty.h>
@@ -66,7 +69,8 @@
 #include <save_data_dialog.h>
 #endif
 
-#include "..\Common\Leaderboards\LeaderboardManager.h"
+#include "../Common/Leaderboards/LeaderboardManager.h"
+#include <regex>
 
 //CMinecraftApp app;
 unsigned int CMinecraftApp::m_uiLastSignInData = 0;
@@ -92,7 +96,7 @@ CMinecraftApp::CMinecraftApp()
 		// 4J Stu - See comment for GAME_SETTINGS_PROFILE_DATA_BYTES in Xbox_App.h
 		DebugPrintf("WARNING: The size of the profile GAME_SETTINGS struct has changed, so all stat data is likely incorrect. Is: %d, Should be: %d\n",sizeof(GAME_SETTINGS),GAME_SETTINGS_PROFILE_DATA_BYTES);
 #ifndef _CONTENT_PACKAGE
-		__debugbreak();
+		DEBUG_BREAK();
 #endif
 	}
 
@@ -240,12 +244,21 @@ void CMinecraftApp::DebugPrintf(const char *szFormat, ...)
 {
 
 #ifndef _FINAL_BUILD
-	char    buf[1024];
-	va_list ap;
-	va_start(ap, szFormat);
-	vsnprintf(buf, sizeof(buf), szFormat, ap);
-	va_end(ap);
-	OutputDebugStringA(buf);
+    va_list ap;
+    va_start(ap, szFormat);
+#if defined(_WINDOWS64) && defined(MINECRAFT_SERVER_BUILD)
+    // Dedicated server routes client debug spew through ServerLogger so CLI output stays prompt-safe.
+    if (ServerRuntime::ServerLogManager::ShouldForwardClientDebugLogs())
+    {
+        ServerRuntime::ServerLogManager::ForwardClientAppDebugLogV(szFormat, ap);
+        va_end(ap);
+        return;
+    }
+#endif
+    char    buf[1024];
+    vsnprintf(buf, sizeof(buf), szFormat, ap);
+    va_end(ap);
+    OutputDebugStringA(buf);
 #endif
 
 }
@@ -253,53 +266,62 @@ void CMinecraftApp::DebugPrintf(const char *szFormat, ...)
 void CMinecraftApp::DebugPrintf(int user, const char *szFormat, ...)
 {
 #ifndef _FINAL_BUILD
-	if(user == USER_NONE)
-		return;
-	char    buf[1024];
-	va_list ap;
-	va_start(ap, szFormat);
-	vsnprintf(buf, sizeof(buf), szFormat, ap);
-	va_end(ap);
+    if(user == USER_NONE)
+        return;
+    va_list ap;
+    va_start(ap, szFormat);
+#if defined(_WINDOWS64) && defined(MINECRAFT_SERVER_BUILD)
+    // Dedicated server routes client debug spew through ServerLogger so CLI output stays prompt-safe.
+    if (ServerRuntime::ServerLogManager::ShouldForwardClientDebugLogs())
+    {
+        ServerRuntime::ServerLogManager::ForwardClientUserDebugLogV(user, szFormat, ap);
+        va_end(ap);
+        return;
+    }
+#endif
+    char    buf[1024];
+    vsnprintf(buf, sizeof(buf), szFormat, ap);
+    va_end(ap);
 #ifdef __PS3__
-	unsigned int writelen;
-	sys_tty_write(SYS_TTYP_USER1 + ( user - 1 ), buf, strlen(buf), &writelen );
+    unsigned int writelen;
+    sys_tty_write(SYS_TTYP_USER1 + ( user - 1 ), buf, strlen(buf), &writelen );
 #elif defined __PSVITA__
-	switch(user)
-	{
-	case 0:
-		{
-			SceUID tty2 = sceIoOpen("tty2:", SCE_O_WRONLY, 0);
-			if(tty2>=0)
-			{
-				std::string string1(buf);
-				sceIoWrite(tty2, string1.c_str(), string1.length());
-				sceIoClose(tty2);
-			}
-		}
-		break;
-	case 1:
-		{
-			SceUID tty3 = sceIoOpen("tty3:", SCE_O_WRONLY, 0);
-			if(tty3>=0)
-			{
-				std::string string1(buf);
-				sceIoWrite(tty3, string1.c_str(), string1.length());
-				sceIoClose(tty3);
-			}
-		}
-		break;
-	default:
-		OutputDebugStringA(buf);
-		break;
-	}
+    switch(user)
+    {
+    case 0:
+        {
+            SceUID tty2 = sceIoOpen("tty2:", SCE_O_WRONLY, 0);
+            if(tty2>=0)
+            {
+                std::string string1(buf);
+                sceIoWrite(tty2, string1.c_str(), string1.length());
+                sceIoClose(tty2);
+            }
+        }
+        break;
+    case 1:
+        {
+            SceUID tty3 = sceIoOpen("tty3:", SCE_O_WRONLY, 0);
+            if(tty3>=0)
+            {
+                std::string string1(buf);
+                sceIoWrite(tty3, string1.c_str(), string1.length());
+                sceIoClose(tty3);
+            }
+        }
+        break;
+    default:
+        OutputDebugStringA(buf);
+        break;
+    }
 #else
-	OutputDebugStringA(buf);
+    OutputDebugStringA(buf);
 #endif
 #ifndef _XBOX
-	if(user == USER_UI)
-	{
-		ui.logDebugString(buf);
-	}
+    if(user == USER_UI)
+    {
+        ui.logDebugString(buf);
+    }
 #endif
 #endif
 }
@@ -1278,9 +1300,6 @@ int CMinecraftApp::OldProfileVersionCallback(LPVOID pParam,unsigned char *pucDat
 		{
 			// This might be from a version during testing of new profile updates
 			app.DebugPrintf("Don't know what to do with this profile version!\n");
-#ifndef _CONTENT_PACKAGE
-			//		__debugbreak();
-#endif
 
 			GAME_SETTINGS *pGameSettings=(GAME_SETTINGS *)pucData;
 			pGameSettings->ucMenuSensitivity=100; //eGameSetting_Sensitivity_InMenu
@@ -6399,7 +6418,7 @@ void CMinecraftApp::InitialiseTips()
 		{
 			// the m_TriviaTipA or the m_GameTipA are out of sync
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 		}
 	}
@@ -6572,6 +6591,96 @@ wstring CMinecraftApp::FormatHTMLString(int iPad, const wstring &desc, int shado
 	}
 
 	return text;
+}
+
+//found list of html escapes at https://stackoverflow.com/questions/7381974/which-characters-need-to-be-escaped-in-html
+wstring CMinecraftApp::EscapeHTMLString(const wstring& desc)
+{
+    static std::unordered_map<wchar_t, wchar_t*> replacementMap = {
+        {L'&', L"&amp;"},
+        {L'<', L"&lt;"},
+        {L'>', L"&gt;"},
+        {L'\"', L"&quot;"},
+    };
+
+	wstring finalString = L"";
+	for (int i = 0; i < desc.size(); i++) {
+		wchar_t _char = desc[i];
+		auto it = replacementMap.find(_char);
+
+		if (it != replacementMap.end()) finalString += it->second;
+		else finalString += _char;
+	}
+
+	return finalString;
+}
+
+wstring CMinecraftApp::FormatChatMessage(const wstring& desc, bool applyStyling)
+{
+	static std::wregex IDS_Pattern(LR"(\{\*IDS_(\d+)\*\})"); //maybe theres a better way to do translateable IDS
+	static std::wstring_view colorFormatString = L"<font color=\"#%08x\">";
+
+	wstring results = desc;
+	wchar_t replacements[64];
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_0), 0xFFFFFFFF);
+	results = replaceAll(results, L"§0", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_1), 0xFFFFFFFF);
+	results = replaceAll(results, L"§1", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_2), 0xFFFFFFFF);
+	results = replaceAll(results, L"§2", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_3), 0xFFFFFFFF);
+	results = replaceAll(results, L"§3", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_4), 0xFFFFFFFF);
+	results = replaceAll(results, L"§4", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_5), 0xFFFFFFFF);
+	results = replaceAll(results, L"§5", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_6), 0xFFFFFFFF);
+	results = replaceAll(results, L"§6", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_7), 0xFFFFFFFF);
+	results = replaceAll(results, L"§7", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_8), 0xFFFFFFFF);
+	results = replaceAll(results, L"§8", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_9), 0xFFFFFFFF);
+	results = replaceAll(results, L"§9", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_a), 0xFFFFFFFF);
+	results = replaceAll(results, L"§a", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_b), 0xFFFFFFFF);
+	results = replaceAll(results, L"§b", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_c), 0xFFFFFFFF);
+	results = replaceAll(results, L"§c", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_d), 0xFFFFFFFF);
+	results = replaceAll(results, L"§d", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_e), 0xFFFFFFFF);
+	results = replaceAll(results, L"§e", replacements);
+
+	swprintf(replacements, 64, (applyStyling ? colorFormatString.data() : L""), GetHTMLColour(eHTMLColor_f), 0xFFFFFFFF);
+	results = replaceAll(results, L"§f", replacements);
+	results = replaceAll(results, L"§r", replacements); //we only support color so reset is the same as white color
+
+	if (applyStyling) {
+		std::wsmatch match;
+		while (std::regex_search(results, match, IDS_Pattern)) {
+			results = replaceAll(results, match[0], app.GetString(std::stoi(match[1].str())));
+		}
+	}
+	
+
+	return results;
 }
 
 wstring CMinecraftApp::GetActionReplacement(int iPad, unsigned char ucAction)

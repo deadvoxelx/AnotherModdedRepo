@@ -2,9 +2,9 @@
 #include "UI.h"
 #include "UIScene_EndPoem.h"
 #include "UIBitmapFont.h"
-#include "..\..\Minecraft.h"
-#include "..\..\MultiplayerLocalPlayer.h"
-#include "..\..\..\Minecraft.World\StringHelpers.h"
+#include "../../Minecraft.h"
+#include "../../MultiPlayerLocalPlayer.h"
+#include "../../../Minecraft.World/StringHelpers.h"
 
 UIScene_EndPoem::UIScene_EndPoem(int iPad, void *initData, UILayer *parentLayer) : UIScene(iPad, parentLayer)
 {
@@ -50,14 +50,7 @@ UIScene_EndPoem::UIScene_EndPoem(int iPad, void *initData, UILayer *parentLayer)
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
 	wstring playerName = L"";
-	if(pMinecraft->localplayers[ui.GetWinUserIndex()] != nullptr)
-	{
-		playerName = escapeXML( pMinecraft->localplayers[ui.GetWinUserIndex()]->getDisplayName() );
-	}
-	else
-	{
-		playerName = escapeXML( pMinecraft->localplayers[ProfileManager.GetPrimaryPad()]->getDisplayName() );
-	}
+	playerName = escapeXML( pMinecraft->localplayers[ProfileManager.GetPrimaryPad()]->getDisplayName() );
 	noNoiseString = replaceAll(noNoiseString,L"{*PLAYER*}",playerName);
 
 	Random random(8124371);

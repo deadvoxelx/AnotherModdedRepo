@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "StringTable.h"
 
 StringTable::StringTable(void)
@@ -144,7 +144,7 @@ LPCWSTR StringTable::getString(const wstring &id)
 #ifndef _CONTENT_PACKAGE
 	if (isStatic)
 	{
-		__debugbreak();
+		DEBUG_BREAK();
 		return L"";
 	}
 #endif
@@ -166,7 +166,7 @@ LPCWSTR StringTable::getString(int id)
 #ifndef _CONTENT_PACKAGE
 	if (!isStatic)
 	{
-		__debugbreak();
+		DEBUG_BREAK();
 		return L"";
 	}
 #endif

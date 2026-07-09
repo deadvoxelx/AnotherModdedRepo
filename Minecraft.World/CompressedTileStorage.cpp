@@ -6,7 +6,7 @@
 #endif
 
 #ifdef __PS3__
-#include "..\SPU_Tasks\CompressedTileStorage_compress\CompressedTileStorage_compress.h"
+#include "../SPU_Tasks/CompressedTileStorage_compress/CompressedTileStorage_compress.h"
 #include "C4JSpursJob.h"
 static const int sc_maxCompressTiles = 64;
 static CompressedTileStorage_compress_dataIn g_compressTileDataIn[sc_maxCompressTiles] __attribute__((__aligned__(16)));
@@ -1065,7 +1065,7 @@ void  CompressedTileStorage::compress(int upgradeBlock/*=-1*/)
 #ifndef _DURANGO
 			MEMORYSTATUS memStatus;
 			GlobalMemoryStatus(&memStatus);
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 		}
 		unsigned char *pucData = newIndicesAndData + 1024;
@@ -1311,7 +1311,7 @@ int CompressedTileStorage::getHighestNonEmptyY()
 		// Multiply by the number of vertical tiles in a block, and then add that again to be at the top of the block
 		highestNonEmptyY = (highestYBlock * 4) + 4;
 	}
-	else
+	else if( allocatedSize != 1024 )
 	{
 		app.DebugPrintf("[CTS-WARN] getHighestNonEmptyY() returned -1! allocatedSize=%d indicesAndData=%p\n",
 			allocatedSize, indicesAndData);

@@ -13,39 +13,39 @@
 #include "CreativeMode.h"
 #include "Lighting.h"
 #include "Options.h"
-#include "MultiplayerLocalPlayer.h"
+#include "MultiPlayerLocalPlayer.h"
 #include "GuiParticles.h"
 #include "MultiPlayerLevel.h"
 #include "Chunk.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\Minecraft.World\net.minecraft.world.item.enchantment.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.level.material.h"
-#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
-#include "..\Minecraft.World\net.minecraft.world.level.chunk.h"
-#include "..\Minecraft.World\net.minecraft.world.level.biome.h"
-#include "..\Minecraft.World\net.minecraft.world.level.dimension.h"
-#include "..\Minecraft.World\net.minecraft.world.phys.h"
-#include "..\Minecraft.World\System.h"
-#include "..\Minecraft.World\FloatBuffer.h"
-#include "..\Minecraft.World\ThreadName.h"
-#include "..\Minecraft.World\SparseLightStorage.h"
-#include "..\Minecraft.World\CompressedTileStorage.h"
-#include "..\Minecraft.World\SparseDataStorage.h"
-#include "..\Minecraft.World\JavaMath.h"
-#include "..\Minecraft.World\Facing.h"
-#include "..\Minecraft.World\MobEffect.h"
-#include "..\Minecraft.World\IntCache.h"
-#include "..\Minecraft.World\SmoothFloat.h"
-#include "..\Minecraft.World\MobEffectInstance.h"
-#include "..\Minecraft.World\Item.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../Minecraft.World/net.minecraft.world.item.enchantment.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.level.material.h"
+#include "../Minecraft.World/net.minecraft.world.level.tile.h"
+#include "../Minecraft.World/net.minecraft.world.level.chunk.h"
+#include "../Minecraft.World/net.minecraft.world.level.biome.h"
+#include "../Minecraft.World/net.minecraft.world.level.dimension.h"
+#include "../Minecraft.World/net.minecraft.world.phys.h"
+#include "../Minecraft.World/System.h"
+#include "../Minecraft.World/FloatBuffer.h"
+#include "../Minecraft.World/ThreadName.h"
+#include "../Minecraft.World/SparseLightStorage.h"
+#include "../Minecraft.World/CompressedTileStorage.h"
+#include "../Minecraft.World/SparseDataStorage.h"
+#include "../Minecraft.World/JavaMath.h"
+#include "../Minecraft.World/Facing.h"
+#include "../Minecraft.World/MobEffect.h"
+#include "../Minecraft.World/IntCache.h"
+#include "../Minecraft.World/SmoothFloat.h"
+#include "../Minecraft.World/MobEffectInstance.h"
+#include "../Minecraft.World/Item.h"
 #include "Camera.h"
-#include "..\Minecraft.World\SoundTypes.h"
+#include "../Minecraft.World/SoundTypes.h"
 #include "HumanoidModel.h"
-#include "..\Minecraft.World\Item.h"
-#include "..\Minecraft.World\compression.h"
-#include "PS3\PS3Extras\ShutdownManager.h"
+#include "../Minecraft.World/Item.h"
+#include "../Minecraft.World/compression.h"
+#include "PS3/PS3Extras/ShutdownManager.h"
 #include "BossMobGuiInfo.h"
 
 #include "TexturePackRepository.h"
@@ -359,14 +359,17 @@ void GameRenderer::pick(float a)
 	}
 }
 
+// Toru - wrapping these methods for backwards compatibility,
+// no longer setting m_fov as its use doesn't respect applyEffects param in GameRenderer::getFov
 void GameRenderer::SetFovVal(float fov)
 {
-	m_fov=fov;
+	//m_fov=fov;
+	mc->options->set(Options::Option::FOV, (fov - 70) / 40);
 }
 
 float GameRenderer::GetFovVal()
 {
-	return m_fov;
+	return 70 + mc->options->fov * 40;//m_fov;
 }
 
 void GameRenderer::tickFov()
@@ -390,6 +393,8 @@ float GameRenderer::getFov(float a, bool applyEffects)
 	shared_ptr<LocalPlayer> player = dynamic_pointer_cast<LocalPlayer>(mc->cameraTargetPlayer);
 	int playerIdx = player ? player->GetXboxPad() : 0;
 	float fov = m_fov;//70;
+	if (fov < 1) fov = 1; // Crash fix
+	
 	if (applyEffects)
 	{
 		fov += mc->options->fov * 40;
@@ -2107,7 +2112,7 @@ void GameRenderer::setupFog(int i, float alpha)
 
 	if (i == 999)
 	{
-		__debugbreak();
+		DEBUG_BREAK();
 		// 4J TODO
 		/*
 		glFog(GL_FOG_COLOR, getBuffer(0, 0, 0, 1));

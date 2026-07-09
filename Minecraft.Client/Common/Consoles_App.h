@@ -5,23 +5,23 @@ using namespace std;
 #include "Audio/Consoles_SoundEngine.h"
 
 #include <xuiapp.h>
-#include ".\Tutorial\TutorialEnum.h"
+#include "./Tutorial/TutorialEnum.h"
 
 #ifdef _XBOX
-#include ".\XUI\XUI_Helper.h"
-#include ".\XUI\XUI_HelpCredits.h"
+#include "./XUI/XUI_Helper.h"
+#include "./XUI/XUI_HelpCredits.h"
 #endif
-#include "UI\UIStructs.h"
+#include "UI/UIStructs.h"
 
-#include "..\..\Minecraft.World\DisconnectPacket.h"
+#include "../../Minecraft.World/DisconnectPacket.h"
 #include <xsocialpost.h>
 
-#include "..\StringTable.h"
-#include ".\DLC\DLCManager.h"
-#include ".\GameRules\ConsoleGameRulesConstants.h"
-#include ".\GameRules\GameRuleManager.h"
-#include "..\SkinBox.h"
-#include "..\ArchiveFile.h"
+#include "../StringTable.h"
+#include "./DLC/DLCManager.h"
+#include "./GameRules/ConsoleGameRulesConstants.h"
+#include "./GameRules/GameRuleManager.h"
+#include "../SkinBox.h"
+#include "../ArchiveFile.h"
 
 typedef struct _JoinFromInviteData
 {
@@ -564,7 +564,9 @@ public:
 	int GetHTMLColour(eMinecraftColour colour);
 	int GetHTMLColor(eMinecraftColour colour) { return GetHTMLColour(colour); }
 	int GetHTMLFontSize(EHTMLFontSize size);
-	wstring FormatHTMLString(int iPad, const wstring &desc, int shadowColour = 0xFFFFFFFF);
+	wstring FormatHTMLString(int iPad, const wstring& desc, int shadowColour = 0xFFFFFFFF);
+	wstring EscapeHTMLString(const wstring &desc);
+	wstring FormatChatMessage(const wstring& desc, bool applyStyling = true);
 	wstring GetActionReplacement(int iPad, unsigned char ucAction);
 	wstring GetVKReplacement(unsigned int uiVKey);
 	wstring GetIconReplacement(unsigned int uiIcon);

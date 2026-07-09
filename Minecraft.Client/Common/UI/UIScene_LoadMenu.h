@@ -50,7 +50,6 @@ private:
 	int m_iGameModeId;
 	bool m_bHasBeenInCreative;
 	bool m_bIsSaveOwner;
-	bool m_bRetrievingSaveThumbnail;
 	bool m_bSaveThumbnailReady;
 	bool m_bMultiplayerAllowed;
 	bool m_bShowTimer;

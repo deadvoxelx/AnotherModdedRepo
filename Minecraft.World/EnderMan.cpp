@@ -9,7 +9,7 @@
 #include "net.minecraft.world.damagesource.h"
 #include "net.minecraft.world.phys.h"
 #include "com.mojang.nbt.h"
-#include "..\Minecraft.Client\Textures.h"
+#include "../Minecraft.Client/Textures.h"
 #include "EnderMan.h"
 
 AttributeModifier *EnderMan::SPEED_MODIFIER_ATTACKING = (new AttributeModifier(eModifierId_MOB_ENDERMAN_ATTACKSPEED, 6.2f, AttributeModifier::OPERATION_ADDITION))->setSerialize(false);
@@ -410,8 +410,13 @@ bool EnderMan::hurt(DamageSource *source, float damage)
 
 	if ( dynamic_cast<EntityDamageSource *>(source) != nullptr && source->getEntity()->instanceof(eTYPE_PLAYER))
 	{
-		aggroedByPlayer = true;
+		if (!dynamic_pointer_cast<Player>(source->getEntity())->abilities.invulnerable)
+		{
+			aggroedByPlayer = true;
+		}
+		else setCreepy(false);
 	}
+
 
 	if (dynamic_cast<IndirectEntityDamageSource *>(source) != nullptr)
 	{

@@ -1,20 +1,20 @@
 #include "stdafx.h"
-#include "Common\DLC\DLCGameRulesFile.h"
-#include "Common\DLC\DLCGameRulesHeader.h"
-#include "Common\DLC\DLCGameRules.h"
+#include "Common/DLC/DLCGameRulesFile.h"
+#include "Common/DLC/DLCGameRulesHeader.h"
+#include "Common/DLC/DLCGameRules.h"
 #include "DLCTexturePack.h"
-#include "Common\DLC\DLCColourTableFile.h"
-#include "Common\DLC\DLCUIDataFile.h"
-#include "Common\DLC\DLCTextureFile.h"
-#include "Common\DLC\DLCLocalisationFile.h"
-#include "..\Minecraft.World\StringHelpers.h"
+#include "Common/DLC/DLCColourTableFile.h"
+#include "Common/DLC/DLCUIDataFile.h"
+#include "Common/DLC/DLCTextureFile.h"
+#include "Common/DLC/DLCLocalisationFile.h"
+#include "../Minecraft.World/StringHelpers.h"
 #include "StringTable.h"
 #include "Common/UI/UI.h"
-#include "Common\DLC\DLCAudioFile.h"
+#include "Common/DLC/DLCAudioFile.h"
 
 #if defined _XBOX || defined _WINDOWS64
-#include "Xbox\XML\ATGXmlParser.h"
-#include "Xbox\XML\xmlFilesCallback.h"
+#include "Xbox/XML/ATGXmlParser.h"
+#include "Xbox/XML/xmlFilesCallback.h"
 #endif
 
 DLCTexturePack::DLCTexturePack(DWORD id, DLCPack *pack, TexturePack *fallback) : AbstractTexturePack(id, nullptr, pack->getName(), fallback)
@@ -106,7 +106,7 @@ wstring DLCTexturePack::getResource(const wstring& name)
 {
 	// 4J Stu - We should never call this function
 #ifndef __CONTENT_PACKAGE
-	__debugbreak();
+	DEBUG_BREAK();
 #endif
 	return L"";
 }
@@ -115,7 +115,7 @@ InputStream *DLCTexturePack::getResourceImplementation(const wstring &name) //th
 {
 	// 4J Stu - We should never call this function
 #ifndef _CONTENT_PACKAGE
-	__debugbreak();
+	DEBUG_BREAK();
 	if(hasFile(name)) return nullptr;
 #endif
 	return nullptr; //resource;

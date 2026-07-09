@@ -36,45 +36,45 @@
 #include "FrustumCuller.h"
 #include "Camera.h"
 
-#include "..\Minecraft.World\MobEffect.h"
-#include "..\Minecraft.World\Difficulty.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.item.h"
-#include "..\Minecraft.World\net.minecraft.world.phys.h"
-#include "..\Minecraft.World\File.h"
-#include "..\Minecraft.World\net.minecraft.world.level.storage.h"
-#include "..\Minecraft.World\net.minecraft.h"
-#include "..\Minecraft.World\net.minecraft.stats.h"
-#include "..\Minecraft.World\System.h"
-#include "..\Minecraft.World\ByteBuffer.h"
-#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
-#include "..\Minecraft.World\net.minecraft.world.level.chunk.h"
-#include "..\Minecraft.World\net.minecraft.world.level.dimension.h"
-#include "..\Minecraft.World\net.minecraft.world.item.h"
-#include "..\Minecraft.World\Minecraft.World.h"
-#include "Windows64\Windows64_Xuid.h"
+#include "../Minecraft.World/MobEffect.h"
+#include "../Minecraft.World/Difficulty.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../Minecraft.World/net.minecraft.world.entity.item.h"
+#include "../Minecraft.World/net.minecraft.world.phys.h"
+#include "../Minecraft.World/File.h"
+#include "../Minecraft.World/net.minecraft.world.level.storage.h"
+#include "../Minecraft.World/net.minecraft.h"
+#include "../Minecraft.World/net.minecraft.stats.h"
+#include "../Minecraft.World/System.h"
+#include "../Minecraft.World/ByteBuffer.h"
+#include "../Minecraft.World/net.minecraft.world.level.tile.h"
+#include "../Minecraft.World/net.minecraft.world.level.chunk.h"
+#include "../Minecraft.World/net.minecraft.world.level.dimension.h"
+#include "../Minecraft.World/net.minecraft.world.item.h"
+#include "../Minecraft.World/Minecraft.World.h"
+#include "Windows64/Windows64_Xuid.h"
 #include "ClientConnection.h"
-#include "..\Minecraft.World\HellRandomLevelSource.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.animal.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
-#include "..\Minecraft.World\StrongholdFeature.h"
-#include "..\Minecraft.World\IntCache.h"
-#include "..\Minecraft.World\Villager.h"
-#include "..\Minecraft.World\SparseLightStorage.h"
-#include "..\Minecraft.World\SparseDataStorage.h"
-#include "..\Minecraft.World\ChestTileEntity.h"
+#include "../Minecraft.World/HellRandomLevelSource.h"
+#include "../Minecraft.World/net.minecraft.world.entity.animal.h"
+#include "../Minecraft.World/net.minecraft.world.entity.monster.h"
+#include "../Minecraft.World/StrongholdFeature.h"
+#include "../Minecraft.World/IntCache.h"
+#include "../Minecraft.World/Villager.h"
+#include "../Minecraft.World/SparseLightStorage.h"
+#include "../Minecraft.World/SparseDataStorage.h"
+#include "../Minecraft.World/ChestTileEntity.h"
 #include "TextureManager.h"
 #ifdef _XBOX
-#include "Xbox\Network\NetworkPlayerXbox.h"
+#include "Xbox/Network/NetworkPlayerXbox.h"
 #endif
-#include "Common\UI\IUIScene_CreativeMenu.h"
-#include "Common\UI\UIFontData.h"
+#include "Common/UI/IUIScene_CreativeMenu.h"
+#include "Common/UI/UIFontData.h"
 #include "DLCTexturePack.h"
 
 #ifdef __ORBIS__
-#include "Orbis\Network\PsPlusUpsellWrapper_Orbis.h"
+#include "Orbis/Network/PsPlusUpsellWrapper_Orbis.h"
 #endif
 
 // #define DISABLE_SPU_CODE
@@ -1537,8 +1537,12 @@ void Minecraft::run_middle()
 						// Utility keys always work regardless of KBM active state
 						if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_PAUSE) && !ui.GetMenuDisplayed(i))
 						{
-							localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_PAUSEMENU;
-							app.DebugPrintf("PAUSE PRESSED (keyboard) - ipad = %d\n",i);
+							if (dynamic_cast<ChatScreen*>(getScreen()) != nullptr) {
+								setScreen(nullptr);
+							} else {
+								localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_PAUSEMENU;
+								app.DebugPrintf("PAUSE PRESSED (keyboard) - ipad = %d\n",i);
+							}
 						}
 
 						if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_THIRD_PERSON))
@@ -1548,6 +1552,9 @@ void Minecraft::run_middle()
 						{
 							localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_RENDER_DEBUG;
 						}
+
+						if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_SCREENSHOT))
+							localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_SCREENSHOT;
 
 						// In flying mode, Shift held = sneak/descend
 						if(g_KBMInput.IsKBMActive() && g_KBMInput.IsKeyDown(KeyboardMouseInput::KEY_SNEAK))
@@ -1629,7 +1636,7 @@ void Minecraft::run_middle()
 						s_prevXButtons[i] = xCurButtons;
 					}
 					bool startJustPressed = s_startPressLatch[i] > 0;
-					bool tryJoin = !pause && !ui.IsIgnorePlayerJoinMenuDisplayed(ProfileManager.GetPrimaryPad()) && g_NetworkManager.SessionHasSpace() && xCurButtons != 0;
+					bool tryJoin = !pause && !ui.IsIgnorePlayerJoinMenuDisplayed(ProfileManager.GetPrimaryPad()) && g_NetworkManager.SessionHasSpace() && xCurButtons != 0 && g_KBMInput.IsWindowFocused();
 #else
 					bool tryJoin = !pause && !ui.IsIgnorePlayerJoinMenuDisplayed(ProfileManager.GetPrimaryPad()) && g_NetworkManager.SessionHasSpace() && RenderManager.IsHiDef() && InputManager.ButtonPressed(i);
 #endif
@@ -3706,7 +3713,9 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 					app.EnableDebugOverlay(options->renderDebug,iPad);
 #else
 					// 4J Stu - The xbox uses a completely different way of navigating to this scene
-					ui.NavigateToScene(0, eUIScene_DebugOverlay, nullptr, eUILayer_Debug);
+					// Always open in the fullscreen group so the overlay spans the full window
+					// regardless of split-screen viewport configuration.
+					ui.NavigateToScene(0, eUIScene_DebugOverlay, nullptr, eUILayer_Debug, eUIGroup_Fullscreen);
 #endif
 #endif
 				}
@@ -3735,6 +3744,13 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 			//options->thirdPersonView = !options->thirdPersonView;
 		}
 
+#ifdef _WINDOWS64
+		if(player->ullButtonsPressed&(1LL<<MINECRAFT_ACTION_SCREENSHOT))
+		{
+			RenderManager.DoScreenGrabOnNextPresent();
+		}
+#endif
+
 		if((player->ullButtonsPressed&(1LL<<MINECRAFT_ACTION_GAME_INFO)) && gameMode->isInputAllowed(MINECRAFT_ACTION_GAME_INFO))
 		{
 			ui.NavigateToScene(iPad,eUIScene_InGameInfoMenu);
@@ -3744,7 +3760,10 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 		if((player->ullButtonsPressed&(1LL<<MINECRAFT_ACTION_INVENTORY)) && gameMode->isInputAllowed(MINECRAFT_ACTION_INVENTORY))
 		{
 			shared_ptr<MultiplayerLocalPlayer> player = Minecraft::GetInstance()->player;
-			ui.PlayUISFX(eSFX_Press);
+			if (!player->isRiding())
+			{
+				ui.PlayUISFX(eSFX_Press);
+			}
 
 			if(gameMode->isServerControlledInventory())
 			{
@@ -4798,7 +4817,7 @@ void Minecraft::main()
 			app.DebugPrintf("<xs:enumeration value=\"%d\"><xs:annotation><xs:documentation>%ls</xs:documentation></xs:annotation></xs:enumeration>\n", i, app.GetString( Tile::tiles[i]->getDescriptionId() ));
 		}
 	}
-	__debugbreak();
+	DEBUG_BREAK();
 #endif
 
 	// 4J-PB - Can't call this for the first 5 seconds of a game - MS rule

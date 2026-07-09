@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Minecraft.Client\Minecraft.h"
+#include "../Minecraft.Client/Minecraft.h"
 #include "net.minecraft.world.h"
 #include "net.minecraft.world.level.tile.h"
 #include "net.minecraft.world.entity.player.h"
@@ -208,7 +208,7 @@ void ArmorItem::setColor(shared_ptr<ItemInstance> item, int color)
 	{
 #ifndef _CONTENT_PACKAGE
 		printf("Can't dye non-leather!");
-		__debugbreak();
+		DEBUG_BREAK();
 #endif
 		//throw new UnsupportedOperationException("Can't dye non-leather!");
 	}

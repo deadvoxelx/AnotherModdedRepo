@@ -2,7 +2,7 @@
 using namespace std;
 class Minecraft;
 class KeyMapping;
-#include "..\Minecraft.World\File.h"
+#include "../Minecraft.World/File.h"
 
 class Options
 {
@@ -110,6 +110,7 @@ public:
 	int particles; // 0 is all, 1 is decreased and 2 is minimal
 	float fov;
 	float gamma;
+	bool advancedTooltips;
 
 	void init();	// 4J added
     Options(Minecraft *minecraft, File workingDirectory);

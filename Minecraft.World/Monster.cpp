@@ -10,7 +10,7 @@
 #include "net.minecraft.world.item.enchantment.h"
 #include "Monster.h"
 
-#include "..\Minecraft.Client\Minecraft.h"
+#include "../Minecraft.Client/Minecraft.h"
 
 
 Monster::Monster(Level *level) : PathfinderMob( level )
@@ -60,7 +60,14 @@ bool Monster::hurt(DamageSource *source, float dmg)
 
 		if (sourceEntity != shared_from_this()) 
 		{
-			attackTarget = sourceEntity;
+			if (sourceEntity->instanceof(eTYPE_PLAYER))
+			{
+				if (!dynamic_pointer_cast<Player>(sourceEntity)->abilities.invulnerable)
+				{
+					attackTarget = sourceEntity;
+				}
+			}
+			else attackTarget = sourceEntity;
 		}
 		return true;
 	}

@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "EntityRenderDispatcher.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.projectile.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.animal.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.monster.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.item.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.global.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.boss.enderdragon.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.npc.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
-#include "..\Minecraft.World\net.minecraft.world.item.h"
-#include "..\Minecraft.World\net.minecraft.world.item.alchemy.h"
+#include "../Minecraft.World/net.minecraft.world.entity.projectile.h"
+#include "../Minecraft.World/net.minecraft.world.entity.animal.h"
+#include "../Minecraft.World/net.minecraft.world.entity.monster.h"
+#include "../Minecraft.World/net.minecraft.world.entity.item.h"
+#include "../Minecraft.World/net.minecraft.world.entity.global.h"
+#include "../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../Minecraft.World/net.minecraft.world.entity.boss.enderdragon.h"
+#include "../Minecraft.World/net.minecraft.world.entity.npc.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.level.tile.h"
+#include "../Minecraft.World/net.minecraft.world.item.h"
+#include "../Minecraft.World/net.minecraft.world.item.alchemy.h"
 #include "SpiderRenderer.h"
 #include "PigRenderer.h"
 #include "SheepRenderer.h"
@@ -44,7 +44,7 @@
 #include "ExperienceOrbRenderer.h"
 #include "SilverfishRenderer.h"
 #include "MushroomCowRenderer.h"
-#include "SnowmanRenderer.h"
+#include "SnowManRenderer.h"
 #include "LavaSlimeRenderer.h"
 #include "VillagerRenderer.h"
 #include "EnderDragonRenderer.h"
@@ -187,7 +187,7 @@ EntityRenderer *EntityRenderDispatcher::getRenderer(eINSTANCEOF e)
 	{
 		app.DebugPrintf("Couldn't find renderer for entity of type %d\n", e);
 		// New renderer mapping required in above table
-		__debugbreak();
+		DEBUG_BREAK();
 	}
 	/* 4J - not doing this hierarchical search anymore. We need to explicitly add renderers for any eINSTANCEOF type that we want to be able to render
 	if (it == renderers.end() && e != Entity::_class)

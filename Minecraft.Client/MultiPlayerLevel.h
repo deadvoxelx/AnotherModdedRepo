@@ -1,9 +1,9 @@
 #pragma once
 using namespace std;
-#include "..\Minecraft.World\HashExtension.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\JavaIntHash.h"
+#include "../Minecraft.World/HashExtension.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/JavaIntHash.h"
 
 class ClientConnection;
 class MultiPlayerChunkCache;
@@ -12,6 +12,7 @@ using namespace std;
 
 class MultiPlayerLevel : public Level
 {
+	friend class ClientConnection;
 private:
 	static const int TICKS_BEFORE_RESET = 20 * 4;
 

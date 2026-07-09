@@ -8,15 +8,15 @@
 #include "PlayerRenderer.h"
 #include "EntityRenderDispatcher.h"
 #include "Lighting.h"
-#include "MultiplayerLocalPlayer.h"
+#include "MultiPlayerLocalPlayer.h"
 #include "Minimap.h"
 #include "MultiPlayerLevel.h"
-#include "..\Minecraft.World\net.minecraft.world.item.h"
-#include "..\Minecraft.World\net.minecraft.world.level.tile.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.player.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.h"
+#include "../Minecraft.World/net.minecraft.world.item.h"
+#include "../Minecraft.World/net.minecraft.world.level.tile.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/net.minecraft.world.entity.player.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.h"
 
 ResourceLocation ItemInHandRenderer::ENCHANT_GLINT_LOCATION = ResourceLocation(TN__BLUR__MISC_GLINT);
 ResourceLocation ItemInHandRenderer::MAP_BACKGROUND_LOCATION = ResourceLocation(TN_MISC_MAPBG);
@@ -228,7 +228,7 @@ void ItemInHandRenderer::renderItem(shared_ptr<LivingEntity> mob, shared_ptr<Ite
 	// by texture lighting. This is for colourising things held in 3rd person view.
     if ( (setColor) && (item != nullptr) )
 	{
-        int col = Item::items[item->id]->getColor(item,0);
+        int col = Item::items[item->id]->getColor(item, layer);
         float red = ((col >> 16) & 0xff) / 255.0f;
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
@@ -286,6 +286,20 @@ void ItemInHandRenderer::renderItem(shared_ptr<LivingEntity> mob, shared_ptr<Ite
 
         float xo = 0.0f;
         float yo = 0.3f;
+		
+
+		// Re position height of held item if skin is small
+        if (mob->getAnimOverrideBitmask() & (1 << HumanoidModel::eAnim_SmallModel))
+        {
+            if (mob->isRiding())
+            {
+                std::shared_ptr<Entity> ridingEntity = mob->riding;
+                if (ridingEntity != nullptr) // Safety check;
+                {
+                    yo += 0.3f; // reverts the change in Boat.cpp for smaller models.
+                }
+            }
+        }
 
         glEnable(GL_RESCALE_NORMAL);
         glTranslatef(-xo, -yo, 0);

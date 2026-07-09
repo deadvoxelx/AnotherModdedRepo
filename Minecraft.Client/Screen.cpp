@@ -5,9 +5,9 @@
 #include "GuiParticles.h"
 #include "Tesselator.h"
 #include "Textures.h"
-#include "..\Minecraft.World\SoundTypes.h"
+#include "../Minecraft.World/SoundTypes.h"
 #ifdef _WINDOWS64
-#include "Windows64\KeyboardMouseInput.h"
+#include "Windows64/KeyboardMouseInput.h"
 #endif
 
 
@@ -161,7 +161,7 @@ void Screen::updateEvents()
 	static bool s_arrowFirstRepeat[2] = { false, false };
 	const DWORD ARROW_REPEAT_DELAY_MS = 250;
 	const DWORD ARROW_REPEAT_INTERVAL_MS = 50;
-	DWORD now = GetTickCount();
+	DWORD now = GetTickCount64();
 
 	// Poll keyboard events (special keys that may not come through WM_CHAR, e.g. Escape, arrows)
 	for (int vk = 0; vk < 256; vk++)
@@ -204,7 +204,7 @@ void Screen::updateEvents()
 		// Map to Screen::keyPressed
 		int mappedKey = -1;
 		wchar_t ch = 0;
-		if (vk == VK_ESCAPE)  mappedKey = Keyboard::KEY_ESCAPE;
+		if (vk == VK_ESCAPE)	   mappedKey = Keyboard::KEY_ESCAPE;
 		else if (vk == VK_RETURN)  mappedKey = Keyboard::KEY_RETURN;
 		else if (vk == VK_BACK)    mappedKey = Keyboard::KEY_BACK;
 		else if (vk == VK_UP)      mappedKey = Keyboard::KEY_UP;

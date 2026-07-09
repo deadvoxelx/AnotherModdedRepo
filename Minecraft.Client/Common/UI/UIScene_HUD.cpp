@@ -3,12 +3,13 @@
 #include "UIScene_HUD.h"
 #include "UISplitScreenHelpers.h"
 #include "BossMobGuiInfo.h"
-#include "..\..\Minecraft.h"
-#include "..\..\MultiplayerLocalPlayer.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.entity.boss.enderdragon.h"
-#include "..\..\EnderDragonRenderer.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.inventory.h"
-#include "..\..\..\Minecraft.World\StringHelpers.h"
+#include "../../Minecraft.h"
+#include "../../MultiPlayerLocalPlayer.h"
+#include "../../../Minecraft.World/net.minecraft.world.entity.boss.enderdragon.h"
+#include "../../EnderDragonRenderer.h"
+#include "../../../Minecraft.World/net.minecraft.world.inventory.h"
+#include "../../../Minecraft.World/StringHelpers.h"
+#include <ChatScreen.h>
 
 UIScene_HUD::UIScene_HUD(int iPad, void *initData, UILayer *parentLayer) : UIScene(iPad, parentLayer)
 {
@@ -23,8 +24,10 @@ UIScene_HUD::UIScene_HUD(int iPad, void *initData, UILayer *parentLayer) : UISce
 	for(unsigned int i = 0; i < CHAT_LINES_COUNT; ++i)
 	{
 		m_labelChatText[i].init(L"");
+		IggyValueSetBooleanRS(m_labelChatText[i].getIggyValuePath(), 0, "m_bUseHtmlText", true);
 	}
 	m_labelJukebox.init(L"");
+	IggyValueSetBooleanRS(m_labelJukebox.getIggyValuePath(), 0, "m_bUseHtmlText", true);
 
 	addTimer(0, 100);
 }
@@ -65,22 +68,26 @@ void UIScene_HUD::updateSafeZone()
 	case C4JRender::VIEWPORT_TYPE_SPLIT_TOP:
 		safeTop = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_BOTTOM:
-		safeBottom = getSafeZoneHalfHeight();
+		// safeTop mirrors SPLIT_TOP so both players have the same vertical inset
+		// from their viewport's top edge (split divider), keeping GUI symmetrical.
+		// safeBottom is intentionally omitted: it would shift m_Hud.y upward in
+		// ActionScript, placing the hotbar too high relative to SPLIT_TOP.
+		safeTop = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_LEFT:
-		safeLeft = getSafeZoneHalfWidth();
 		safeTop = getSafeZoneHalfHeight();
 		safeBottom = getSafeZoneHalfHeight();
+		safeLeft = getSafeZoneHalfWidth();
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_RIGHT:
-		safeRight = getSafeZoneHalfWidth();
 		safeTop = getSafeZoneHalfHeight();
 		safeBottom = getSafeZoneHalfHeight();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
 		safeTop = getSafeZoneHalfHeight();
@@ -88,22 +95,22 @@ void UIScene_HUD::updateSafeZone()
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
 		safeTop = getSafeZoneHalfHeight();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-		safeBottom = getSafeZoneHalfHeight();
+		safeTop = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
-		safeBottom = getSafeZoneHalfHeight();
-		safeRight = getSafeZoneHalfWidth();
+		safeTop = getSafeZoneHalfHeight();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_FULLSCREEN:
 	default:
 		safeTop = getSafeZoneHalfHeight();
 		safeBottom = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	}
 	setSafeZone(safeTop, safeBottom, safeLeft, safeRight);
@@ -250,8 +257,10 @@ void UIScene_HUD::handleReload()
 	for(unsigned int i = 0; i < CHAT_LINES_COUNT; ++i)
 	{
 		m_labelChatText[i].init(L"");
+		IggyValueSetBooleanRS(m_labelChatText[i].getIggyValuePath(), 0, "m_bUseHtmlText", true);
 	}
 	m_labelJukebox.init(L"");
+	IggyValueSetBooleanRS(m_labelJukebox.getIggyValuePath(), 0, "m_bUseHtmlText", true);
 
 	int iGuiScale;	
 	Minecraft *pMinecraft = Minecraft::GetInstance();
@@ -734,7 +743,7 @@ void UIScene_HUD::render(S32 width, S32 height, C4JRender::eViewportType viewpor
 
 		IggyPlayerSetDisplaySize( getMovie(), (S32)(m_movieWidth * scale), (S32)(m_movieHeight * scale) );
 
-		repositionHud(tileWidth, tileHeight, scale);
+		repositionHud(tileWidth, tileHeight, scale, needsYTile);
 
 		m_renderWidth = tileWidth;
 		m_renderHeight = tileHeight;
@@ -757,16 +766,31 @@ void UIScene_HUD::render(S32 width, S32 height, C4JRender::eViewportType viewpor
 void UIScene_HUD::handleTimerComplete(int id)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
+	bool isChatOpen = (dynamic_cast<ChatScreen*>(pMinecraft->getScreen()) != nullptr);
 	
 	bool anyVisible = false;
 	if(pMinecraft->localplayers[m_iPad]!= nullptr)
 	{
 		Gui *pGui = pMinecraft->gui;
-		//DWORD messagesToDisplay = min( CHAT_LINES_COUNT, pGui->getMessagesCount(m_iPad) );
-		for( unsigned int i = 0; i < CHAT_LINES_COUNT; ++i )
+		DWORD totalMessages = pGui->getMessagesCount(m_iPad);
+		DWORD messagesToDisplay = min( CHAT_LINES_COUNT, totalMessages);
+		DWORD maxScroll = max(0, totalMessages - messagesToDisplay);
+
+		bool canScroll = messagesToDisplay < totalMessages;
+		int startIndex = (canScroll && isChatOpen ? ChatScreen::getChatIndex() : 0);
+
+		if (startIndex > maxScroll) {
+			ChatScreen::correctChatIndex(maxScroll);
+			startIndex = maxScroll;
+		}
+
+		app.DebugPrintf("handleTimerComplete: %d | %d | %d\n", maxScroll, startIndex, totalMessages);
+
+		for( unsigned int i = 0; i < messagesToDisplay; ++i )
 		{
-			float opacity = pGui->getOpacity(m_iPad, i);
-			if( opacity > 0 )
+			unsigned int msgIndex = startIndex + i;
+			float opacity = pGui->getOpacity(m_iPad, msgIndex);
+			if( opacity > 0 || isChatOpen)
 			{
 #if 0 // def _WINDOWS64 // Use Iggy chat until Gui::render has visual parity
 				// Chat drawn by Gui::render with color codes. Hides Iggy chat to avoid double chats.
@@ -774,9 +798,10 @@ void UIScene_HUD::handleTimerComplete(int id)
 				m_labelChatText[i].setOpacity(0);
 				m_labelChatText[i].setLabel(L"");
 #else
-				m_controlLabelBackground[i].setOpacity(opacity);
-				m_labelChatText[i].setOpacity(opacity);
-				m_labelChatText[i].setLabel( pGui->getMessagesCount(m_iPad) ? pGui->getMessage(m_iPad,i) : L"" );
+
+				m_controlLabelBackground[i].setOpacity((isChatOpen ? 1 : opacity));
+				m_labelChatText[i].setOpacity((isChatOpen ? 1 : opacity));
+				m_labelChatText[i].setLabel(pGui->getMessage(m_iPad, msgIndex));
 #endif
 				anyVisible = true;
 			}
@@ -805,7 +830,7 @@ void UIScene_HUD::handleTimerComplete(int id)
 	//setVisible(anyVisible);
 }
 
-void UIScene_HUD::repositionHud(S32 tileWidth, S32 tileHeight, F32 scale)
+void UIScene_HUD::repositionHud(S32 tileWidth, S32 tileHeight, F32 scale, bool needsYTile)
 {
 	if(!m_bSplitscreen) return;
 

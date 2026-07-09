@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "UI.h"
 #include "UIScene_FullscreenProgress.h"
-#include "..\..\Minecraft.h"
-#include "..\..\ProgressRenderer.h"
+#include "../../Minecraft.h"
+#include "../../ProgressRenderer.h"
 
 UIScene_FullscreenProgress::UIScene_FullscreenProgress(int iPad, void *initData, UILayer *parentLayer) : UIScene(iPad, parentLayer)
 {
@@ -278,7 +278,7 @@ void UIScene_FullscreenProgress::handleInput(int iPad, int key, bool repeat, boo
 #ifdef __ORBIS__
 		case ACTION_MENU_TOUCHPAD_PRESS:
 #endif
-			if(pressed)
+			if(pressed && m_threadCompleted)
 			{
 				sendInputToMovie(key, repeat, pressed, released);
 			}
@@ -292,6 +292,7 @@ void UIScene_FullscreenProgress::handleInput(int iPad, int key, bool repeat, boo
 			}
 			break;
 		}
+		handled = true;
 	}
 }
 

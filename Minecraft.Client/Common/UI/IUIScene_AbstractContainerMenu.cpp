@@ -3,21 +3,20 @@
 #include "IUIScene_AbstractContainerMenu.h"
 
 #include "UI.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.inventory.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.item.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.item.crafting.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.level.tile.entity.h"
-#include "..\..\MultiplayerLocalPlayer.h"
-#include "..\..\Minecraft.h"
+#include "../../../Minecraft.World/net.minecraft.world.inventory.h"
+#include "../../../Minecraft.World/net.minecraft.world.item.h"
+#include "../../../Minecraft.World/net.minecraft.world.item.crafting.h"
+#include "../../../Minecraft.World/net.minecraft.world.level.tile.entity.h"
+#include "../../MultiPlayerLocalPlayer.h"
+#include "../../Minecraft.h"
+#include "../../Options.h"
 
 #ifdef __ORBIS__
 #include <pad.h>
 #endif
 
 #ifdef _WINDOWS64
-#include "..\..\Windows64\KeyboardMouseInput.h"
-
-SavedInventoryCursorPos g_savedInventoryCursorPos = { 0.0f, 0.0f, false };
+#include "../../Windows64/KeyboardMouseInput.h"
 #endif
 
 IUIScene_AbstractContainerMenu::IUIScene_AbstractContainerMenu()
@@ -1298,10 +1297,8 @@ void IUIScene_AbstractContainerMenu::onMouseTick()
 		}
 	}
 
-	vPointerPos.x = floor(vPointerPos.x);
-	vPointerPos.x += ( static_cast<int>(vPointerPos.x)%2);
-	vPointerPos.y = floor(vPointerPos.y);
-	vPointerPos.y += ( static_cast<int>(vPointerPos.y)%2);
+	vPointerPos.x = static_cast<float>(floor(vPointerPos.x + 0.5f));
+	vPointerPos.y = static_cast<float>(floor(vPointerPos.y + 0.5f));
 	m_pointerPos = vPointerPos;
 
 	adjustPointerForSafeZone();
@@ -1679,7 +1676,13 @@ vector<HtmlString> *IUIScene_AbstractContainerMenu::GetItemDescription(Slot *slo
 {
 	if(slot == nullptr) return nullptr;
 
-	vector<HtmlString> *lines = slot->getItem()->getHoverText(nullptr, false);
+	bool advanced = false;
+	if (const Minecraft* pMinecraft = Minecraft::GetInstance())
+	{
+		if (pMinecraft->options)
+			advanced = pMinecraft->options->advancedTooltips;
+	}
+	vector<HtmlString> *lines = slot->getItem()->getHoverText(nullptr, advanced);
 
 	// Add rarity to first line
 	if (lines->size() > 0)

@@ -1,20 +1,20 @@
 ﻿#include "stdafx.h"
 
 #include "SoundEngine.h"
-#include "..\Consoles_App.h"
-#include "..\..\MultiplayerLocalPlayer.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\..\Minecraft.World\leveldata.h"
-#include "..\..\Minecraft.World\mth.h"
-#include "..\..\TexturePackRepository.h"
-#include "..\..\DLCTexturePack.h"
-#include "Common\DLC\DLCAudioFile.h"
+#include "../Consoles_App.h"
+#include "../../MultiPlayerLocalPlayer.h"
+#include "../../../Minecraft.World/net.minecraft.world.level.h"
+#include "../../Minecraft.World/LevelData.h"
+#include "../../Minecraft.World/Mth.h"
+#include "../../TexturePackRepository.h"
+#include "../../DLCTexturePack.h"
+#include "Common/DLC/DLCAudioFile.h"
 
 #ifdef __PSVITA__
 #include <audioout.h>
 #endif
 
-#include "..\..\Minecraft.Client\Windows64\Windows64_App.h"
+#include "../../Minecraft.Client/Windows64/Windows64_App.h"
 
 #include "stb_vorbis.h"
 
@@ -260,9 +260,9 @@ void SoundEngine::updateMiniAudio()
             continue;
         }
 
-        float finalVolume = s->info.volume * m_MasterEffectsVolume;
-        if (finalVolume > 1.0f)
-            finalVolume = 1.0f;
+        float finalVolume = s->info.volume * m_MasterEffectsVolume * SFX_VOLUME_MULTIPLIER;
+        if (finalVolume > SFX_MAX_GAIN)
+            finalVolume = SFX_MAX_GAIN;
 
         ma_sound_set_volume(&s->sound, finalVolume);
         ma_sound_set_pitch(&s->sound, s->info.pitch);
@@ -557,10 +557,13 @@ void SoundEngine::play(int iSound, float x, float y, float z, float volume, floa
     }
 
     ma_sound_set_spatialization_enabled(&s->sound, MA_TRUE);
+    ma_sound_set_min_distance(&s->sound, SFX_3D_MIN_DISTANCE);
+    ma_sound_set_max_distance(&s->sound, SFX_3D_MAX_DISTANCE);
+    ma_sound_set_rolloff(&s->sound, SFX_3D_ROLLOFF);
 
-    float finalVolume = volume * m_MasterEffectsVolume;
-    if (finalVolume > 1.0f)
-        finalVolume = 1.0f;
+    float finalVolume = volume * m_MasterEffectsVolume * SFX_VOLUME_MULTIPLIER;
+    if (finalVolume > SFX_MAX_GAIN)
+        finalVolume = SFX_MAX_GAIN;
 
     ma_sound_set_volume(&s->sound, finalVolume);
     ma_sound_set_pitch(&s->sound, pitch);
@@ -580,23 +583,26 @@ void SoundEngine::playUI(int iSound, float volume, float pitch)
 {
     U8 szSoundName[256];
     wstring name;
+    const char* soundDir;
 
     if (iSound >= eSFX_MAX)
     {
         strcpy((char*)szSoundName, "Minecraft/");
         name = wchSoundNames[iSound];
+        soundDir = "Minecraft";
     }
     else
     {
         strcpy((char*)szSoundName, "Minecraft/UI/");
         name = wchUISoundNames[iSound];
+        soundDir = "Minecraft/UI";
     }
 
     char* SoundName = (char*)ConvertSoundPathToName(name);
     strcat((char*)szSoundName, SoundName);
 
     char basePath[256];
-    sprintf_s(basePath, "Windows64Media/Sound/Minecraft/UI/%s", ConvertSoundPathToName(name));
+    sprintf_s(basePath, "Windows64Media/Sound/%s/%s", soundDir, ConvertSoundPathToName(name));
 
     char finalPath[256];
     sprintf_s(finalPath, "%s.wav", basePath);

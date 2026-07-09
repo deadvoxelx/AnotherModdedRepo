@@ -3,10 +3,10 @@
 #include "UIScene.h"
 #include "UISplitScreenHelpers.h"
 
-#include "..\..\Lighting.h"
-#include "..\..\LocalPlayer.h"
-#include "..\..\ItemRenderer.h"
-#include "..\..\..\Minecraft.World\net.minecraft.world.item.h"
+#include "../../Lighting.h"
+#include "../../LocalPlayer.h"
+#include "../../ItemRenderer.h"
+#include "../../../Minecraft.World/net.minecraft.world.item.h"
 
 UIScene::UIScene(int iPad, UILayer *parentLayer)
 {
@@ -172,15 +172,22 @@ void UIScene::updateSafeZone()
 	{
 	case C4JRender::VIEWPORT_TYPE_SPLIT_TOP:
 		safeTop = getSafeZoneHalfHeight();
+		safeLeft = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_BOTTOM:
-		safeBottom = getSafeZoneHalfHeight();
+		// safeTop mirrors SPLIT_TOP for visual symmetry. safeBottom omitted.
+		safeTop = getSafeZoneHalfHeight();
+		safeLeft = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_LEFT:
+		safeTop = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
 		break;
 	case C4JRender::VIEWPORT_TYPE_SPLIT_RIGHT:
-		safeRight = getSafeZoneHalfWidth();
+		safeTop = getSafeZoneHalfHeight();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
 		safeTop = getSafeZoneHalfHeight();
@@ -188,22 +195,22 @@ void UIScene::updateSafeZone()
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
 		safeTop = getSafeZoneHalfHeight();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-		safeBottom = getSafeZoneHalfHeight();
+		safeTop = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
 		break;
 	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
-		safeBottom = getSafeZoneHalfHeight();
-		safeRight = getSafeZoneHalfWidth();
+		safeTop = getSafeZoneHalfHeight();
+
 		break;
 	case C4JRender::VIEWPORT_TYPE_FULLSCREEN:
 	default:
 		safeTop = getSafeZoneHalfHeight();
 		safeBottom = getSafeZoneHalfHeight();
 		safeLeft = getSafeZoneHalfWidth();
-		safeRight = getSafeZoneHalfWidth();
+
 		break;
 	}
 	setSafeZone(safeTop, safeBottom, safeLeft, safeRight);
@@ -313,7 +320,7 @@ void UIScene::loadMovie()
 		{
 			app.DebugPrintf("ERROR: Could not find any iggy movie for %ls!\n", moviePath.c_str());
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			app.FatalLoadError();
 		}
@@ -328,7 +335,7 @@ void UIScene::loadMovie()
 	{
 		app.DebugPrintf("ERROR: Failed to load iggy scene!\n");
 #ifndef _CONTENT_PACKAGE
-		__debugbreak();
+		DEBUG_BREAK();
 #endif
 		app.FatalLoadError();
 	}
@@ -578,9 +585,12 @@ bool UIScene::handleMouseClick(F32 x, F32 y)
 		if (bestCtrl->getControlType() == UIControl::eCheckBox)
 		{
 			UIControl_CheckBox *cb = static_cast<UIControl_CheckBox*>(bestCtrl);
-			bool newState = !cb->IsChecked();
-			cb->setChecked(newState);
-			handleCheckboxToggled((F64)bestId, newState);
+			if (cb->IsEnabled())
+			{
+				bool newState = !cb->IsChecked();
+				cb->setChecked(newState);
+				handleCheckboxToggled((F64)bestId, newState);
+			}
 		}
 		else
 		{
@@ -931,9 +941,6 @@ void UIScene::_customDrawSlotControl(CustomDrawData *region, int iPad, shared_pt
 //	if(m_parentLayer == nullptr)
 //	{
 //		app.DebugPrintf("A scene is trying to navigate forwards, but it's parent layer is nullptr!\n");
-//#ifndef _CONTENT_PACKAGE
-//		__debugbreak();
-//#endif
 //	}
 //	else
 //	{
@@ -950,10 +957,6 @@ void UIScene::navigateBack()
 
 	if(m_parentLayer == nullptr)
 	{
-//		app.DebugPrintf("A scene is trying to navigate back, but it's parent layer is nullptr!\n");
-#ifndef _CONTENT_PACKAGE
-//		__debugbreak();
-#endif
 	}
 	else
 	{
@@ -1184,7 +1187,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handlePress did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1192,7 +1195,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handlePress were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1204,7 +1207,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleFocusChange did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1212,7 +1215,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handleFocusChange were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1224,7 +1227,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleInitFocus did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1232,7 +1235,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handleInitFocus were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1244,7 +1247,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleCheckboxToggled did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1252,7 +1255,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handleCheckboxToggled were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1264,7 +1267,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleSliderMove did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1272,7 +1275,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handleSliderMove were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1284,7 +1287,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleAnimationEnd did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1296,7 +1299,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Callback for handleSelectionChanged did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1304,7 +1307,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 		{
 			app.DebugPrintf("Arguments for handleSelectionChanged were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-			__debugbreak();
+			DEBUG_BREAK();
 #endif
 			return;
 		}
@@ -1322,7 +1325,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 			{
 				app.DebugPrintf("Callback for handleRequestMoreData did not have the correct number of arguments\n");
 #ifndef _CONTENT_PACKAGE
-				__debugbreak();
+				DEBUG_BREAK();
 #endif
 				return;
 			}
@@ -1330,7 +1333,7 @@ void UIScene::externalCallback(IggyExternalFunctionCallUTF16 * call)
 			{
 				app.DebugPrintf("Arguments for handleRequestMoreData were not of the correct type\n");
 #ifndef _CONTENT_PACKAGE
-				__debugbreak();
+				DEBUG_BREAK();
 #endif
 				return;
 			}

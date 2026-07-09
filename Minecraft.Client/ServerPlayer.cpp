@@ -8,29 +8,32 @@
 #include "Settings.h"
 #include "PlayerList.h"
 #include "MultiPlayerLevel.h"
+#include "Minecraft.h"
+#include "Common/Audio/SoundEngine.h"
+#include "../Minecraft.World/SoundTypes.h"
 
-#include "..\Minecraft.World\net.minecraft.network.packet.h"
-#include "..\Minecraft.World\net.minecraft.world.damagesource.h"
-#include "..\Minecraft.World\net.minecraft.world.inventory.h"
-#include "..\Minecraft.World\net.minecraft.world.level.h"
-#include "..\Minecraft.World\net.minecraft.world.level.storage.h"
-#include "..\Minecraft.World\net.minecraft.world.level.dimension.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.projectile.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.animal.h"
-#include "..\Minecraft.World\net.minecraft.world.item.h"
-#include "..\Minecraft.World\net.minecraft.world.item.trading.h"
-#include "..\Minecraft.World\net.minecraft.world.entity.item.h"
-#include "..\Minecraft.World\net.minecraft.world.level.tile.entity.h"
-#include "..\Minecraft.World\net.minecraft.world.scores.h"
-#include "..\Minecraft.World\net.minecraft.world.scores.criteria.h"
-#include "..\Minecraft.World\net.minecraft.stats.h"
-#include "..\Minecraft.World\net.minecraft.locale.h"
+#include "../Minecraft.World/net.minecraft.network.packet.h"
+#include "../Minecraft.World/net.minecraft.world.damagesource.h"
+#include "../Minecraft.World/net.minecraft.world.inventory.h"
+#include "../Minecraft.World/net.minecraft.world.level.h"
+#include "../Minecraft.World/net.minecraft.world.level.storage.h"
+#include "../Minecraft.World/net.minecraft.world.level.dimension.h"
+#include "../Minecraft.World/net.minecraft.world.entity.projectile.h"
+#include "../Minecraft.World/net.minecraft.world.entity.h"
+#include "../Minecraft.World/net.minecraft.world.entity.animal.h"
+#include "../Minecraft.World/net.minecraft.world.item.h"
+#include "../Minecraft.World/net.minecraft.world.item.trading.h"
+#include "../Minecraft.World/net.minecraft.world.entity.item.h"
+#include "../Minecraft.World/net.minecraft.world.level.tile.entity.h"
+#include "../Minecraft.World/net.minecraft.world.scores.h"
+#include "../Minecraft.World/net.minecraft.world.scores.criteria.h"
+#include "../Minecraft.World/net.minecraft.stats.h"
+#include "../Minecraft.World/net.minecraft.locale.h"
 
-#include "..\Minecraft.World\Pos.h"
-#include "..\Minecraft.World\Random.h"
+#include "../Minecraft.World/Pos.h"
+#include "../Minecraft.World/Random.h"
 
-#include "..\Minecraft.World\LevelChunk.h"
+#include "../Minecraft.World/LevelChunk.h"
 #include "LevelRenderer.h"
 
 
@@ -146,12 +149,13 @@ void ServerPlayer::flagEntitiesToBeRemoved(unsigned int *flags, bool *removedFou
 	if( ( *removedFound ) == false )
 	{
 		*removedFound = true;
-		memset(flags, 0, 2048/32);
+		// before this left 192 bytes uninitialized!!!!!
+        memset(flags, 0, (16384 / 32) * sizeof(unsigned int));
 	}
 
 	for(int index : entitiesToRemove)
 	{
-		if( index < 2048 )
+		if( index < 16384 )
 		{
 			unsigned int i = index / 32;
 			unsigned int j = index % 32;
@@ -376,6 +380,9 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 //						connection->done);
 //				}
 
+#ifdef MINECRAFT_SERVER_BUILD
+				if (dontDelayChunks || (canSendToPlayer && !connection->done))
+#else
 				if( dontDelayChunks ||
 					(canSendToPlayer &&
 #ifdef _XBOX_ONE
@@ -390,21 +397,22 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 #endif
 					//(tickCount - lastBrupSendTickCount) > (connection->getNetworkPlayer()->GetCurrentRtt()>>4) &&
 					!connection->done) )
-				{
-					lastBrupSendTickCount = tickCount;
-					okToSend = true;
-					MinecraftServer::chunkPacketManagement_DidSendTo(connection->getNetworkPlayer());
+#endif
+                {
+                    lastBrupSendTickCount = tickCount;
+                    okToSend = true;
+                    MinecraftServer::chunkPacketManagement_DidSendTo(connection->getNetworkPlayer());
 
-//					static unordered_map<wstring,int64_t> mapLastTime;
-//					int64_t thisTime = System::currentTimeMillis();
-//					int64_t lastTime = mapLastTime[connection->getNetworkPlayer()->GetUID().toString()];
-//					app.DebugPrintf(" - OK to send (%d ms since last)\n", thisTime - lastTime);
-//					mapLastTime[connection->getNetworkPlayer()->GetUID().toString()] = thisTime;
-				}
-				else
-				{
-					//					app.DebugPrintf(" - <NOT OK>\n");
-				}
+                    //					static unordered_map<wstring,int64_t> mapLastTime;
+                    //					int64_t thisTime = System::currentTimeMillis();
+                    //					int64_t lastTime = mapLastTime[connection->getNetworkPlayer()->GetUID().toString()];
+                    //					app.DebugPrintf(" - OK to send (%d ms since last)\n", thisTime - lastTime);
+                    //					mapLastTime[connection->getNetworkPlayer()->GetUID().toString()] = thisTime;
+                }
+                else
+                {
+                    //					app.DebugPrintf(" - <NOT OK>\n");
+                }
 			}
 
 			if (okToSend)
@@ -778,6 +786,13 @@ void ServerPlayer::changeDimension(int i)
 			// 4J: Removed on the advice of the mighty King of Achievments (JV)
 			// awardStat(GenericStats::portal(), GenericStats::param_portal());
 		}
+		// play the travel whoosh right before the actual dimension swap
+		Minecraft *mc = Minecraft::GetInstance();
+		if (mc != nullptr && mc->soundEngine != nullptr)
+		{
+			mc->soundEngine->playUI(eSoundType_PORTAL_TRAVEL, 1, 1.0f);
+		}
+
 		server->getPlayers()->toggleDimension( dynamic_pointer_cast<ServerPlayer>(shared_from_this()), i);
 		lastSentExp = -1;
 		lastSentHealth = -1;

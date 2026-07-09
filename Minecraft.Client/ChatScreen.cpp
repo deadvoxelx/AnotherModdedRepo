@@ -2,15 +2,16 @@
 #include "ChatScreen.h"
 #include "ClientConnection.h"
 #include "Font.h"
-#include "MultiplayerLocalPlayer.h"
-#include "..\Minecraft.World\SharedConstants.h"
-#include "..\Minecraft.World\StringHelpers.h"
-#include "..\Minecraft.World\ChatPacket.h"
+#include "MultiPlayerLocalPlayer.h"
+#include "../Minecraft.World/SharedConstants.h"
+#include "../Minecraft.World/StringHelpers.h"
+#include "../Minecraft.World/ChatPacket.h"
 
 const wstring ChatScreen::allowedChars = SharedConstants::acceptableLetters;
 vector<wstring> ChatScreen::s_chatHistory;
 int ChatScreen::s_historyIndex = -1;
 wstring ChatScreen::s_historyDraft;
+int ChatScreen::s_chatIndex = 0;
 
 bool ChatScreen::isAllowedChatChar(wchar_t c)
 {
@@ -22,6 +23,8 @@ ChatScreen::ChatScreen()
 	frame = 0;
 	cursorIndex = 0;
 	s_historyIndex = -1;
+
+    ChatScreen::s_chatIndex = 0;
 }
 
 void ChatScreen::init()
@@ -83,6 +86,20 @@ void ChatScreen::handleHistoryDown()
 	applyHistoryMessage();
 }
 
+int ChatScreen::getChatIndex()
+{
+    return ChatScreen::s_chatIndex;
+}
+
+void ChatScreen::correctChatIndex(int newChatIndex) {
+    ChatScreen::s_chatIndex = newChatIndex;
+}
+
+void ChatScreen::setWheelValue(int wheel) {
+    ChatScreen::s_chatIndex += wheel;
+    if (ChatScreen::s_chatIndex < 0) ChatScreen::s_chatIndex = 0;
+}
+
 void ChatScreen::keyPressed(wchar_t ch, int eventKey)
 {
     if (eventKey == Keyboard::KEY_ESCAPE)
@@ -131,7 +148,7 @@ void ChatScreen::keyPressed(wchar_t ch, int eventKey)
         cursorIndex--;
         return;
     }
-    if (isAllowedChatChar(ch) && static_cast<int>(message.length()) < SharedConstants::maxChatLength)
+    if (isAllowedChatChar(ch) && static_cast<int>(message.length()) < SharedConstants::maxVisibleLength)
 	{
         message.insert(cursorIndex, 1, ch);
         cursorIndex++;

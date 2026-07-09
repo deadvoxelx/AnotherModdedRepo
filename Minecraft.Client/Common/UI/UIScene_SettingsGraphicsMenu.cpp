@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "UI.h"
 #include "UIScene_SettingsGraphicsMenu.h"
-#include "..\..\Minecraft.h"
-#include "..\..\Options.h"
-#include "..\..\GameRenderer.h"
+#include "../../Minecraft.h"
+#include "../../Options.h"
+#include "../../GameRenderer.h"
 
 namespace
 {
@@ -222,9 +222,8 @@ void UIScene_SettingsGraphicsMenu::handleSliderMove(F64 sliderId, F64 currentVal
 			const int fovValue = sliderValueToFov(value);
 			pMinecraft->gameRenderer->SetFovVal(static_cast<float>(fovValue));
 			app.SetGameSettings(m_iPad, eGameSetting_FOV, value);
-			WCHAR tempString[256];
-			swprintf(tempString, 256, L"FOV: %d", fovValue);
-			m_sliderFOV.setLabel(tempString);
+			swprintf(TempString, 256, L"FOV: %d", fovValue);
+			m_sliderFOV.setLabel(TempString);
 		}
 		break;
 

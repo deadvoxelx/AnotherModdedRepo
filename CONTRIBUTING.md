@@ -1,6 +1,9 @@
 # Scope of Project
 At the moment, this project's scope is generally limited outside of adding new content to the game (blocks, mobs, items). We are currently prioritizing stability, quality of life, and platform support over these things.
 
+## Backporting
+If you're backporting a feature, please read [BACKPORTING.md](./BACKPORTING.md)
+
 ## Parity
 We are attempting to keep our version of LCE as close to visual and experience parity with the original console experience of LCE as possible. This means that we will not be accepting changes that...
 - Backport things from Java Edition that did not ever exist in LCE
@@ -45,6 +48,13 @@ However, we would accept changes that...
 - Refining rendering settings, renderer options, as well as reaching rendering parity with true LCE
 - Having workable multi-platform compilation for ARM, Consoles, Linux
 - Being a good base for further expansion and modding of LCE, such as backports and "modpacks".
+
+# Scope of PRs
+All Pull Requests should fully document the changes they include in their file changes. They should also be limited to one general topic and not touch all over the codebase unless its justifiable. 
+
+For example, we would not accept a PR that reworks UI, multiplayer code, and furnace ticking even if its a "fixup" PR as its too difficult to review a ton of code changes that are all irrelevant from each other. However, a PR focused on adding a bunch of commands or fixes several crashes that are otherwise irrelevant to each other would be accepted. 
+
+If your PR includes any undocumented changes it will be closed.
 
 # Use of AI and LLMs
 We currently do not accept any new code into the project that was written largely, entirely, or even noticably by an LLM. All contributions should be made by humans that understand the codebase.
