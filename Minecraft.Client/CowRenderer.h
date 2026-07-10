@@ -1,10 +1,15 @@
 #pragma once
 #include "MobRenderer.h"
 
+class Cow;
+
 class CowRenderer : public MobRenderer
 {
 private:
 	static ResourceLocation COW_LOCATION;
+	static ResourceLocation COW_BLACK_LOCATION;
+	static ResourceLocation COW_WHITE_LOCATION;
+	static ResourceLocation COW_PINK_LOCATION;
 
 public:
 	CowRenderer(Model *model, float shadow);
