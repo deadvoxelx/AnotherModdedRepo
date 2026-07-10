@@ -56,10 +56,16 @@ target_link_libraries(Minecraft.Client PRIVATE
   XInput9_1_0
   wsock32
   legacy_stdio_definitions
-  4JLibs.${PLATFORM_NAME}.Input
-  4JLibs.${PLATFORM_NAME}.Profile
-  4JLibs.${PLATFORM_NAME}.Storage
-  4JLibs.${PLATFORM_NAME}.Render
+  $<$<CONFIG:Debug>: # Debug 4J libraries
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Input_d.lib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Storage_d.lib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Render_PC_d.lib"
+  >
+  $<$<NOT:$<CONFIG:Debug>>: # Release 4J libraries
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Input.lib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Storage.lib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}/4JLibs/libs/4J_Render_PC.lib"
+  >
 )
 
 # Iggy libs
@@ -75,6 +81,8 @@ set(ASSET_FOLDER_PAIRS
   "${CMAKE_CURRENT_SOURCE_DIR}/music"                  "music"
   "${CMAKE_CURRENT_SOURCE_DIR}/Common/Media"           "Common/Media"
   "${CMAKE_CURRENT_SOURCE_DIR}/Common/res"             "Common/res"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Common/Trial"           "Common/Trial"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Common/Tutorial"        "Common/Tutorial"
   "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_NAME}Media"  "${PLATFORM_NAME}Media"
 )
 setup_asset_folder_copy(Minecraft.Client "${ASSET_FOLDER_PAIRS}")
