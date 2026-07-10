@@ -93,6 +93,8 @@ void EntityIO::staticCtor()
 	setId(Bat::create, eTYPE_BAT, L"Bat", 65, eMinecraftColour_Mob_Bat_Colour1, eMinecraftColour_Mob_Bat_Colour2, IDS_BAT);
 	setId(Witch::create, eTYPE_WITCH, L"Witch", 66, eMinecraftColour_Mob_Witch_Colour1, eMinecraftColour_Mob_Witch_Colour2, IDS_WITCH);
 
+	setId(Fox::create, eTYPE_FOX, L"Fox", 89, eMinecraftColour_Mob_Spider_Colour2, eMinecraftColour_Mob_Wolf_Colour1, IDS_FOX);
+
 	setId(Pig::create, eTYPE_PIG, L"Pig", 90, eMinecraftColour_Mob_Pig_Colour1, eMinecraftColour_Mob_Pig_Colour2, IDS_PIG);
 	setId(Sheep::create, eTYPE_SHEEP, L"Sheep", 91, eMinecraftColour_Mob_Sheep_Colour1, eMinecraftColour_Mob_Sheep_Colour2, IDS_SHEEP);
 	setId(Cow::create, eTYPE_COW, L"Cow", 92, eMinecraftColour_Mob_Cow_Colour1, eMinecraftColour_Mob_Cow_Colour2, IDS_COW);
