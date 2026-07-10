@@ -7,7 +7,7 @@
 
 ForestBiome::ForestBiome(int id) : Biome(id)
 {
-	friendlies_wolf.push_back(new MobSpawnerData(eTYPE_WOLF, 5, 4, 4));		// 4J - moved to their own category
+	friendlies_wolf.push_back(new MobSpawnerData(eTYPE_WOLF, 5, 4, 4));
 	decorator->treeCount = 10;
 	decorator->grassCount = 2;
 }
@@ -23,4 +23,21 @@ Feature *ForestBiome::getTreeFeature(Random *random)
         return new BasicTree(false); // 4J used to return member fancyTree, now returning newly created object so that caller can be consistently resposible for cleanup
     }
     return new TreeFeature(false); // 4J used to return member normalTree, now returning newly created object so that caller can be consistently resposible for cleanup
+}
+
+void ForestBiome::decorate(Level *level, Random *random, int xo, int zo)
+{
+	Biome::decorate(level, random, xo, zo);
+
+	PIXBeginNamedEvent(0, "Rare Cherry Trees");
+	CherryTreeFeature *cherry = new CherryTreeFeature(false);
+
+	for (int i = 0; i < 20; i++)
+	{
+		int x = xo + random->nextInt(16) + 8;
+		int y = 92 + random->nextInt(32);
+		int z = zo + random->nextInt(16) + 8;
+		cherry->place(level, random, x, y, z);
+	}
+	PIXEndNamedEvent();
 }
