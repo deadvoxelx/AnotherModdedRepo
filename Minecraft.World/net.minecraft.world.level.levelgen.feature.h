@@ -23,15 +23,16 @@
 #include "SpruceFeature.h"
 #include "TallGrassFeature.h"
 #include "TreeFeature.h"
-
 #include "HugeMushroomFeature.h"
 #include "SandFeature.h"
 #include "SwampTreeFeature.h"
 #include "BonusChestFeature.h"
 #include "SpikeFeature.h"
 #include "EndPodiumFeature.h"
-
 #include "DesertWellFeature.h"
 #include "MegaTreeFeature.h"
 #include "VinesFeature.h"
 #include "GroundBushFeature.h"
+#include "CherryTreeFeature.h"
+#include "CherryTreeLarge.h"
+#include "PalmTreeFeature.h"
