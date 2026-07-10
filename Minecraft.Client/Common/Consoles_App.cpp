@@ -4503,6 +4503,23 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_PALM_SAPLING, L"Palm Sapling");
 		m_stringTable->registerString(IDS_TILE_MOSSY_SAPLING, L"Mossy Oak Sapling");
 		m_stringTable->registerString(IDS_ITEM_CHERRIES, L"Cherries");
+
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_WHITE, L"White Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_SILVER, L"Light Gray Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_GRAY, L"Gray Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_BLACK, L"Black Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_BROWN, L"Brown Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_RED, L"Red Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_ORANGE, L"Orange Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_YELLOW, L"Yellow Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_LIME, L"Lime Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_GREEN, L"Green Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_CYAN, L"Cyan Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_LIGHTBLUE, L"Light Blue Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_BLUE, L"Blue Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_PURPLE, L"Purple Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_MAGENTA, L"Magenta Planks");
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_PINK, L"Pink Planks");
 	}
 	else
 	{
