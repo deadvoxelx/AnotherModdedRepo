@@ -18,12 +18,12 @@ void BiomeSource::_init()
 
 	playerSpawnBiomes.push_back(Biome::forest);
 	playerSpawnBiomes.push_back(Biome::taiga);
-	// 4J-PB - Moving forward plains as a spawnable biome (mainly for the Superflat world)
 	playerSpawnBiomes.push_back(Biome::plains);
 	playerSpawnBiomes.push_back(Biome::taigaHills);
 	playerSpawnBiomes.push_back(Biome::forestHills);
 	playerSpawnBiomes.push_back(Biome::jungle);
 	playerSpawnBiomes.push_back(Biome::jungleHills);
+	playerSpawnBiomes.push_back(Biome::cherryForest);
 }
 
 void BiomeSource::_init(int64_t seed, LevelType *generator)
@@ -587,10 +587,17 @@ bool BiomeSource::getIsMatch(float *frac)
 		false,	// small extreme hills
 		true,	// jungle
 		false,	// jungle hills (combined with jungle)
+		true,	// cherry forest
 	};
 
 
 	// Don't want more than 15% ocean
+	if( frac[0] > 0.15f )
+	{
+		return false;
+	}
+
+	// Don't want more than 15% cherry forest
 	if( frac[0] > 0.15f )
 	{
 		return false;
