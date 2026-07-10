@@ -24,9 +24,6 @@
 #include "OceanBiome.h"
 #include "PlainsBiome.h"
 #include "RiverBiome.h"
-
-// 1.1
 #include "BeachBiome.h"
-
-//1.2.3
 #include "JungleBiome.h"
+#include "CherryBiome.h"
