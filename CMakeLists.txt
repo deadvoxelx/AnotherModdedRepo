@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(NOT WIN32 AND NOT CMAKE_CROSSCOMPILING)
-  message(FATAL_ERROR "This CMake build currently supports Windows only. For cross-compilation from Linux, use the clang-cl toolchain.")
+if(NOT WIN32)
+  message(FATAL_ERROR "This CMake build currently supports Windows only.")
 endif()
 
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -76,8 +76,6 @@ list(APPEND MINECRAFT_SHARED_DEFINES ${PLATFORM_DEFINES})
 # ---
 # Sources
 # ---
-add_subdirectory("Minecraft.Client/${PLATFORM_NAME}/4JLibs")
-
 add_subdirectory(Minecraft.World)
 add_subdirectory(Minecraft.Client)
 if(PLATFORM_NAME STREQUAL "Windows64") # Server is only supported on Windows for now
