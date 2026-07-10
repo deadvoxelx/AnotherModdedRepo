@@ -496,6 +496,7 @@ void Tile::staticCtor()
 	Item::items[anvil_Id]				= ( new AnvilTileItem(anvil) )->setDescriptionId(IDS_TILE_ANVIL)->setUseDescriptionId(IDS_DESC_ANVIL);
 
 	Item::items[coloredPlanks_Id]		= ( new MultiTextureTileItem(Tile::coloredPlanks_Id - 256, coloredPlanks,(int *)ColoredPlanksTile::COLORED_PLANK_NAMES, 16))->setIconName(L"planks_white")->setDescriptionId(IDS_DESC_WOODENPLANKS);
+	Item::items[leaves2_Id]				= ( new MultiTextureTileItem(Tile::leaves2_Id - 256, leaves2, (int *)Leaf2Tile::LEAF_NAMES, 4) )->setIconName(L"cherryLeaves")->setDescriptionId(IDS_TILE_LEAVES_CHERRY)->setUseDescriptionId(IDS_DESC_LEAVES);
 
 
 	for (int i = 0; i < 256; i++)
