@@ -251,6 +251,7 @@ Item *Item::horseArmorDiamond = nullptr;
 Item *Item::lead = nullptr;
 Item *Item::nameTag = nullptr;
 
+Item *Item::cherries = nullptr;
 
 void Item::staticCtor()
 {
@@ -332,7 +333,7 @@ void Item::staticCtor()
 	Item::map = static_cast<MapItem *>((new MapItem(102))->setIconName(L"map")->setBaseItemTypeAndMaterial(eBaseItemType_pockettool, eMaterial_map)->setDescriptionId(IDS_ITEM_MAP)->setUseDescriptionId(IDS_DESC_MAP));
 
 	Item::flintAndSteel = ( new FlintAndSteelItem(3) )								->setIconName(L"flintAndSteel")->setBaseItemTypeAndMaterial(eBaseItemType_devicetool,	eMaterial_flintandsteel)->setDescriptionId(IDS_ITEM_FLINT_AND_STEEL)->setUseDescriptionId(IDS_DESC_FLINTANDSTEEL);
-	Item::apple = ( new FoodItem(4, 4, FoodConstants::FOOD_SATURATION_LOW, false) )	->setIconName(L"apple")->setDescriptionId(IDS_ITEM_APPLE)->setUseDescriptionId(IDS_DESC_APPLE);
+	Item::apple = ( new FoodItem(4, 4, FoodConstants::FOOD_SATURATION_LOW, false) )	->setIconName(L"apple")->setDescriptionId(IDS_ITEM_APPLE)->setUseDescriptionId(IDS_DESC_APPLE)->setMaxStackSize(16);
 	Item::coal = ( new CoalItem(7) )												->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_coal)->setIconName(L"coal")->setDescriptionId(IDS_ITEM_COAL)->setUseDescriptionId(IDS_DESC_COAL);
 	Item::diamond = ( new Item(8) )													->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_diamond)->setIconName(L"diamond")->setDescriptionId(IDS_ITEM_DIAMOND)->setUseDescriptionId(IDS_DESC_DIAMONDS);
 	Item::stick = ( new Item(24) )													->setIconName(L"stick")->handEquipped()->setDescriptionId(IDS_ITEM_STICK)->setUseDescriptionId(IDS_DESC_STICK);
@@ -345,16 +346,15 @@ void Item::staticCtor()
 
 	Item::seeds_wheat = ( new SeedItem(39, Tile::wheat_Id, Tile::farmland_Id) )			->setIconName(L"seeds")->setDescriptionId(IDS_ITEM_WHEAT_SEEDS)->setUseDescriptionId(IDS_DESC_WHEAT_SEEDS);
 	Item::wheat = ( new Item(40) )														->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_wheat)->setIconName(L"wheat")->setDescriptionId(IDS_ITEM_WHEAT)->setUseDescriptionId(IDS_DESC_WHEAT);
-	Item::bread = ( new FoodItem(41, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setIconName(L"bread")->setDescriptionId(IDS_ITEM_BREAD)->setUseDescriptionId(IDS_DESC_BREAD);
+	Item::bread = ( new FoodItem(41, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setIconName(L"bread")->setDescriptionId(IDS_ITEM_BREAD)->setUseDescriptionId(IDS_DESC_BREAD)->setMaxStackSize(16);
 
 
 	Item::flint = ( new Item(62) )																->setIconName(L"flint")->setDescriptionId(IDS_ITEM_FLINT)->setUseDescriptionId(IDS_DESC_FLINT);
-	Item::porkChop_raw = ( new FoodItem(63, 3, FoodConstants::FOOD_SATURATION_LOW, true) )		->setIconName(L"porkchopRaw")->setDescriptionId(IDS_ITEM_PORKCHOP_RAW)->setUseDescriptionId(IDS_DESC_PORKCHOP_RAW);
-	Item::porkChop_cooked = ( new FoodItem(64, 8, FoodConstants::FOOD_SATURATION_GOOD, true) )	->setIconName(L"porkchopCooked")->setDescriptionId(IDS_ITEM_PORKCHOP_COOKED)->setUseDescriptionId(IDS_DESC_PORKCHOP_COOKED);
+	Item::porkChop_raw = ( new FoodItem(63, 3, FoodConstants::FOOD_SATURATION_LOW, true) )		->setIconName(L"porkchopRaw")->setDescriptionId(IDS_ITEM_PORKCHOP_RAW)->setUseDescriptionId(IDS_DESC_PORKCHOP_RAW)->setMaxStackSize(16);
+	Item::porkChop_cooked = ( new FoodItem(64, 8, FoodConstants::FOOD_SATURATION_GOOD, true) )	->setIconName(L"porkchopCooked")->setDescriptionId(IDS_ITEM_PORKCHOP_COOKED)->setUseDescriptionId(IDS_DESC_PORKCHOP_COOKED)->setMaxStackSize(16);
 	Item::painting = ( new HangingEntityItem(65,eTYPE_PAINTING) )								->setBaseItemTypeAndMaterial(eBaseItemType_HangingItem,	eMaterial_cloth)->setIconName(L"painting")->setDescriptionId(IDS_ITEM_PAINTING)->setUseDescriptionId(IDS_DESC_PICTURE);
 
-	Item::apple_gold = ( new GoldenAppleItem(66, 4, FoodConstants::FOOD_SATURATION_SUPERNATURAL, false) )->setCanAlwaysEat()->setEatEffect(MobEffect::regeneration->id, 5, 1, 1.0f)
-																										->setBaseItemTypeAndMaterial(eBaseItemType_giltFruit,eMaterial_apple)->setIconName(L"appleGold")->setDescriptionId(IDS_ITEM_APPLE_GOLD);//->setUseDescriptionId(IDS_DESC_GOLDENAPPLE);
+	Item::apple_gold = ( new GoldenAppleItem(66, 4, FoodConstants::FOOD_SATURATION_SUPERNATURAL, false) )->setCanAlwaysEat()->setEatEffect(MobEffect::regeneration->id, 5, 1, 1.0f)->setBaseItemTypeAndMaterial(eBaseItemType_giltFruit,eMaterial_apple)->setIconName(L"appleGold")->setDescriptionId(IDS_ITEM_APPLE_GOLD)->setMaxStackSize(8);
 
 	Item::sign = ( new SignItem(67) )															->setBaseItemTypeAndMaterial(eBaseItemType_HangingItem, eMaterial_wood)->setIconName(L"sign")->setDescriptionId(IDS_ITEM_SIGN)->setUseDescriptionId(IDS_DESC_SIGN);
 
@@ -379,8 +379,8 @@ void Item::staticCtor()
 	Item::egg = ( new EggItem(88) )										->setIconName(L"egg")->setDescriptionId(IDS_ITEM_EGG)->setUseDescriptionId(IDS_DESC_EGG);
 	Item::fishingRod = static_cast<FishingRodItem *>((new FishingRodItem(90))->setBaseItemTypeAndMaterial(eBaseItemType_rod, eMaterial_wood)->setIconName(L"fishingRod")->setDescriptionId(IDS_ITEM_FISHING_ROD)->setUseDescriptionId(IDS_DESC_FISHINGROD));
 	Item::yellowDust = ( new Item(92) )									->setIconName(L"yellowDust")->setDescriptionId(IDS_ITEM_YELLOW_DUST)->setUseDescriptionId(IDS_DESC_YELLOW_DUST)->setPotionBrewingFormula(PotionBrewing::MOD_GLOWSTONE);
-	Item::fish_raw = ( new FoodItem(93, 2, FoodConstants::FOOD_SATURATION_LOW, false) )			->setIconName(L"fishRaw")->setDescriptionId(IDS_ITEM_FISH_RAW)->setUseDescriptionId(IDS_DESC_FISH_RAW);
-	Item::fish_cooked = ( new FoodItem(94, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setIconName(L"fishCooked")->setDescriptionId(IDS_ITEM_FISH_COOKED)->setUseDescriptionId(IDS_DESC_FISH_COOKED);
+	Item::fish_raw = ( new FoodItem(93, 2, FoodConstants::FOOD_SATURATION_LOW, false) )			->setIconName(L"fishRaw")->setDescriptionId(IDS_ITEM_FISH_RAW)->setUseDescriptionId(IDS_DESC_FISH_RAW)->setMaxStackSize(16);
+	Item::fish_cooked = ( new FoodItem(94, 5, FoodConstants::FOOD_SATURATION_NORMAL, false) )	->setIconName(L"fishCooked")->setDescriptionId(IDS_ITEM_FISH_COOKED)->setUseDescriptionId(IDS_DESC_FISH_COOKED)->setMaxStackSize(16);
 
 	Item::dye_powder = ( new DyePowderItem(95) )			->setBaseItemTypeAndMaterial(eBaseItemType_dyepowder,	eMaterial_dye)->setIconName(L"dyePowder")->setDescriptionId(IDS_ITEM_DYE_POWDER)->setUseDescriptionId(-1);
 
@@ -388,26 +388,26 @@ void Item::staticCtor()
 	Item::sugar = ( new Item(97) )										->setIconName(L"sugar")->setDescriptionId(IDS_ITEM_SUGAR)->setUseDescriptionId(IDS_DESC_SUGAR)->setPotionBrewingFormula(PotionBrewing::MOD_SUGAR);
 	// 4J-PB  - changing the cake to be stackable - Jens ok'ed this 23/10/12
 	//Item::cake = ( new TilePlanterItem(98, Tile::cake) )->setMaxStackSize(1)->setIcon(13, 1)->setDescriptionId(IDS_ITEM_CAKE)->setUseDescriptionId(IDS_DESC_CAKE);
-	Item::cake = ( new TilePlanterItem(98, Tile::cake) )				->setIconName(L"cake")->setDescriptionId(IDS_ITEM_CAKE)->setUseDescriptionId(IDS_DESC_CAKE);
+	Item::cake = ( new TilePlanterItem(98, Tile::cake) )				->setIconName(L"cake")->setDescriptionId(IDS_ITEM_CAKE)->setUseDescriptionId(IDS_DESC_CAKE)->setMaxStackSize(1);
 
 	Item::bed = ( new BedItem(99) )										->setMaxStackSize(1)->setIconName(L"bed")->setDescriptionId(IDS_ITEM_BED)->setUseDescriptionId(IDS_DESC_BED);
 
 	Item::repeater = ( new TilePlanterItem(100, static_cast<Tile *>(Tile::diode_off)) )			->setIconName(L"diode")->setDescriptionId(IDS_ITEM_DIODE)->setUseDescriptionId(IDS_DESC_REDSTONEREPEATER);
-	Item::cookie = ( new FoodItem(101, 2, FoodConstants::FOOD_SATURATION_POOR, false) )	->setIconName(L"cookie")->setDescriptionId(IDS_ITEM_COOKIE)->setUseDescriptionId(IDS_DESC_COOKIE);
+	Item::cookie = ( new FoodItem(101, 2, FoodConstants::FOOD_SATURATION_POOR, false) )	->setIconName(L"cookie")->setDescriptionId(IDS_ITEM_COOKIE)->setUseDescriptionId(IDS_DESC_COOKIE)->setMaxStackSize(16);
 
 
 	Item::shears = static_cast<ShearsItem *>((new ShearsItem(103))->setIconName(L"shears")->setBaseItemTypeAndMaterial(eBaseItemType_devicetool, eMaterial_shears)->setDescriptionId(IDS_ITEM_SHEARS)->setUseDescriptionId(IDS_DESC_SHEARS));
 
-	Item::melon = (new FoodItem(104, 2, FoodConstants::FOOD_SATURATION_LOW, false))		->setIconName(L"melon")->setDescriptionId(IDS_ITEM_MELON_SLICE)->setUseDescriptionId(IDS_DESC_MELON_SLICE);
+	Item::melon = (new FoodItem(104, 2, FoodConstants::FOOD_SATURATION_LOW, false))		->setIconName(L"melon")->setDescriptionId(IDS_ITEM_MELON_SLICE)->setUseDescriptionId(IDS_DESC_MELON_SLICE)->setMaxStackSize(16);
 
 	Item::seeds_pumpkin = (new SeedItem(105, Tile::pumpkinStem_Id, Tile::farmland_Id))	->setIconName(L"seeds_pumpkin")->setBaseItemTypeAndMaterial(eBaseItemType_seed,	eMaterial_pumpkin)->setDescriptionId(IDS_ITEM_PUMPKIN_SEEDS)->setUseDescriptionId(IDS_DESC_PUMPKIN_SEEDS);
 	Item::seeds_melon = (new SeedItem(106, Tile::melonStem_Id, Tile::farmland_Id))		->setIconName(L"seeds_melon")->setBaseItemTypeAndMaterial(eBaseItemType_seed,	eMaterial_melon)->setDescriptionId(IDS_ITEM_MELON_SEEDS)->setUseDescriptionId(IDS_DESC_MELON_SEEDS);
 
-	Item::beef_raw = (new FoodItem(107, 3, FoodConstants::FOOD_SATURATION_LOW, true))	->setIconName(L"beefRaw")->setDescriptionId(IDS_ITEM_BEEF_RAW)->setUseDescriptionId(IDS_DESC_BEEF_RAW);
-	Item::beef_cooked = (new FoodItem(108, 8, FoodConstants::FOOD_SATURATION_GOOD, true))->setIconName(L"beefCooked")->setDescriptionId(IDS_ITEM_BEEF_COOKED)->setUseDescriptionId(IDS_DESC_BEEF_COOKED);
-	Item::chicken_raw = (new FoodItem(109, 2, FoodConstants::FOOD_SATURATION_LOW, true))->setEatEffect(MobEffect::hunger->id, 30, 0, .3f)->setIconName(L"chickenRaw")->setDescriptionId(IDS_ITEM_CHICKEN_RAW)->setUseDescriptionId(IDS_DESC_CHICKEN_RAW);
-	Item::chicken_cooked = (new FoodItem(110, 6, FoodConstants::FOOD_SATURATION_NORMAL, true))->setIconName(L"chickenCooked")->setDescriptionId(IDS_ITEM_CHICKEN_COOKED)->setUseDescriptionId(IDS_DESC_CHICKEN_COOKED);
-	Item::rotten_flesh = (new FoodItem(111, 4, FoodConstants::FOOD_SATURATION_POOR, true))->setEatEffect(MobEffect::hunger->id, 30, 0, .8f)->setIconName(L"rottenFlesh")->setDescriptionId(IDS_ITEM_ROTTEN_FLESH)->setUseDescriptionId(IDS_DESC_ROTTEN_FLESH);
+	Item::beef_raw = (new FoodItem(107, 3, FoodConstants::FOOD_SATURATION_LOW, true))	->setIconName(L"beefRaw")->setDescriptionId(IDS_ITEM_BEEF_RAW)->setUseDescriptionId(IDS_DESC_BEEF_RAW)->setMaxStackSize(16);
+	Item::beef_cooked = (new FoodItem(108, 8, FoodConstants::FOOD_SATURATION_GOOD, true))->setIconName(L"beefCooked")->setDescriptionId(IDS_ITEM_BEEF_COOKED)->setUseDescriptionId(IDS_DESC_BEEF_COOKED)->setMaxStackSize(16);
+	Item::chicken_raw = (new FoodItem(109, 2, FoodConstants::FOOD_SATURATION_LOW, true))->setEatEffect(MobEffect::hunger->id, 30, 0, .3f)->setIconName(L"chickenRaw")->setDescriptionId(IDS_ITEM_CHICKEN_RAW)->setUseDescriptionId(IDS_DESC_CHICKEN_RAW)->setMaxStackSize(16);
+	Item::chicken_cooked = (new FoodItem(110, 6, FoodConstants::FOOD_SATURATION_NORMAL, true))->setIconName(L"chickenCooked")->setDescriptionId(IDS_ITEM_CHICKEN_COOKED)->setUseDescriptionId(IDS_DESC_CHICKEN_COOKED)->setMaxStackSize(16);
+	Item::rotten_flesh = (new FoodItem(111, 4, FoodConstants::FOOD_SATURATION_POOR, true))->setEatEffect(MobEffect::hunger->id, 30, 0, .8f)->setIconName(L"rottenFlesh")->setDescriptionId(IDS_ITEM_ROTTEN_FLESH)->setUseDescriptionId(IDS_DESC_ROTTEN_FLESH)->setMaxStackSize(16);
 
 	Item::enderPearl =			(new EnderpearlItem(112))											->setIconName(L"enderPearl")->setDescriptionId(IDS_ITEM_ENDER_PEARL)->setUseDescriptionId(IDS_DESC_ENDER_PEARL);
 
@@ -420,7 +420,7 @@ void Item::staticCtor()
 	Item::potion =				static_cast<PotionItem *>((new PotionItem(117))->setIconName(L"potion")->setDescriptionId(IDS_ITEM_POTION)->setUseDescriptionId(IDS_DESC_POTION));
 	Item::glassBottle =			(new BottleItem(118) )												->setBaseItemTypeAndMaterial(eBaseItemType_utensil,	eMaterial_glass)->setIconName(L"glassBottle")->setDescriptionId(IDS_ITEM_GLASS_BOTTLE)->setUseDescriptionId(IDS_DESC_GLASS_BOTTLE);
 
-	Item::spiderEye =			(new FoodItem(119, 2, FoodConstants::FOOD_SATURATION_GOOD, false) )	->setEatEffect(MobEffect::poison->id, 5, 0, 1.0f)->setIconName(L"spiderEye")->setDescriptionId(IDS_ITEM_SPIDER_EYE)->setUseDescriptionId(IDS_DESC_SPIDER_EYE)->setPotionBrewingFormula(PotionBrewing::MOD_SPIDEREYE);
+	Item::spiderEye =			(new FoodItem(119, 2, FoodConstants::FOOD_SATURATION_GOOD, false) )	->setEatEffect(MobEffect::poison->id, 5, 0, 1.0f)->setIconName(L"spiderEye")->setDescriptionId(IDS_ITEM_SPIDER_EYE)->setUseDescriptionId(IDS_DESC_SPIDER_EYE)->setPotionBrewingFormula(PotionBrewing::MOD_SPIDEREYE)->setMaxStackSize(16);
 	Item::fermentedSpiderEye =	(new Item(120) )													->setIconName(L"fermentedSpiderEye")->setDescriptionId(IDS_ITEM_FERMENTED_SPIDER_EYE)->setUseDescriptionId(IDS_DESC_FERMENTED_SPIDER_EYE)->setPotionBrewingFormula(PotionBrewing::MOD_FERMENTEDEYE);
 
 	Item::blazePowder =			(new Item(121) )													->setIconName(L"blazePowder")->setDescriptionId(IDS_ITEM_BLAZE_POWDER)->setUseDescriptionId(IDS_DESC_BLAZE_POWDER)->setPotionBrewingFormula(PotionBrewing::MOD_BLAZEPOWDER);
@@ -468,18 +468,18 @@ void Item::staticCtor()
 
 	Item::flowerPot = (new TilePlanterItem(134, Tile::flowerPot))									->setIconName(L"flowerPot")->setDescriptionId(IDS_FLOWERPOT)->setUseDescriptionId(IDS_DESC_FLOWERPOT);
 
-	Item::carrots = (new SeedFoodItem(135, 4, FoodConstants::FOOD_SATURATION_NORMAL, Tile::carrots_Id, Tile::farmland_Id))	->setIconName(L"carrots")->setDescriptionId(IDS_CARROTS)->setUseDescriptionId(IDS_DESC_CARROTS);
-	Item::potato = (new SeedFoodItem(136, 1, FoodConstants::FOOD_SATURATION_LOW, Tile::potatoes_Id, Tile::farmland_Id))		->setIconName(L"potato")->setDescriptionId(IDS_POTATO)->setUseDescriptionId(IDS_DESC_POTATO);
-	Item::potatoBaked = (new FoodItem(137, 6, FoodConstants::FOOD_SATURATION_NORMAL, false))								->setIconName(L"potatoBaked")->setDescriptionId(IDS_ITEM_POTATO_BAKED)->setUseDescriptionId(IDS_DESC_POTATO_BAKED);
-	Item::potatoPoisonous = (new FoodItem(138, 2, FoodConstants::FOOD_SATURATION_LOW, false))								->setEatEffect(MobEffect::poison->id, 5, 0, .6f)->setIconName(L"potatoPoisonous")->setDescriptionId(IDS_ITEM_POTATO_POISONOUS)->setUseDescriptionId(IDS_DESC_POTATO_POISONOUS);
+	Item::carrots = (new SeedFoodItem(135, 4, FoodConstants::FOOD_SATURATION_NORMAL, Tile::carrots_Id, Tile::farmland_Id))	->setIconName(L"carrots")->setDescriptionId(IDS_CARROTS)->setUseDescriptionId(IDS_DESC_CARROTS)->setMaxStackSize(16);
+	Item::potato = (new SeedFoodItem(136, 1, FoodConstants::FOOD_SATURATION_LOW, Tile::potatoes_Id, Tile::farmland_Id))		->setIconName(L"potato")->setDescriptionId(IDS_POTATO)->setUseDescriptionId(IDS_DESC_POTATO)->setMaxStackSize(16);
+	Item::potatoBaked = (new FoodItem(137, 6, FoodConstants::FOOD_SATURATION_NORMAL, false))								->setIconName(L"potatoBaked")->setDescriptionId(IDS_ITEM_POTATO_BAKED)->setUseDescriptionId(IDS_DESC_POTATO_BAKED)->setMaxStackSize(16);
+	Item::potatoPoisonous = (new FoodItem(138, 2, FoodConstants::FOOD_SATURATION_LOW, false))								->setEatEffect(MobEffect::poison->id, 5, 0, .6f)->setIconName(L"potatoPoisonous")->setDescriptionId(IDS_ITEM_POTATO_POISONOUS)->setUseDescriptionId(IDS_DESC_POTATO_POISONOUS)->setMaxStackSize(16);
 
 	Item::emptyMap = static_cast<EmptyMapItem *>((new EmptyMapItem(139))->setIconName(L"map_empty")->setDescriptionId(IDS_ITEM_MAP_EMPTY)->setUseDescriptionId(IDS_DESC_MAP_EMPTY));
 
-	Item::carrotGolden = (new FoodItem(140, 6, FoodConstants::FOOD_SATURATION_SUPERNATURAL, false))			->setBaseItemTypeAndMaterial(eBaseItemType_giltFruit,	eMaterial_carrot)->setIconName(L"carrotGolden")->setPotionBrewingFormula(PotionBrewing::MOD_GOLDENCARROT)->setDescriptionId(IDS_ITEM_CARROT_GOLDEN)->setUseDescriptionId(IDS_DESC_CARROT_GOLDEN);
+	Item::carrotGolden = (new FoodItem(140, 6, FoodConstants::FOOD_SATURATION_SUPERNATURAL, false))			->setBaseItemTypeAndMaterial(eBaseItemType_giltFruit,	eMaterial_carrot)->setIconName(L"carrotGolden")->setPotionBrewingFormula(PotionBrewing::MOD_GOLDENCARROT)->setDescriptionId(IDS_ITEM_CARROT_GOLDEN)->setUseDescriptionId(IDS_DESC_CARROT_GOLDEN)->setMaxStackSize(16);
 
 	Item::carrotOnAStick = (new CarrotOnAStickItem(142))													->setBaseItemTypeAndMaterial(eBaseItemType_rod, eMaterial_carrot)->setIconName(L"carrotOnAStick")->setDescriptionId(IDS_ITEM_CARROT_ON_A_STICK)->setUseDescriptionId(IDS_DESC_CARROT_ON_A_STICK);
 	Item::netherStar = (new SimpleFoiledItem(143))													->setIconName(L"nether_star")->setDescriptionId(IDS_NETHER_STAR)->setUseDescriptionId(IDS_DESC_NETHER_STAR);
-	Item::pumpkinPie = (new FoodItem(144, 8, FoodConstants::FOOD_SATURATION_LOW, false))			->setIconName(L"pumpkinPie")->setDescriptionId(IDS_ITEM_PUMPKIN_PIE)->setUseDescriptionId(IDS_DESC_PUMPKIN_PIE);
+	Item::pumpkinPie = (new FoodItem(144, 8, FoodConstants::FOOD_SATURATION_LOW, false))			->setIconName(L"pumpkinPie")->setDescriptionId(IDS_ITEM_PUMPKIN_PIE)->setUseDescriptionId(IDS_DESC_PUMPKIN_PIE)->setMaxStackSize(8);
 	Item::fireworks = (new FireworksItem(145))														->setBaseItemTypeAndMaterial(Item::eBaseItemType_fireworks,	Item::eMaterial_undefined)->setIconName(L"fireworks")->setDescriptionId(IDS_FIREWORKS)->setUseDescriptionId(IDS_DESC_FIREWORKS);
 	Item::fireworksCharge = (new FireworksChargeItem(146))											->setBaseItemTypeAndMaterial(Item::eBaseItemType_fireworks,	Item::eMaterial_undefined)->setIconName(L"fireworks_charge")->setDescriptionId(IDS_FIREWORKS_CHARGE)->setUseDescriptionId(IDS_DESC_FIREWORKS_CHARGE);
 	EnchantedBookItem::enchantedBook = static_cast<EnchantedBookItem *>((new EnchantedBookItem(147))->setMaxStackSize(1)->setIconName(L"enchantedBook")->setDescriptionId(IDS_ITEM_ENCHANTED_BOOK)->setUseDescriptionId(IDS_DESC_ENCHANTED_BOOK));
@@ -493,7 +493,9 @@ void Item::staticCtor()
 	Item::horseArmorGold = (new Item(162))															->setIconName(L"gold_horse_armor")->setMaxStackSize(1)->setDescriptionId(IDS_ITEM_GOLD_HORSE_ARMOR)->setUseDescriptionId(IDS_DESC_GOLD_HORSE_ARMOR);
 	Item::horseArmorDiamond = (new Item(163))														->setIconName(L"diamond_horse_armor")->setMaxStackSize(1)->setDescriptionId(IDS_ITEM_DIAMOND_HORSE_ARMOR)->setUseDescriptionId(IDS_DESC_DIAMOND_HORSE_ARMOR);
 	Item::lead = (new LeashItem(164))																->setBaseItemTypeAndMaterial(eBaseItemType_pockettool,	eMaterial_undefined)->setIconName(L"lead")->setDescriptionId(IDS_ITEM_LEAD)->setUseDescriptionId(IDS_DESC_LEAD);
-	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);}
+	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);
+	Item::cherries = ( new FoodItem(166, 2, FoodConstants::FOOD_SATURATION_LOW, false) )			->setIconName(L"cherries")->setDescriptionId(IDS_ITEM_CHERRIES)->setUseDescriptionId(IDS_ITEM_CHERRIES)->setMaxStackSize(16);
+}
 
 
 // 4J Stu - We need to do this after the staticCtor AND after staticCtors for other class
