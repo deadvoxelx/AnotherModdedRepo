@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "com.mojang.nbt.h"
+#include "net.minecraft.world.h"
+#include "net.minecraft.world.entity.h"
 #include "net.minecraft.world.entity.ai.attributes.h"
 #include "net.minecraft.world.entity.ai.navigation.h"
 #include "net.minecraft.world.entity.ai.goal.h"
@@ -11,15 +13,11 @@
 #include "net.minecraft.world.entity.monster.h"
 #include "net.minecraft.stats.h"
 #include "Cow.h"
-#include "../Minecraft.Client/Textures.h"
+#include "..\Minecraft.Client\Textures.h"
 #include "MobCategory.h"
-
-
 
 Cow::Cow(Level *level) : Animal( level )
 {
-	// 4J Stu - This function call had to be moved here from the Entity ctor to ensure that
-	// the derived version of the function is called
 	this->defineSynchedData();
 	registerAttributes();
 	setHealth(getMaxHealth());
@@ -135,4 +133,62 @@ shared_ptr<AgableMob> Cow::getBreedOffspring(shared_ptr<AgableMob> target)
 	{
 		return nullptr;
 	}
+}
+
+void Cow::defineSynchedData()
+{
+	Animal::defineSynchedData();
+
+	entityData->define(DATA_TYPE_ID, static_cast<byte>(0));
+}
+
+int Cow::getCowType()
+{
+	return (int) entityData->getByte(DATA_TYPE_ID);
+}
+
+void Cow::setCowType(int type)
+{
+	entityData->set(DATA_TYPE_ID, (byte) type);
+}
+
+MobGroupData *Cow::finalizeMobSpawn(MobGroupData *groupData, int extraData)
+{
+	groupData = Animal::finalizeMobSpawn(groupData);
+
+	if (getRandom()->nextInt(4) == 0)
+	{
+		setCowType(TYPE_DEFAULT);
+	}
+	if (getRandom()->nextInt(4) == 1)
+	{
+		setCowType(TYPE_BLACK);
+	}
+	if (getRandom()->nextInt(4) == 2)
+	{
+		setCowType(TYPE_INVERT);
+	}
+	if (getRandom()->nextInt(4) == 3)
+	{
+		setCowType(TYPE_PINK);
+	}
+
+	return groupData;
+}
+
+void Cow::readAdditionalSaveData(CompoundTag *tag)
+{
+	Animal::readAdditionalSaveData(tag);
+
+	if (tag->contains(L"CowType"))
+	{
+		int value = tag->getByte(L"CowType");
+		setCowType(value);
+	}
+}
+
+void Cow::addAdditonalSaveData(CompoundTag *entityTag)
+{
+	Animal::addAdditonalSaveData(entityTag);
+	entityTag->putByte(L"CowType", (byte) getCowType());
 }
