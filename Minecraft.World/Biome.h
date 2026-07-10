@@ -12,6 +12,9 @@ class TreeFeature;
 class BasicTree;
 class BirchFeature;
 class SwampTreeFeature;
+class CherryTreeFeature;
+class CherryTreeLarge;
+class PalmTreeFeature;
 class ChunkRebuildData;
 
 class Biome
@@ -46,8 +49,9 @@ public:
 	static Biome *smallerExtremeHills;
 	static Biome *jungle;
 	static Biome *jungleHills;
+	static Biome *cherryForest;
 
-	static const int BIOME_COUNT = 23; // 4J Stu added
+	static const int BIOME_COUNT = 24; // 4J Stu added
 
 public:
 	wstring m_name;
@@ -108,14 +112,6 @@ private:
 	eMinecraftColour m_skyColor;
 
 	Biome *setNoRain();
-
-protected:
-	/* removing these so that we can consistently return newly created trees via getTreeFeature, and let the calling function be resposible for deleting the returned tree
-	TreeFeature *normalTree;
-	BasicTree *fancyTree;
-	BirchFeature *birchTree;
-	SwampTreeFeature *swampTree;
-	*/
 
 public:
 	virtual Feature *getTreeFeature(Random *random);
