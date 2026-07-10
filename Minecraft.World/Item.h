@@ -90,6 +90,7 @@ public:
 		eMaterial_book,
 		eMaterial_bookshelf,
 		eMaterial_wheat,
+		eMaterial_stick,
 
 	}
 	eMaterial;
@@ -140,6 +141,8 @@ public:
 		eBaseItemType_fireworks,
 		eBaseItemType_lever,
 		eBaseItemType_paper,
+		eBaseItemType_stick,
+		eBaseItemType_wall,
 		eBaseItemType_MAXTYPES,
 	}
 	eBaseItemType;
