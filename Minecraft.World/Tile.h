@@ -7,6 +7,7 @@ using namespace std;
 
 class GrassTile;
 class LeafTile;
+class Leaf2Tile;
 class TallGrass;
 class DeadBushTile;
 class FireTile;
@@ -360,6 +361,15 @@ public:
 	static const int clayHardened_colored_Id = 159;
 	static const int stained_glass_pane_Id = 160;
 
+	static const int coloredPlanks_Id = 161;
+	static const int cherryLog_Id = 162;
+	static const int leaves2_Id = 163;
+	static const int palmLog_Id = 164;
+	static const int mossyLog_Id = 165;
+	static const int cherrySapling_Id = 166;
+	static const int palmSapling_Id = 167;
+	static const int mossySapling_Id = 168;
+
 	static const int hayBlock_Id = 170;
 	static const int woolCarpet_Id = 171;
 	static const int clayHardened_Id = 172;
@@ -535,6 +545,15 @@ public:
 	static Tile *dropper;
 	static Tile *clayHardened_colored;
 	static Tile *stained_glass_pane;
+
+	static Tile *coloredPlanks;
+	static Tile *cherryLog;
+	static Leaf2Tile *leaves2;
+	static Tile *palmLog;
+	static Tile *mossyLog;
+	static Tile *cherrySapling;
+	static Tile *palmSapling;
+	static Tile *mossySapling;
 
 	static Tile *hayBlock;
 	static Tile *woolCarpet;
