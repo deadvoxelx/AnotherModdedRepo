@@ -109,6 +109,14 @@ Recipes::Recipes()
 		L'#', Tile::wood,
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Item::stick, 4), //
+		L"ssctg",
+		L"#", //
+		L"#", //
+
+		L'#', Tile::coloredPlanks,
+		L'S');
+
 	pToolRecipies->addRecipes(this);
 	pFoodRecipies->addRecipes(this);
 	pStructureRecipies->addRecipes(this);
@@ -157,6 +165,14 @@ Recipes::Recipes()
 		L"#W#", //
 
 		L'#', Item::stick, L'W', Tile::wood,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::fenceGate, 1), //
+		L"sscictg",
+		L"#W#", //
+		L"#W#", //
+
+		L'#', Item::stick, L'W', Tile::coloredPlanks,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::fence, 2), //
@@ -208,6 +224,15 @@ Recipes::Recipes()
 		L'#', Tile::wood,
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Item::door_wood, 1), //
+		L"sssctg",
+		L"##", //
+		L"##", //
+		L"##", //
+
+		L'#', Tile::coloredPlanks,
+		L'S');
+
 	addShapedRecipy(new ItemInstance(Item::door_iron, 1), //
 		L"ssscig",
 		L"##", //
@@ -226,14 +251,23 @@ Recipes::Recipes()
 		L'#', new ItemInstance(Tile::wood, 1, 0),
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::trapdoor, 2), //
+	addShapedRecipy(new ItemInstance(Tile::trapdoor, 4), //
 		L"ssctg",
 		L"###", //
 		L"###", //
 
 		L'#', Tile::wood,
 		L'S');
-	addShapedRecipy(new ItemInstance(Tile::stairs_stone, 4), //
+
+	addShapedRecipy(new ItemInstance(Tile::trapdoor, 4), //
+		L"ssctg",
+		L"###", //
+		L"###", //
+
+		L'#', Tile::coloredPlanks,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::stairs_stone, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -242,7 +276,7 @@ Recipes::Recipes()
 		L'#', Tile::cobblestone,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::stairs_bricks, 4), //
+	addShapedRecipy(new ItemInstance(Tile::stairs_bricks, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -251,7 +285,7 @@ Recipes::Recipes()
 		L'#', Tile::redBrick,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::stairs_stoneBrickSmooth, 4), //
+	addShapedRecipy(new ItemInstance(Tile::stairs_stoneBrickSmooth, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -260,7 +294,7 @@ Recipes::Recipes()
 		L'#', Tile::stoneBrick,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::stairs_netherBricks, 4), //
+	addShapedRecipy(new ItemInstance(Tile::stairs_netherBricks, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -269,7 +303,7 @@ Recipes::Recipes()
 		L'#', Tile::netherBrick,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::stairs_sandstone, 4), //
+	addShapedRecipy(new ItemInstance(Tile::stairs_sandstone, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -278,7 +312,7 @@ Recipes::Recipes()
 		L'#', Tile::sandStone,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::woodStairsBirch, 4), //
+	addShapedRecipy(new ItemInstance(Tile::woodStairsBirch, 6), //
 		L"sssczg",
 		L"#  ", //
 		L"## ", //
@@ -287,7 +321,7 @@ Recipes::Recipes()
 		L'#', new ItemInstance(Tile::wood, 1, TreeTile::BIRCH_TRUNK),
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::woodStairsDark, 4), //
+	addShapedRecipy(new ItemInstance(Tile::woodStairsDark, 6), //
 		L"sssczg",
 		L"#  ", //
 		L"## ", //
@@ -296,7 +330,7 @@ Recipes::Recipes()
 		L'#', new ItemInstance(Tile::wood, 1, TreeTile::DARK_TRUNK),
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::woodStairsJungle, 4), //
+	addShapedRecipy(new ItemInstance(Tile::woodStairsJungle, 6), //
 		L"sssczg",
 		L"#  ", //
 		L"## ", //
@@ -305,7 +339,7 @@ Recipes::Recipes()
 		L'#', new ItemInstance(Tile::wood, 1, TreeTile::JUNGLE_TRUNK),
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::stairs_quartz, 4), //
+	addShapedRecipy(new ItemInstance(Tile::stairs_quartz, 6), //
 		L"sssctg",
 		L"#  ", //
 		L"## ", //
@@ -635,6 +669,14 @@ Recipes::Recipes()
 		L'#', Tile::wood,
 		L'T');
 
+	addShapedRecipy(new ItemInstance(Item::bowl, 4), //
+		L"ssctg",
+		L"# #", //
+		L" # ", //
+
+		L'#', Tile::coloredPlanks,
+		L'T');
+
 	addShapedRecipy(new ItemInstance(Item::glassBottle, 3), //
 		L"ssctg",
 		L"# #", //
@@ -923,6 +965,15 @@ Recipes::Recipes()
 		L"###", //
 
 		L'#', Tile::wood, L'X', Item::book,
+		L'D');
+
+	addShapedRecipy(new ItemInstance(Tile::bookshelf, 1), //
+		L"sssctcig",
+		L"###", //
+		L"XXX", //
+		L"###", //
+
+		L'#', Tile::coloredPlanks, L'X', Item::book,
 		L'D');
 
 	addShapedRecipy(new ItemInstance(Item::painting, 1), //

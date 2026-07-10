@@ -234,7 +234,7 @@ void LocalPlayer::aiStep()
 	checkInTile(x + bbWidth * 0.35, bb->y0 + 0.5, z - bbWidth * 0.35);
 	checkInTile(x + bbWidth * 0.35, bb->y0 + 0.5, z + bbWidth * 0.35);
 
-	bool enoughFoodToSprint = getFoodData()->getFoodLevel() > FoodConstants::MAX_FOOD * FoodConstants::FOOD_SATURATION_LOW;
+	bool enoughFoodToSprint = getFoodData()->getFoodLevel() > 0;
 
 	// 4J Stu - If we can fly, then we should be able to sprint without requiring food. This is particularly a problem for people who save a survival
 	// world with low food, then reload it in creative.
@@ -276,9 +276,7 @@ void LocalPlayer::aiStep()
 		setSprinting(true);
 	}
 #endif
-	// 4J-PB - try not stopping sprint on collision
-	//if (isSprinting() && (input->ya < runTreshold || horizontalCollision || !enoughFoodToSprint))
-	if (isSprinting() && (!forwardEnoughToContinueSprint || !enoughFoodToSprint || isSneaking() || isUsingItem()))
+	if (isSprinting() && (!forwardEnoughToContinueSprint || !enoughFoodToSprint || hasEffect(MobEffect::blindness) || isSneaking() || isUsingItem()))
 	{
 		setSprinting(false);
 	}	

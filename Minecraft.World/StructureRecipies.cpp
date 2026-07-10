@@ -83,6 +83,15 @@ void StructureRecipies::addRecipes(Recipes *r)
 		L'#', Tile::wood,
 		L'S');
 
+	r->addShapedRecipy(new ItemInstance(static_cast<Tile *>(Tile::chest)), //
+		L"sssctg",
+		L"###", //
+		L"# #", //
+		L"###", //
+
+		L'#', Tile::coloredPlanks,
+		L'S');
+
 	r->addShapedRecipy(new ItemInstance(Tile::chest_trap), //
 		L"sctctg",
 		L"#-", //
