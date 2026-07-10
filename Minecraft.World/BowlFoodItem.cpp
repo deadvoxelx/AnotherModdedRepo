@@ -5,7 +5,7 @@
 
 BowlFoodItem::BowlFoodItem(int id, int nutrition) : FoodItem( id, nutrition, false )
 {
-	setMaxStackSize(1);
+	setMaxStackSize(3);
 }
 
 shared_ptr<ItemInstance> BowlFoodItem::useTimeDepleted(shared_ptr<ItemInstance> instance, Level *level, shared_ptr<Player> player)
