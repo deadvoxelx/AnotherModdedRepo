@@ -60,7 +60,7 @@ bool PalmTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 				}
 			}
 		}
-		else if (random->nextInt(3) == 3)
+		else /*if (random->nextInt(3) == 3)*/
 		{
 			for (int trunkmid = 0; trunkmid <= midHeight; trunkmid++)
 			{
