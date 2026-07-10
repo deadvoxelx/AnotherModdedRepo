@@ -132,6 +132,7 @@ enum eINSTANCEOF
 
 								eTYPE_OCELOT		= eTYPE_TAMABLE_ANIMAL | eTYPE_ANIMALS_SPAWN_LIMIT_CHECK | 0x1,
 								eTYPE_WOLF			= eTYPE_TAMABLE_ANIMAL                                   | 0x2,
+								eTYPE_FOX			= eTYPE_TAMABLE_ANIMAL | eTYPE_ANIMALS_SPAWN_LIMIT_CHECK | 0x3,
 
 							eTYPE_HORSE				= eTYPE_ANIMAL | eTYPE_ANIMALS_SPAWN_LIMIT_CHECK | 0x1,
 							eTYPE_SHEEP				= eTYPE_ANIMAL | eTYPE_ANIMALS_SPAWN_LIMIT_CHECK | 0x2,
@@ -406,6 +407,7 @@ public:
 		classes->push_back( SUBCLASS(eTYPE_TAMABLE_ANIMAL	)->addParent( eTYPE_ANIMAL ) );
 		classes->push_back( SUBCLASS(eTYPE_OCELOT		)->addParent( eTYPE_TAMABLE_ANIMAL)->addParent(eTYPE_ANIMALS_SPAWN_LIMIT_CHECK ) );
 		classes->push_back( SUBCLASS(eTYPE_WOLF			)->addParent( eTYPE_TAMABLE_ANIMAL ) );
+		classes->push_back( SUBCLASS(eTYPE_FOX			)->addParent( eTYPE_TAMABLE_ANIMAL ) );
 		classes->push_back( SUBCLASS(eTYPE_HORSE				)->addParent( eTYPE_ANIMAL)->addParent(eTYPE_ANIMALS_SPAWN_LIMIT_CHECK ) );
 		classes->push_back( SUBCLASS(eTYPE_SHEEP				)->addParent( eTYPE_ANIMAL)->addParent(eTYPE_ANIMALS_SPAWN_LIMIT_CHECK ) );
 		classes->push_back( SUBCLASS(eTYPE_PIG				)->addParent( eTYPE_ANIMAL)->addParent(eTYPE_ANIMALS_SPAWN_LIMIT_CHECK  ) );
