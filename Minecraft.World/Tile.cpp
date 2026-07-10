@@ -215,6 +215,15 @@ Tile *Tile::dropper = nullptr;
 Tile *Tile::clayHardened_colored = nullptr;
 Tile *Tile::stained_glass_pane = nullptr;
 
+Tile *Tile::coloredPlanks = nullptr;
+Tile *Tile::cherryLog = nullptr;
+Leaf2Tile *Tile::leaves2 = nullptr;
+Tile *Tile::palmLog = nullptr;
+Tile *Tile::mossyLog = nullptr;
+Tile *Tile::cherrySapling = nullptr;
+Tile *Tile::palmSapling = nullptr;
+Tile *Tile::mossySapling = nullptr;
+
 Tile *Tile::hayBlock = nullptr;
 Tile *Tile::woolCarpet = nullptr;
 Tile *Tile::clayHardened = nullptr;
@@ -442,6 +451,15 @@ void Tile::staticCtor()
 	Tile::clayHardened_colored = (new ColoredTile(159, Material::stone))	->setBaseItemTypeAndMaterial(Item::eBaseItemType_clay,	Item::eMaterial_clay)->setDestroyTime(1.25f)->setExplodeable(7)->setSoundType(SOUND_STONE)->setIconName(L"hardened_clay_stained")->setDescriptionId(IDS_TILE_STAINED_CLAY)->setUseDescriptionId(IDS_DESC_STAINED_CLAY);
 	Tile::stained_glass_pane = (new StainedGlassPaneBlock(160))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_glass,	Item::eMaterial_glass)->setDestroyTime(0.3f)->setSoundType(SOUND_GLASS)->setIconName(L"glass")->setDescriptionId(IDS_TILE_STAINED_GLASS_PANE)->setUseDescriptionId(IDS_DESC_STAINED_GLASS_PANE);
 
+	Tile::coloredPlanks = (new ColoredPlanksTile(161))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_structwoodstuff,	Item::eMaterial_wood)->setDestroyTime(2.0f)->setExplodeable(5)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"planks_white")->setDescriptionId(IDS_TILE_COLORED_PLANKS)->sendTileData()->setUseDescriptionId(IDS_DESC_WOODENPLANKS);
+	Tile::cherryLog = (new CherryLogTile(162))						->setDestroyTime(2.0f)->setExplodeable(5)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"cherryLog")->setDescriptionId(IDS_TILE_CHERRY_LOG)->setUseDescriptionId(IDS_TILE_CHERRY_LOG);
+	Tile::leaves2 = static_cast<Leaf2Tile *>((new Leaf2Tile(163))	->setDestroyTime(0.2f)->setLightBlock(1)->setSoundType(Tile::SOUND_GRASS)->setIconName(L"cherryLeaves")->setDescriptionId(IDS_TILE_LEAVES_CHERRY)->setUseDescriptionId(IDS_DESC_LEAVES));
+	Tile::palmLog = (new CherryLogTile(164))						->setDestroyTime(2.0f)->setExplodeable(5)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"palmLog")->setDescriptionId(IDS_TILE_PALM_LOG)->setUseDescriptionId(IDS_TILE_PALM_LOG);
+	Tile::mossyLog = (new CherryLogTile(165))						->setDestroyTime(2.0f)->setExplodeable(5)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"mossyLog")->setDescriptionId(IDS_TILE_MOSSY_LOG)->setUseDescriptionId(IDS_TILE_MOSSY_LOG);
+	Tile::cherrySapling = (new SaplingNewTile(166))					->setDestroyTime(0.0f)->setSoundType(Tile::SOUND_GRASS)->setIconName(L"cherrySapling")->setDescriptionId(IDS_TILE_CHERRY_SAPLING)->sendTileData()->setUseDescriptionId(IDS_TILE_CHERRY_SAPLING)->disableMipmap();
+	Tile::palmSapling = (new SaplingNewTile(167))					->setDestroyTime(0.0f)->setSoundType(Tile::SOUND_GRASS)->setIconName(L"palmSapling")->setDescriptionId(IDS_TILE_PALM_SAPLING)->sendTileData()->setUseDescriptionId(IDS_TILE_PALM_SAPLING)->disableMipmap();
+	Tile::mossySapling = (new SaplingNewTile(168))					->setDestroyTime(0.0f)->setSoundType(Tile::SOUND_GRASS)->setIconName(L"mossySapling")->setDescriptionId(IDS_TILE_MOSSY_SAPLING)->sendTileData()->setUseDescriptionId(IDS_TILE_MOSSY_SAPLING)->disableMipmap();
+
 	Tile::hayBlock = (new HayBlockTile(170))						->setBaseItemTypeAndMaterial(Item::eBaseItemType_block,	Item::eMaterial_wheat)->setDestroyTime(0.5f)->setSoundType(SOUND_GRASS)->setIconName(L"hay_block")->setDescriptionId(IDS_TILE_HAY)->setUseDescriptionId(IDS_DESC_HAY);
 	Tile::woolCarpet =		(new WoolCarpetTile(171))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_carpet,	Item::eMaterial_cloth)->setDestroyTime(0.1f)->setSoundType(SOUND_CLOTH)->setIconName(L"woolCarpet")->setLightBlock(0)->setDescriptionId(IDS_TILE_CARPET)->setUseDescriptionId(IDS_DESC_CARPET);
 	Tile::clayHardened = (new Tile(172, Material::stone))			->setBaseItemTypeAndMaterial(Item::eBaseItemType_clay,	Item::eMaterial_clay)->setDestroyTime(1.25f)->setExplodeable(7)->setSoundType(SOUND_STONE)->setIconName(L"hardened_clay")->setDescriptionId(IDS_TILE_HARDENED_CLAY)->setUseDescriptionId(IDS_DESC_HARDENED_CLAY);
@@ -476,6 +494,8 @@ void Tile::staticCtor()
 	Item::items[pistonStickyBase_Id]	= ( new PistonTileItem(Tile::pistonStickyBase_Id - 256) )->setDescriptionId(IDS_TILE_PISTON_STICK_BASE)->setUseDescriptionId(IDS_DESC_STICKY_PISTON);
 	Item::items[cobbleWall_Id]			= ( new MultiTextureTileItem(cobbleWall_Id - 256, cobbleWall, (int *)WallTile::COBBLE_NAMES, 2) )->setDescriptionId(IDS_TILE_COBBLESTONE_WALL)->setUseDescriptionId(IDS_DESC_COBBLESTONE_WALL);
 	Item::items[anvil_Id]				= ( new AnvilTileItem(anvil) )->setDescriptionId(IDS_TILE_ANVIL)->setUseDescriptionId(IDS_DESC_ANVIL);
+
+	Item::items[coloredPlanks_Id]		= ( new MultiTextureTileItem(Tile::coloredPlanks_Id - 256, coloredPlanks,(int *)ColoredPlanksTile::COLORED_PLANK_NAMES, 16))->setIconName(L"planks_white")->setDescriptionId(IDS_DESC_WOODENPLANKS);
 
 
 	for (int i = 0; i < 256; i++)

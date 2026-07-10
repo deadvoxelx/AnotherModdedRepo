@@ -3,10 +3,8 @@
 
 StringTable::StringTable(void)
 {
-
 }
 
-// Load string table from a binary blob, filling out with the current localisation data only
 StringTable::StringTable(PBYTE pbData, DWORD dwSize)
 {
 	src = byteArray(pbData, dwSize);
@@ -47,7 +45,6 @@ void StringTable::ProcessStringTableData(void)
 	int64_t bytesToSkip = 0;
 	int dataSize = 0;
 
-	//
     for (auto it_locales = locales.begin();
          it_locales != locales.end() && (!foundLang);
          ++it_locales)
@@ -83,11 +80,10 @@ void StringTable::ProcessStringTableData(void)
 		ByteArrayInputStream bais2(langData);
 		DataInputStream dis2(&bais2);
 
-		// Read the language file for the selected language
 		int langVersion = dis2.readInt();
 
-		isStatic = false;     // 4J-JEV: Versions 1 and up could use
-		if (langVersion > 0)  // integers rather than wstrings as keys.
+		isStatic = false;
+		if (langVersion > 0)
 			isStatic = dis2.readBoolean();
 
 		wstring langId = dis2.readUTF();
@@ -112,7 +108,6 @@ void StringTable::ProcessStringTableData(void)
 		}
 		dis2.close();
 
-		// We can't delete this data in the dtor, so clear the reference
 		bais2.reset();
 	}
 	else
@@ -123,14 +118,11 @@ void StringTable::ProcessStringTableData(void)
 		isStatic = false;
 	}
 
-	// We can't delete this data in the dtor, so clear the reference
 	bais.reset();
 }
 
-
 StringTable::~StringTable(void)
 {
-	// delete src.data; TODO 4J-JEV: ?
 }
 
 void StringTable::getData(PBYTE *ppData, UINT *pSize)
@@ -180,7 +172,9 @@ LPCWSTR StringTable::getString(int id)
 		return L"";
 }
 
-
-
-
-
+void StringTable::registerString(int id, const wstring &value)
+{
+	if (id >= (int)m_stringsVec.size())
+		m_stringsVec.resize(id + 1, L"");
+	m_stringsVec[id] = value;
+}

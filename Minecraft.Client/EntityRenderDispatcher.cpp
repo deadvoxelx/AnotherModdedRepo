@@ -18,6 +18,7 @@
 #include "SheepRenderer.h"
 #include "CowRenderer.h"
 #include "WolfRenderer.h"
+#include "FoxRenderer.h"
 #include "ChickenRenderer.h"
 #include "CreeperRenderer.h"
 #include "SlimeRenderer.h"
@@ -63,6 +64,7 @@
 #include "SheepModel.h"
 #include "CowModel.h"
 #include "WolfModel.h"
+#include "FoxModel.h"
 #include "ChickenModel.h"
 #include "CreeperModel.h"
 #include "SlimeModel.h"
@@ -104,6 +106,7 @@ EntityRenderDispatcher::EntityRenderDispatcher()
 	renderers[eTYPE_COW] = new CowRenderer(new CowModel(), 0.7f);
 	renderers[eTYPE_MUSHROOMCOW] = new MushroomCowRenderer(new CowModel(), 0.7f);
 	renderers[eTYPE_WOLF] = new WolfRenderer(new WolfModel(), new WolfModel(), 0.5f);
+	renderers[eTYPE_FOX] = new FoxRenderer(new FoxModel(), new FoxModel(), 0.4f);
 	renderers[eTYPE_CHICKEN] = new ChickenRenderer(new ChickenModel(), 0.3f);
 	renderers[eTYPE_OCELOT] = new OcelotRenderer(new OcelotModel(), 0.4f);
 	renderers[eTYPE_SILVERFISH] = new SilverfishRenderer();

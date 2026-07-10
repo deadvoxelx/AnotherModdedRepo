@@ -300,6 +300,8 @@ set(_MINECRAFT_SERVER_COMMON_ROOT
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FolderTexturePack.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/Font.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FootstepParticle.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FoxModel.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FoxRenderer.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/Frustum.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FrustumCuller.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/../Minecraft.Client/FrustumData.cpp"

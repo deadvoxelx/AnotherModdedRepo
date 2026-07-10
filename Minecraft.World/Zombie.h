@@ -15,10 +15,6 @@ protected:
 	static Attribute *SPAWN_REINFORCEMENTS_CHANCE;
 
 private:
-	static AttributeModifier *SPEED_MODIFIER_BABY;
-
-
-	static const int DATA_BABY_ID = 12;
 	static const int DATA_VILLAGER_ID = 13;
 	static const int DATA_CONVERTING_ID = 14;
 
@@ -52,15 +48,12 @@ protected:
 	virtual bool useNewAi();
 
 public:
-	virtual bool isBaby();
-	virtual void setBaby(bool baby);
 	virtual bool isVillager();
 	virtual void setVillager(bool villager);
 	virtual void aiStep();
 	virtual bool hurt(DamageSource *source, float dmg);
 	virtual void tick();
 	virtual bool doHurtTarget(shared_ptr<Entity> target);
-	virtual void updateSize(bool isBaby);
 
 protected:
 	virtual int getAmbientSound();
@@ -103,9 +96,8 @@ private:
 	class ZombieGroupData : public MobGroupData
 	{
 	public:
-		bool isBaby;
 		bool isVillager;
 
-		ZombieGroupData(bool baby, bool villager);
+		ZombieGroupData(bool villager);
 	};
 };

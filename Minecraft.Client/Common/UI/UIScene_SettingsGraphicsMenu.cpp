@@ -35,16 +35,16 @@ namespace
 
 int UIScene_SettingsGraphicsMenu::LevelToDistance(int level)
 {
-	static const int table[6] = {2,4,8,16,32,64};
+	static const int table[4] = {2,4,8,16};
 	if(level < 0) level = 0;
-	if(level > 5) level = 5;
+	if(level > 3) level = 3;
 	return table[level];
 }
 
 int UIScene_SettingsGraphicsMenu::DistanceToLevel(int dist)
 {
-    static const int table[6] = {2,4,8,16,32,64};
-    for(int i = 0; i < 6; i++){
+    static const int table[4] = {2,4,8,16};
+    for(int i = 0; i < 4; i++){
         if(table[i] == dist)
             return i;
     }

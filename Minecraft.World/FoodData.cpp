@@ -31,7 +31,6 @@ void FoodData::eat(FoodItem *item)
 
 void FoodData::tick(shared_ptr<Player> player)
 {
-
 	int difficulty = player->level->difficulty;
 
 	lastFoodLevel = foodLevel;
@@ -50,37 +49,23 @@ void FoodData::tick(shared_ptr<Player> player)
 		}
 	}
 
-	// 4J: Added - Allow host to disable using hunger. We don't deplete the hunger bar due to exhaustion
-	// but I think we should deplete it to heal. Don't heal if natural regen is disabled
-	if(player->isAllowedToIgnoreExhaustion() && player->level->getGameRules()->getBoolean(GameRules::RULE_NATURAL_REGENERATION))
-	{
-		if(foodLevel > 0 && player->isHurt())
-		{
-			tickTimer++;
-			if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT)
-			{
-				player->heal(1);
-				--foodLevel;
-				tickTimer = 0;
-			}
-		}
-	}
-	else if (player->level->getGameRules()->getBoolean(GameRules::RULE_NATURAL_REGENERATION) && foodLevel >= FoodConstants::HEAL_LEVEL && player->isHurt())
+	if (player->isHurt())
 	{
 		tickTimer++;
-		if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT)
-		{
-			player->heal(1);
-			addExhaustion(FoodConstants::EXHAUSTION_HEAL);
+		if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT) {
+			float spent = min(getSaturationLevel(), 6.0f);
+			player->heal(spent / 6.0f);
+			addExhaustion(spent);
 			tickTimer = 0;
 		}
 	}
+
 	else if (foodLevel <= FoodConstants::STARVE_LEVEL)
 	{
 		tickTimer++;
 		if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT)
 		{
-			if (player->getHealth() > 10 || difficulty >= Difficulty::HARD || (player->getHealth() > 1 && difficulty >= Difficulty::NORMAL))
+			if (player->getHealth() > 1 && difficulty >= Difficulty::HARD)
 			{
 				player->hurt(DamageSource::starve, 1);
 			}

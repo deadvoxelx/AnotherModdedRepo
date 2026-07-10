@@ -411,6 +411,7 @@ public:
 	static Item *horseArmorDiamond;
 	static Item *lead;
 	static Item *nameTag;
+	static Item *cherries;
 
 
 	static const int shovel_iron_Id			= 256;
@@ -617,6 +618,7 @@ public:
 	static const int horseArmorDiamond_Id = 419;
 	static const int lead_Id = 420;
 	static const int nameTag_Id = 421;
+	static const int cherries_Id = 422;
 
 public:
 	const int id;

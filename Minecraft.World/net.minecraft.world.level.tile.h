@@ -129,5 +129,7 @@
 #include "HalfSlabTile.h"
 #include "WoodSlabTile.h"
 #include "WoolCarpetTile.h"
-
-
+#include "ColoredPlanksTile.h"
+#include "CherryLogTile.h"
+#include "Leaf2Tile.h"
+#include "SaplingNew.h"

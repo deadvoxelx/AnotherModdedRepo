@@ -13,14 +13,12 @@ bool SwampTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 	bool free = true;
 	if (y < 1 || y + treeHeight + 1 > Level::genDepth) return false;
 
-	// 4J Stu Added to stop tree features generating areas previously place by game rule generation
 	if(app.getLevelGenerationOptions() != nullptr)
 	{
 		LevelGenerationOptions *levelGenOptions = app.getLevelGenerationOptions();
 		bool intersects = levelGenOptions->checkIntersects(x - 3, y - 1, z - 3, x + 3, y + treeHeight, z + 3);
 		if(intersects)
 		{
-			//app.DebugPrintf("Skipping reeds feature generation as it overlaps a game rule structure\n");
 			return false;
 		}
 	}
@@ -83,7 +81,7 @@ bool SwampTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 	for (int hh = 0; hh < treeHeight; hh++)
 	{
 		int t = level->getTile(x, y + hh, z);
-		if (t == 0 || t == Tile::leaves_Id || t == Tile::water_Id || t == Tile::calmWater_Id) placeBlock(level, x, y + hh, z, Tile::treeTrunk_Id);
+		if (t == 0 || t == Tile::leaves_Id || t == Tile::water_Id || t == Tile::calmWater_Id) placeBlock(level, x, y + hh, z, Tile::mossyLog_Id);
 	}
 
 	for (int yy = y - 3 + treeHeight; yy <= y + treeHeight; yy++)
@@ -117,7 +115,6 @@ bool SwampTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 		}
 	}
 	return true;
-
 }
 
 void SwampTreeFeature::addVine(Level *level, int xx, int yy, int zz, int dir)

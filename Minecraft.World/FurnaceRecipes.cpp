@@ -30,6 +30,9 @@ FurnaceRecipes::FurnaceRecipes()
 	addFurnaceRecipy(Tile::clay_Id, new ItemInstance(Tile::clayHardened), .35f);
 	addFurnaceRecipy(Tile::cactus_Id, new ItemInstance(Item::dye_powder, 1, DyePowderItem::GREEN), .2f);
 	addFurnaceRecipy(Tile::treeTrunk_Id, new ItemInstance(Item::coal, 1, CoalItem::CHAR_COAL), .15f);
+	addFurnaceRecipy(Tile::cherryLog_Id, new ItemInstance(Item::coal, 1, CoalItem::CHAR_COAL), .15f);
+	addFurnaceRecipy(Tile::palmLog_Id, new ItemInstance(Item::coal, 1, CoalItem::CHAR_COAL), .15f);
+	addFurnaceRecipy(Tile::mossyLog_Id, new ItemInstance(Item::coal, 1, CoalItem::CHAR_COAL), .15f);
 	addFurnaceRecipy(Tile::emeraldOre_Id, new ItemInstance(Item::emerald), 1);
 	addFurnaceRecipy(Item::potato_Id, new ItemInstance(Item::potatoBaked), .35f);
 	addFurnaceRecipy(Tile::netherRack_Id, new ItemInstance(Item::netherbrick), .1f);

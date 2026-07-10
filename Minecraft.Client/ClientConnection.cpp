@@ -2651,7 +2651,7 @@ void ClientConnection::handleSetHealth(shared_ptr<SetHealthPacket> packet)
 	minecraft->localplayers[m_userIndex]->getFoodData()->setSaturation(packet->saturation);
 
 	// We need food
-	if(packet->food < FoodConstants::HEAL_LEVEL - 1)
+	if(packet->food < FoodConstants::MAX_FOOD - 1)
 	{
 		if(minecraft->localgameModes[m_userIndex] != nullptr && !minecraft->localgameModes[m_userIndex]->hasInfiniteItems() )
 		{
