@@ -80,6 +80,27 @@ Recipes::Recipes()
 		L'#', new ItemInstance(Tile::treeTrunk, 1, TreeTile::JUNGLE_TRUNK),
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_PINK), //
+		L"sctg",
+		L"#", //
+
+		L'#', Tile::cherryLog,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_YELLOW), //
+		L"sctg",
+		L"#", //
+
+		L'#', Tile::palmLog,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_GREEN), //
+		L"sctg",
+		L"#", //
+
+		L'#', Tile::mossyLog,
+		L'S');
+
 	addShapedRecipy(new ItemInstance(Item::stick, 4), //
 		L"ssctg",
 		L"#", //
