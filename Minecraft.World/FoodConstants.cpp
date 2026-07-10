@@ -32,5 +32,5 @@ const float FoodConstants::EXHAUSTION_MINE = 0.0f;
 const float FoodConstants::EXHAUSTION_ATTACK = 0.0f;
 const float FoodConstants::EXHAUSTION_DAMAGE = 0.0f;
 const float FoodConstants::EXHAUSTION_WALK = 0.0f;
-const float FoodConstants::EXHAUSTION_SPRINT = 0.4f;
-const float FoodConstants::EXHAUSTION_SWIM = 0.15f;
+const float FoodConstants::EXHAUSTION_SPRINT = 0.6f;
+const float FoodConstants::EXHAUSTION_SWIM = 0.3f;
