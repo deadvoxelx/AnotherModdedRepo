@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "../../Minecraft.World/net.minecraft.world.entity.item.h"
 #include "../../Minecraft.World/net.minecraft.world.entity.player.h"
 #include "../../Minecraft.World/net.minecraft.world.level.tile.entity.h"
@@ -4491,6 +4491,18 @@ void CMinecraftApp::loadStringTable()
 		byteArray locFile = m_mediaArchive->getFile(localisationFile);
 		m_stringTable = new StringTable(locFile.data, locFile.length);
 		delete locFile.data;
+
+		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS, L"Colored Planks");
+		m_stringTable->registerString(IDS_TILE_CHERRY_LOG, L"Cherry Log");
+		m_stringTable->registerString(IDS_TILE_LEAVES_CHERRY, L"Cherry Leaves");
+		m_stringTable->registerString(IDS_TILE_LEAVES_PALM, L"Palm Leaves");
+		m_stringTable->registerString(IDS_TILE_PALM_LOG, L"Palm Log");
+		m_stringTable->registerString(IDS_TILE_MOSSY_LOG, L"Mossy Oak Log");
+		m_stringTable->registerString(IDS_FOX, L"Fox");
+		m_stringTable->registerString(IDS_TILE_CHERRY_SAPLING, L"Cherry Sapling");
+		m_stringTable->registerString(IDS_TILE_PALM_SAPLING, L"Palm Sapling");
+		m_stringTable->registerString(IDS_TILE_MOSSY_SAPLING, L"Mossy Oak Sapling");
+		m_stringTable->registerString(IDS_ITEM_CHERRIES, L"Cherries");
 	}
 	else
 	{
