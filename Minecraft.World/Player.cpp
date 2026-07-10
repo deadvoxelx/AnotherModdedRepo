@@ -1001,10 +1001,6 @@ void Player::aiStep()
 {
 	if (jumpTriggerTime > 0) jumpTriggerTime--;
 
-	if (level->difficulty == Difficulty::PEACEFUL && getHealth() < getMaxHealth() && level->getGameRules()->getBoolean(GameRules::RULE_NATURAL_REGENERATION))
-	{
-		if (tickCount % 20 * 12 == 0) heal(1);
-	}
 	inventory->tick();
 	oBob = bob;
 
@@ -1477,7 +1473,6 @@ void Player::actuallyHurt(DamageSource *source, float dmg)
 	setAbsorptionAmount(getAbsorptionAmount() - (originalDamage - dmg));
 	if (dmg == 0) return;
 
-	causeFoodExhaustion(source->getFoodExhaustion());
 	float oldHealth = getHealth();
 	setHealth(getHealth() - dmg);
 	getCombatTracker()->recordDamage(source, oldHealth, dmg);
@@ -1690,8 +1685,6 @@ void Player::attack(shared_ptr<Entity> entity)
 		}
 		if ( entity->instanceof(eTYPE_LIVINGENTITY) )
 		{
-			//awardStat(Stats.damageDealt, (int) Math.round(dmg * 10));
-
 			if (fireAspect > 0 && wasHurt)
 			{
 				entity->setOnFire(fireAspect * 4);
@@ -1701,14 +1694,7 @@ void Player::attack(shared_ptr<Entity> entity)
 				entity->clearFire();
 			}
 		}
-
-		causeFoodExhaustion(FoodConstants::EXHAUSTION_ATTACK);
 	}
-
-	// if (SharedConstants::INGAME_DEBUG_OUTPUT)
-	// {
-	// 		//sendMessage(ChatMessageComponent.forPlainText("DMG " + dmg + ", " + magicBoost + ", " + knockback));
-	// }
 }
 
 void Player::crit(shared_ptr<Entity> entity)
@@ -1723,7 +1709,6 @@ void Player::respawn()
 {
 	deathFadeCounter=0;
 }
-
 
 void Player::animateRespawn(shared_ptr<Player> player, Level *level)
 {
@@ -2083,24 +2068,10 @@ void Player::awardStat(Stat *stat, byteArray paramBlob)
 	}
 }
 
-
 void Player::jumpFromGround()
 {
 	LivingEntity::jumpFromGround();
-
-	// 4J Stu - This seems to have been missed from 1.7.3, but do we care?
-	//awardStat(Stats::jump, 1);
-
-	if (isSprinting())
-	{
-		causeFoodExhaustion(FoodConstants::EXHAUSTION_SPRINT_JUMP);
-	}
-	else
-	{
-		causeFoodExhaustion(FoodConstants::EXHAUSTION_JUMP);
-	}
 }
-
 
 void Player::travel(float xa, float ya)
 {
@@ -2187,10 +2158,6 @@ void Player::checkMovementStatistiscs(double dx, double dy, double dz)
 			if (isSprinting())
 			{
 				causeFoodExhaustion(FoodConstants::EXHAUSTION_SPRINT * horizontalDistance * .01f);
-			}
-			else
-			{
-				causeFoodExhaustion(FoodConstants::EXHAUSTION_WALK * horizontalDistance * .01f);
 			}
 		}
 	}
@@ -2464,7 +2431,7 @@ FoodData *Player::getFoodData()
 
 bool Player::canEat(bool magicalItem)
 {
-	return (magicalItem || foodData.needsFood()) && !abilities.invulnerable && !hasInvulnerablePrivilege();
+	return ( magicalItem || foodData.needsFood() || getHealth() < getMaxHealth() ) && !abilities.invulnerable && !hasInvulnerablePrivilege();
 }
 
 bool Player::isHurt()
@@ -2907,6 +2874,7 @@ bool Player::isAllowedToUse(shared_ptr<ItemInstance> item)
 		case Item::chicken_raw_Id:
 		case Item::melon_Id:
 		case Item::rotten_flesh_Id:
+		case Item::cherries_Id:
 			// bow
 		case Item::bow_Id:
 		case Item::sword_diamond_Id:
