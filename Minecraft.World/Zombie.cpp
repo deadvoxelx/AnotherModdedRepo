@@ -19,19 +19,16 @@
 #include "JavaMath.h"
 #include "SoundTypes.h"
 
- Attribute *Zombie::SPAWN_REINFORCEMENTS_CHANCE = (new RangedAttribute(eAttributeId_ZOMBIE_SPAWNREINFORCEMENTS, 0, 0, 1));
- AttributeModifier *Zombie::SPEED_MODIFIER_BABY = new AttributeModifier(eModifierId_MOB_ZOMBIE_BABYSPEED, 0.5f, AttributeModifier::OPERATION_MULTIPLY_BASE);
+Attribute *Zombie::SPAWN_REINFORCEMENTS_CHANCE = (new RangedAttribute(eAttributeId_ZOMBIE_SPAWNREINFORCEMENTS, 0, 0, 1));
 
 const float Zombie::ZOMBIE_LEADER_CHANCE = 0.05f;
 
-
 Zombie::Zombie(Level *level) : Monster( level )
 {
-	// 4J Stu - This function call had to be moved here from the Entity ctor to ensure that
-	// the derived version of the function is called
 	this->defineSynchedData();
 	registerAttributes();
 	setHealth(getMaxHealth());
+	setSize(0.6f, 1.8f);
 
 	villagerConversionTime = 0;
 
@@ -55,7 +52,6 @@ void Zombie::registerAttributes()
 {
 	Monster::registerAttributes();
 
-	// 4J Stu - Don't make it so far!
 	getAttribute(SharedMonsterAttributes::FOLLOW_RANGE)->setBaseValue(40);
 
 	getAttribute(SharedMonsterAttributes::MOVEMENT_SPEED)->setBaseValue(0.23f);
@@ -68,7 +64,6 @@ void Zombie::defineSynchedData()
 {
 	Monster::defineSynchedData();
 
-	getEntityData()->define(DATA_BABY_ID, static_cast<byte>(0));
 	getEntityData()->define(DATA_VILLAGER_ID, static_cast<byte>(0));
 	getEntityData()->define(DATA_CONVERTING_ID, static_cast<byte>(0));
 }
@@ -85,27 +80,6 @@ bool Zombie::useNewAi()
 	return true;
 }
 
-bool Zombie::isBaby()
-{
-	return getEntityData()->getByte(DATA_BABY_ID) == static_cast<byte>(1);
-}
-
-void Zombie::setBaby(bool baby)
-{
-	getEntityData()->set(DATA_BABY_ID, (byte) (baby ? 1 : 0));
-	updateSize(baby);
-
-	if (level != nullptr && !level->isClientSide)
-	{
-		AttributeInstance *speed = getAttribute(SharedMonsterAttributes::MOVEMENT_SPEED);
-		speed->removeModifier(SPEED_MODIFIER_BABY);
-		if (baby)
-		{
-			speed->addModifier(new AttributeModifier(*SPEED_MODIFIER_BABY));
-		}
-	}
-}
-
 bool Zombie::isVillager()
 {
 	return getEntityData()->getByte(DATA_VILLAGER_ID) == static_cast<byte>(1);
@@ -118,7 +92,7 @@ void Zombie::setVillager(bool villager)
 
 void Zombie::aiStep()
 {
-	if (level->isDay() && !level->isClientSide && !isBaby())
+	if (level->isDay() && !level->isClientSide)
 	{
 		float br = getBrightness(1);
 		if (br > 0.5f && random->nextFloat() * 30 < (br - 0.4f) * 2 && level->canSeeSky(Mth::floor(x), static_cast<int>(floor(y + 0.5)), Mth::floor(z)))
@@ -188,10 +162,8 @@ bool Zombie::hurt(DamageSource *source, float dmg)
 				}
 			}
 		}
-
 		return true;
 	}
-
 	return false;
 }
 
@@ -210,11 +182,6 @@ void Zombie::tick()
 	}
 
 	Monster::tick();
-
-	if (level->isClientSide)
-	{
-		updateSize(isBaby());
-	}
 }
 
 bool Zombie::doHurtTarget(shared_ptr<Entity> target)
@@ -228,14 +195,7 @@ bool Zombie::doHurtTarget(shared_ptr<Entity> target)
 			target->setOnFire(2 * level->difficulty);
 		}
 	}
-
 	return result;
-}
-
-void Zombie::updateSize(bool isBaby)
-{
-	float scale = isBaby ? 0.5f : 1.0f;
-	setSize(0.6f, 1.8f * scale);
 }
 
 int Zombie::getAmbientSound()
@@ -306,7 +266,6 @@ void Zombie::addAdditonalSaveData(CompoundTag *tag)
 {
 	Monster::addAdditonalSaveData(tag);
 
-	if (isBaby()) tag->putBoolean(L"IsBaby", true);
 	if (isVillager()) tag->putBoolean(L"IsVillager", true);
 	tag->putInt(L"ConversionTime", isConverting() ? villagerConversionTime : -1);
 }
@@ -315,7 +274,6 @@ void Zombie::readAdditionalSaveData(CompoundTag *tag)
 {
 	Monster::readAdditionalSaveData(tag);
 
-	if (tag->getBoolean(L"IsBaby")) setBaby(true);
 	if (tag->getBoolean(L"IsVillager")) setVillager(true);
 	if (tag->contains(L"ConversionTime") && tag->getInt(L"ConversionTime") > -1) startConverting(tag->getInt(L"ConversionTime"));
 }
@@ -333,7 +291,6 @@ void Zombie::killed(shared_ptr<LivingEntity> mob)
 		level->removeEntity(mob);
 		zombie->finalizeMobSpawn(nullptr);
 		zombie->setVillager(true);
-		if (mob->isBaby()) zombie->setBaby(true);
 		level->addEntity(zombie);
 
 		level->levelEvent(nullptr, LevelEvent::SOUND_ZOMBIE_INFECTED, static_cast<int>(x), static_cast<int>(y), static_cast<int>(z), 0);
@@ -349,7 +306,7 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 
 	if (groupData == nullptr)
 	{
-		groupData = new ZombieGroupData(level->random->nextFloat() < 0.05f, level->random->nextFloat() < 0.05f);
+		groupData = new ZombieGroupData(level->random->nextFloat() < 0.05f);
 	}
 
 	if ( dynamic_cast<ZombieGroupData *>( groupData ) != nullptr)
@@ -359,11 +316,6 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 		if (zombieData->isVillager)
 		{
 			setVillager(true);
-		}
-
-		if (zombieData->isBaby)
-		{
-			setBaby(true);
 		}
 	}
 
@@ -384,9 +336,6 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 	}
 
 	getAttribute(SharedMonsterAttributes::KNOCKBACK_RESISTANCE)->addModifier(new AttributeModifier(random->nextDouble() * 0.05f, AttributeModifier::OPERATION_ADDITION));
-
-	// 4J Stu - Take this out, it's not good and nobody will notice. Also not great for performance.
-	//getAttribute(SharedMonsterAttributes::FOLLOW_RANGE)->addModifier(new AttributeModifier(random->nextDouble() * 1.50f, AttributeModifier::OPERATION_MULTIPLY_TOTAL));
 
 	if (random->nextFloat() < difficulty * ZOMBIE_LEADER_CHANCE)
 	{
@@ -416,10 +365,8 @@ bool Zombie::mobInteract(shared_ptr<Player> player)
 			// 4J-JEV, award achievement here, as it is impractical to award when the zombie is actually cured.
 			player->awardStat(GenericStats::zombieDoctor(),GenericStats::param_zombieDoctor());
 		}
-
 		return true;
 	}
-
 	return false;
 }
 
@@ -462,7 +409,6 @@ void Zombie::finishConversion()
 	villager->copyPosition(shared_from_this());
 	villager->finalizeMobSpawn(nullptr);
 	villager->setRewardPlayersInVillage();
-	if (isBaby()) villager->setAge(-20 * 60 * 20);
 	level->removeEntity(shared_from_this());
 	level->addEntity(villager);
 
@@ -498,8 +444,7 @@ int Zombie::getConversionProgress()
 	return amount;
 }
 
-Zombie::ZombieGroupData::ZombieGroupData(bool baby, bool villager)
+Zombie::ZombieGroupData::ZombieGroupData(bool villager)
 {
-	isBaby = baby;
 	isVillager = villager;
 }
