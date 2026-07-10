@@ -165,7 +165,7 @@ LevelChunk *ServerChunkCache::create(int x, int z, bool asyncPostProcess)	// 4J 
         }
 		if (chunk != nullptr)
 		{
-			chunk->load();
+			m_toDrop.push_back(chunk);
 		}
 
 		LeaveCriticalSection(&m_csLoadCreate);
