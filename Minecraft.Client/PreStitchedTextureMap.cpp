@@ -1024,6 +1024,6 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(23,	3,	L"palmLog_top");
 		ADD_ICON(23,	4,	L"mossySapling");
 		ADD_ICON(23,	5,	L"mossyLog_side");
-		ADD_ICON(23,	5,	L"mossyLog_top");
+		ADD_ICON(23,	6,	L"mossyLog_top");
 	}
 }
