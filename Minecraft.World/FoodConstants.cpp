@@ -13,7 +13,7 @@ const float FoodConstants::EXHAUSTION_DROP = 4.0f;
 // number of game ticks to change health because of food
 const int FoodConstants::HEALTH_TICK_COUNT = 80;
 
-const int FoodConstants::HEAL_LEVEL = 18;
+//const int FoodConstants::HEAL_LEVEL = 20;
 const int FoodConstants::STARVE_LEVEL = 0;
 
 // some saturation guidelines
@@ -25,12 +25,12 @@ const float FoodConstants::FOOD_SATURATION_MAX = 1.0f;
 const float FoodConstants::FOOD_SATURATION_SUPERNATURAL = 1.2f;
 
 // some exhaustion guidelines
-const float FoodConstants::EXHAUSTION_HEAL = 3.0f;
-const float FoodConstants::EXHAUSTION_JUMP = .2f;
-const float FoodConstants::EXHAUSTION_SPRINT_JUMP = FoodConstants::EXHAUSTION_JUMP * 4;
-const float FoodConstants::EXHAUSTION_MINE = .025f;
-const float FoodConstants::EXHAUSTION_ATTACK = .3f;
-const float FoodConstants::EXHAUSTION_DAMAGE = .1f;
-const float FoodConstants::EXHAUSTION_WALK = .010f;
-const float FoodConstants::EXHAUSTION_SPRINT = FoodConstants::EXHAUSTION_WALK * 10;
-const float FoodConstants::EXHAUSTION_SWIM = .015f;
+const float FoodConstants::EXHAUSTION_HEAL = 0.0f;
+const float FoodConstants::EXHAUSTION_JUMP = 0.0f;
+const float FoodConstants::EXHAUSTION_SPRINT_JUMP = FoodConstants::EXHAUSTION_SPRINT;
+const float FoodConstants::EXHAUSTION_MINE = 0.0f;
+const float FoodConstants::EXHAUSTION_ATTACK = 0.0f;
+const float FoodConstants::EXHAUSTION_DAMAGE = 0.0f;
+const float FoodConstants::EXHAUSTION_WALK = 0.0f;
+const float FoodConstants::EXHAUSTION_SPRINT = 0.4f;
+const float FoodConstants::EXHAUSTION_SWIM = 0.15f;
