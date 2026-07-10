@@ -509,7 +509,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(10,	3,	L"name_tag")
 		ADD_ICON(10,	4,	L"lead")
 		ADD_ICON(10,	5,	L"netherbrick")
-		//ADD_ICON(10,	6,	L"unused")
+		ADD_ICON(10,	6,	L"cherries")
 		ADD_ICON(10,	7,	L"minecart_furnace")
 		ADD_ICON(10,	8,	L"charcoal")
 		ADD_ICON(10,	9,	L"monsterPlacer_overlay")
@@ -921,10 +921,10 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(16,	0,	L"coal_block");
 		ADD_ICON(16,	1,	L"hardened_clay");
 		ADD_ICON(16,	2,	L"noteblock");
-		//ADD_ICON(16,	3,	L"unused");
-		//ADD_ICON(16,	4,	L"unused");
-		//ADD_ICON(16,	5,	L"unused");
-		//ADD_ICON(16,	6,	L"unused");
+		ADD_ICON(16,	3,	L"cherrySapling");
+		ADD_ICON(16,	4,	L"cherryLeaves");
+		ADD_ICON(16,	5,	L"cherryLog_side");
+		ADD_ICON(16,	6,	L"cherryLog_top");
 		//ADD_ICON(16,	7,	L"unused");
 		//ADD_ICON(16,	8,	L"unused");
 		ADD_ICON(16,	9,	L"potatoes_stage_0");
@@ -985,5 +985,45 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(19,	13,	L"glass_pane_top_silver");
 		ADD_ICON(19,	14,	L"glass_pane_top_white");
 		ADD_ICON(19,	15,	L"glass_pane_top_yellow");
+
+		ADD_ICON(20,	0,	L"planks_black");
+		ADD_ICON(20,	1,	L"planks_blue");
+		ADD_ICON(20,	2,	L"planks_brown");
+		ADD_ICON(20,	3,	L"planks_cyan");
+		ADD_ICON(20,	4,	L"planks_gray");
+		ADD_ICON(20,	5,	L"planks_green");
+		ADD_ICON(20,	6,	L"planks_light_blue");
+		ADD_ICON(20,	7,	L"planks_lime");
+		ADD_ICON(20,	8,	L"planks_magenta");
+		ADD_ICON(20,	9,	L"planks_orange");
+		ADD_ICON(20,	10,	L"planks_pink");
+		ADD_ICON(20,	11,	L"planks_purple");
+		ADD_ICON(20,	12,	L"planks_red");
+		ADD_ICON(20,	13,	L"planks_silver");
+		ADD_ICON(20,	14,	L"planks_white");
+		ADD_ICON(20,	15,	L"planks_yellow");
+
+		ADD_ICON(21,	0,	L"door_spruce_upper");
+		ADD_ICON(21,	1,	L"door_birch_upper");
+		ADD_ICON(21,	2,	L"door_jungle_upper");
+		ADD_ICON(21,	3,	L"door_pink_upper");
+		ADD_ICON(21,	4,	L"door_yellow_upper");
+		ADD_ICON(21,	5,	L"door_green_upper");
+
+
+		ADD_ICON(22,	0,	L"door_spruce_lower");
+		ADD_ICON(22,	1,	L"door_birch_lower");
+		ADD_ICON(22,	2,	L"door_jungle_lower");
+		ADD_ICON(22,	3,	L"door_pink_lower");
+		ADD_ICON(22,	4,	L"door_yellow_lower");
+		ADD_ICON(22,	5,	L"door_green_lower");
+
+		ADD_ICON(23,	0,	L"palmSapling");
+		ADD_ICON(23,	1,	L"palmLeaves");
+		ADD_ICON(23,	2,	L"palmLog_side");
+		ADD_ICON(23,	3,	L"palmLog_top");
+		ADD_ICON(23,	4,	L"mossySapling");
+		ADD_ICON(23,	5,	L"mossyLog_side");
+		ADD_ICON(23,	5,	L"mossyLog_top");
 	}
 }
