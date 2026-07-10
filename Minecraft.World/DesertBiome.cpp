@@ -6,10 +6,9 @@
 
 DesertBiome::DesertBiome(int id) : Biome(id)
 {
-	// remove default mob spawn settings
 	friendlies.clear();
-	friendlies_chicken.clear();	// 4J added
-	friendlies_wolf.clear(); 	// 4J added
+	friendlies_chicken.clear();
+	friendlies_wolf.clear();
 	topMaterial = static_cast<BYTE>(Tile::sand_Id);
 	material = static_cast<BYTE>(Tile::sand_Id);
 
@@ -23,11 +22,23 @@ void DesertBiome::decorate(Level *level, Random *random, int xo, int zo)
 {
 	Biome::decorate(level, random, xo, zo);
 
-	if (random->nextInt(1000) == 0)
+	if (random->nextInt(250) == 0)
 	{
 		int x = xo + random->nextInt(16) + 8;
 		int z = zo + random->nextInt(16) + 8;
 		Feature *well = new DesertWellFeature();
 		well->place(level, random, x, level->getHeightmap(x, z) + 1, z);
 	}
+
+	PIXBeginNamedEvent(0, "Palm Trees");
+	PalmTreeFeature *palm = new PalmTreeFeature(false);
+
+	for (int i = 0; i < 10; i++)
+	{
+		int x = xo + random->nextInt(16) + 8;
+		int y = 63 + random->nextInt(3);
+		int z = zo + random->nextInt(16) + 8;
+		palm->place(level, random, x, y, z);
+	}
+	PIXEndNamedEvent();
 }
