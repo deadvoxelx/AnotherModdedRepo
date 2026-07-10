@@ -2,7 +2,8 @@
 
 using namespace std;
 
-#include "Animal.h"
+#include "Animal.h",
+#include "SharedConstants.h"
 
 class Player;
 class Level;
@@ -13,9 +14,21 @@ public:
 	eINSTANCEOF GetType() { return eTYPE_COW; }
 	static Entity *create(Level *level) { return new Cow(level); }
 
+	static const int TYPE_DEFAULT = 0;
+	static const int TYPE_BLACK= 1;
+	static const int TYPE_INVERT = 2;
+	static const int TYPE_PINK = 3;
+
+private:
+	static const int DATA_TYPE_ID = 14;
+
 public:
 	Cow(Level *level);
 	virtual bool useNewAi();
+
+	virtual MobGroupData *finalizeMobSpawn(MobGroupData *groupData, int extraData = 0);
+	virtual int getCowType();
+	virtual void setCowType(int type);
 
 protected:
 	virtual void registerAttributes();
@@ -27,7 +40,12 @@ protected:
 	virtual void playStepSound(int xt, int yt, int zt, int t);
 	virtual void dropDeathLoot(bool wasKilledByPlayer, int playerBonusLevel);
 
+	virtual void defineSynchedData();
+
 public:
 	virtual bool mobInteract(shared_ptr<Player> player);
 	virtual shared_ptr<AgableMob> getBreedOffspring(shared_ptr<AgableMob> target);
+
+	virtual void readAdditionalSaveData(CompoundTag *tag);
+	virtual void addAdditonalSaveData(CompoundTag *entityTag);
 };
