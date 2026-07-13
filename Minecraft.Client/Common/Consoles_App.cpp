@@ -4520,6 +4520,8 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_PURPLE, L"Purple Planks");
 		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_MAGENTA, L"Magenta Planks");
 		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_PINK, L"Pink Planks");
+
+		m_stringTable->registerString(IDS_TILE_DOOR_GOLD, L"Gold Door");
 	}
 	else
 	{

@@ -369,11 +369,28 @@ public:
 	static const int cherrySapling_Id = 166;
 	static const int palmSapling_Id = 167;
 	static const int mossySapling_Id = 168;
+	static const int trapdoorIron_Id = 169;
 
 	static const int hayBlock_Id = 170;
 	static const int woolCarpet_Id = 171;
 	static const int clayHardened_Id = 172;
 	static const int coalBlock_Id = 173;
+
+	static const int trapdoorSpruce_Id = 174;
+	static const int trapdoorBirch_Id = 175;
+	static const int trapdoorJungle_Id = 176;
+	static const int trapdoorPink_Id = 177;
+	static const int trapdoorYellow_Id = 178;
+	static const int trapdoorGreen_Id = 179;
+	static const int trapdoorGold_Id = 180;
+
+	static const int doorSpruce_Id = 181;
+	static const int doorBirch_Id = 182;
+	static const int doorJungle_Id = 183;
+	static const int doorPink_Id = 184;
+	static const int doorYellow_Id = 185;
+	static const int doorGreen_Id = 186;
+	static const int doorGold_Id = 187;
 
 
 	static Tile *stone;
@@ -554,11 +571,28 @@ public:
 	static Tile *cherrySapling;
 	static Tile *palmSapling;
 	static Tile *mossySapling;
+	static Tile *trapdoorIron;
 
 	static Tile *hayBlock;
 	static Tile *woolCarpet;
 	static Tile *clayHardened;
 	static Tile *coalBlock;
+
+	static Tile *trapdoorSpruce;
+	static Tile *trapdoorBirch;
+	static Tile *trapdoorJungle;
+	static Tile *trapdoorPink;
+	static Tile *trapdoorYellow;
+	static Tile *trapdoorGreen;
+	static Tile *trapdoorGold;
+
+	static Tile *doorSpruce;
+	static Tile *doorBirch;
+	static Tile *doorJungle;
+	static Tile *doorPink;
+	static Tile *doorYellow;
+	static Tile *doorGreen;
+	static Tile *doorGold;
 
 	static void staticCtor();
 

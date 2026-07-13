@@ -252,6 +252,13 @@ Item *Item::lead = nullptr;
 Item *Item::nameTag = nullptr;
 
 Item *Item::cherries = nullptr;
+Item *Item::door_spruce = nullptr;
+Item *Item::door_birch = nullptr;
+Item *Item::door_jungle = nullptr;
+Item *Item::door_pink = nullptr;
+Item *Item::door_yellow = nullptr;
+Item *Item::door_green = nullptr;
+Item *Item::door_gold = nullptr;
 
 void Item::staticCtor()
 {
@@ -285,8 +292,8 @@ void Item::staticCtor()
 	Item::hoe_diamond		= ( new HoeItem(37, _Tier::DIAMOND) )		->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_diamond)	->setIconName(L"hoeDiamond")->setDescriptionId(IDS_ITEM_HOE_DIAMOND)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::hoe_gold			= ( new HoeItem(38, _Tier::GOLD) )			->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_gold)		->setIconName(L"hoeGold")->setDescriptionId(IDS_ITEM_HOE_GOLD)->setUseDescriptionId(IDS_DESC_HOE);
 
-	Item::door_wood			= ( new DoorItem(68, Material::wood) )		->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorWood")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
-	Item::door_iron			= ( new DoorItem(74, Material::metal) )		->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_iron)->setIconName(L"doorIron")->setDescriptionId(IDS_ITEM_DOOR_IRON)->setUseDescriptionId(IDS_DESC_DOOR_IRON);
+	Item::door_wood			= ( new DoorItem(68, Material::wood, L"doorWood") )		->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorWood")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_iron			= ( new DoorItem(74, Material::metal, L"doorIron") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_iron)->setIconName(L"doorIron")->setDescriptionId(IDS_ITEM_DOOR_IRON)->setUseDescriptionId(IDS_DESC_DOOR_IRON);
 
 	Item::helmet_leather		= static_cast<ArmorItem *>((new ArmorItem(42, ArmorItem::ArmorMaterial::CLOTH, 0, ArmorItem::SLOT_HEAD))->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_cloth)->setIconName(L"helmetCloth")->setDescriptionId(IDS_ITEM_HELMET_CLOTH)->setUseDescriptionId(IDS_DESC_HELMET_LEATHER));
 	Item::helmet_iron		= static_cast<ArmorItem *>((new ArmorItem(50, ArmorItem::ArmorMaterial::IRON, 2, ArmorItem::SLOT_HEAD))->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_iron)->setIconName(L"helmetIron")->setDescriptionId(IDS_ITEM_HELMET_IRON)->setUseDescriptionId(IDS_DESC_HELMET_IRON));
@@ -495,8 +502,16 @@ void Item::staticCtor()
 	Item::lead = (new LeashItem(164))																->setBaseItemTypeAndMaterial(eBaseItemType_pockettool,	eMaterial_undefined)->setIconName(L"lead")->setDescriptionId(IDS_ITEM_LEAD)->setUseDescriptionId(IDS_DESC_LEAD);
 	Item::nameTag = (new NameTagItem(165))															->setIconName(L"name_tag")->setDescriptionId(IDS_ITEM_NAME_TAG)->setUseDescriptionId(IDS_DESC_NAME_TAG);
 	Item::cherries = ( new FoodItem(166, 2, FoodConstants::FOOD_SATURATION_LOW, false) )			->setIconName(L"cherries")->setDescriptionId(IDS_ITEM_CHERRIES)->setUseDescriptionId(IDS_ITEM_CHERRIES)->setMaxStackSize(16);
-}
 
+	Item::door_spruce = ( new DoorItem(167, Material::wood, L"doorSpruce") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorSpruce")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_birch = ( new DoorItem(168, Material::wood, L"doorBirch") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorBirch")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_jungle = ( new DoorItem(169, Material::wood, L"doorJungle") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorJungle")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_pink = ( new DoorItem(170, Material::wood, L"doorPink") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorPink")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_yellow = ( new DoorItem(171, Material::wood, L"doorYellow") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorYellow")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_green = ( new DoorItem(172, Material::wood, L"doorGreen") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorGreen")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
+	Item::door_gold = ( new DoorItem(173, Material::metal, L"doorGold") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_gold)->setIconName(L"doorGold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setUseDescriptionId(IDS_TILE_DOOR_GOLD);
+
+}
 
 // 4J Stu - We need to do this after the staticCtor AND after staticCtors for other class
 // eg Recipes

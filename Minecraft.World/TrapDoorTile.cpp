@@ -103,7 +103,7 @@ bool TrapDoorTile::TestUse()
 
 bool TrapDoorTile::use(Level *level, int x, int y, int z, shared_ptr<Player> player, int clickedFace, float clickX, float clickY, float clickZ, bool soundOnly/*=false*/) // 4J added soundOnly param
 {
-	if (material == Material::metal) return true;
+	if (id == Tile::trapdoorIron_Id) return false;
 
 	if (soundOnly)
 	{

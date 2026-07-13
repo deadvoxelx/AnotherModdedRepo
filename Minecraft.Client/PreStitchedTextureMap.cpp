@@ -554,6 +554,14 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(12,	14,	L"frame")
 		ADD_ICON(12,	15,	L"enchantedBook")
 
+		ADD_ICON(13,	0,	L"doorSpruce")
+		ADD_ICON(13,	1,	L"doorBirch")
+		ADD_ICON(13,	2,	L"doorJungle")
+		ADD_ICON(13,	3,	L"doorPink")
+		ADD_ICON(13,	4,	L"doorYellow")
+		ADD_ICON(13,	5,	L"doorGreen")
+		ADD_ICON(13,	6,	L"doorGold")
+
 		ADD_ICON(14,	0,	L"skull_skeleton")
 		ADD_ICON(14,	1,	L"skull_wither")
 		ADD_ICON(14,	2,	L"skull_zombie")
@@ -925,8 +933,8 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(16,	4,	L"cherryLeaves");
 		ADD_ICON(16,	5,	L"cherryLog_side");
 		ADD_ICON(16,	6,	L"cherryLog_top");
-		//ADD_ICON(16,	7,	L"unused");
-		//ADD_ICON(16,	8,	L"unused");
+		ADD_ICON(16,	7,	L"trapdoorIron");
+		ADD_ICON(16,	8,	L"trapdoorGold");
 		ADD_ICON(16,	9,	L"potatoes_stage_0");
 		ADD_ICON(16,	10,	L"potatoes_stage_1");
 		ADD_ICON(16,	11,	L"potatoes_stage_2");
@@ -1025,5 +1033,14 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(23,	4,	L"mossySapling");
 		ADD_ICON(23,	5,	L"mossyLog_side");
 		ADD_ICON(23,	6,	L"mossyLog_top");
+		ADD_ICON(23,	7,	L"door_gold_upper");
+		ADD_ICON(23,	8,	L"door_gold_lower");
+
+		ADD_ICON(24,	0,	L"trapdoorSpruce");
+		ADD_ICON(24,	1,	L"trapdoorBirch");
+		ADD_ICON(24,	2,	L"trapdoorJungle");
+		ADD_ICON(24,	3,	L"trapdoorPink");
+		ADD_ICON(24,	4,	L"trapdoorYellow");
+		ADD_ICON(24,	5,	L"trapdoorGreen");
 	}
 }

@@ -2325,3 +2325,4 @@
 #define IDS_TILE_COLORED_PLANKS_PURPLE			               2319
 #define IDS_TILE_COLORED_PLANKS_MAGENTA			               2320
 #define IDS_TILE_COLORED_PLANKS_PINK			               2321
+#define IDS_TILE_DOOR_GOLD									   2322
