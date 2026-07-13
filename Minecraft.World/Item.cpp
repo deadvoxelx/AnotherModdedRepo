@@ -509,7 +509,7 @@ void Item::staticCtor()
 	Item::door_jungle = ( new DoorItem(170, Material::wood, L"doorPink") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorPink")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_jungle = ( new DoorItem(171, Material::wood, L"doorYellow") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorYellow")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_jungle = ( new DoorItem(172, Material::wood, L"doorGreen") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorGreen")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
-	Item::door_gold = ( new DoorItem(173, Material::metal, L"doorGold") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_gold)->setIconName(L"doorGold")->setDescriptionId(IDS_ITEM_DOOR_IRON)->setUseDescriptionId(IDS_DESC_DOOR_IRON);
+	Item::door_gold = ( new DoorItem(173, Material::metal, L"doorGold") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_gold)->setIconName(L"doorGold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setUseDescriptionId(IDS_TILE_DOOR_GOLD);
 
 }
 
