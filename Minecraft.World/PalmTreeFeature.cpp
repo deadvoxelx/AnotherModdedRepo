@@ -1,6 +1,7 @@
 #include "PalmTreeFeature.h"
 #include "net.minecraft.world.level.h"
 #include "net.minecraft.world.level.material.h"
+#include "net.minecraft.world.level.biome.h"
 #include "net.minecraft.world.level.tile.h"
 
 PalmTreeFeature::PalmTreeFeature(bool doUpdate) : Feature(doUpdate)
@@ -14,6 +15,17 @@ bool PalmTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 	int baseHeight = 5 + random->nextInt(3);
 	int midHeight = 2 + random->nextInt(2);
 	int topHeight = 1 + random->nextInt(1);
+
+	for (int xx = -8; xx <= 8; xx++)
+	{
+		for (int zz = -8; zz <= 8; zz++)
+		{
+			if (level->getBiome(xx, zz)->hasSnow())
+			{
+				return false;
+			}
+		}
+	}
 
 	if ((belowTile == Tile::grass_Id || belowTile == Tile::sand_Id || belowTile == Tile::dirt_Id) && (thisTile == 0 || thisTile == Tile::tallgrass_Id || thisTile == Tile::leaves_Id || thisTile == Tile::leaves2_Id))
 	{
