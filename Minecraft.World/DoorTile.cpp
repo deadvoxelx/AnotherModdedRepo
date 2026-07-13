@@ -8,18 +8,21 @@
 #include "net.minecraft.world.h"
 #include "net.minecraft.h"
 
-const wstring DoorTile::TEXTURES[] = { L"doorWood_lower", L"doorWood_upper", L"doorIron_lower", L"doorIron_upper" };
+static std::map<wstring, Item*> doorItemMap = {
+	{ L"doorWood",   Item::door_wood   },
+	{ L"doorIron",   Item::door_iron   },
+	{ L"doorSpruce", Item::door_spruce },
+	{ L"doorBirch",	 Item::door_birch  },
+	{ L"doorJungle", Item::door_jungle },
+	{ L"doorPink",   Item::door_pink   },
+	{ L"doorYellow", Item::door_yellow },
+	{ L"doorGreen",  Item::door_green  },
+	{ L"doorGold",   Item::door_gold   }
+};
 
-DoorTile::DoorTile(int id, Material *material) : Tile(id, material,isSolidRender())
+DoorTile::DoorTile(int id, Material *material, const wstring& doorType) : Tile(id, material,isSolidRender())
 {
-	if (material == Material::metal)
-	{
-		texBase = 2;
-	}
-	else
-	{
-		texBase = 0;
-	}
+	this->doorType = doorType;
 
 	float r = 0.5f;
 	float h = 1.0f;
@@ -187,14 +190,33 @@ bool DoorTile::use(Level *level, int x, int y, int z, shared_ptr<Player> player,
 	if (soundOnly)
 	{
 		// 4J - added - just do enough to play the sound
-		if (material != Material::metal)
+		if (id != Tile::door_iron_Id)
 		{
 			level->levelEvent(player, LevelEvent::SOUND_OPEN_DOOR, x, y, z, 0);
 		}
 		return false;
 	}
 
-	if (material == Material::metal) return false;
+	if (id == Tile::door_iron_Id) return false;
+
+	if (id == Tile::doorGold_Id)
+	{
+		if (!level->hasNeighborSignal(x, y, z) && !level->hasNeighborSignal(x, y + 1, z))
+		{
+			if (!isOpen(level, x, y, z))
+			{
+				C_OPEN_MASK == 1;
+				setOpen(level, x, y, z, true);
+			}
+			else
+			{
+				C_OPEN_MASK == 0;
+				setOpen(level, x, y, z, false);
+			}
+			return true;
+		}
+		return false;
+	}
 
 	int compositeData = getCompositeData(level, x, y, z);
 	int lowerData = compositeData & C_LOWER_DATA_MASK;
@@ -268,7 +290,10 @@ void DoorTile::neighborChanged(Level *level, int x, int y, int z, int type)
 			bool signal = level->hasNeighborSignal(x, y, z) || level->hasNeighborSignal(x, y + 1, z);
 			if ((signal || (type > 0 && Tile::tiles[type]->isSignalSource())) && type != id)
 			{
-				setOpen(level, x, y, z, signal);
+				if (id != Tile::doorGold_Id)
+				{
+					setOpen(level, x, y, z, signal);
+				}
 			}
 		}
 	}
@@ -288,8 +313,7 @@ void DoorTile::neighborChanged(Level *level, int x, int y, int z, int type)
 int DoorTile::getResource(int data, Random *random, int playerBonusLevel)
 {
 	if ((data & 8) != 0) return 0;
-	if (material == Material::metal) return Item::door_iron->id;
-	return Item::door_wood->id;
+	return doorItemMap[doorType]->id;
 }
 
 HitResult *DoorTile::clip(Level *level, int xt, int yt, int zt, Vec3 *a, Vec3 *b)
@@ -339,7 +363,21 @@ int DoorTile::getCompositeData(LevelSource *level, int x, int y, int z)
 
 int DoorTile::cloneTileId(Level *level, int x, int y, int z)
 {
-	return material == Material::metal ? Item::door_iron_Id : Item::door_wood_Id;
+	return id == Tile::door_iron_Id ? Item::door_iron_Id : 
+		(id == Tile::doorGold_Id ? Item::door_gold_Id : 
+		(id == Tile::doorSpruce_Id ? Item::door_spruce_Id : 
+		(id == Tile::doorBirch_Id ? Item::door_birch_Id : 
+		(id == Tile::doorJungle_Id ? Item::door_jungle_Id : 
+		(id == Tile::doorPink_Id ? Item::door_pink_Id : 
+		(id == Tile::doorYellow_Id ? Item::door_yellow_Id : 
+		(id == Tile::doorGreen_Id ? Item::door_green_Id : Item::door_wood_Id
+		)
+		)
+		)
+		)
+		)
+		)
+		);
 }
 
 void DoorTile::playerWillDestroy(Level *level, int x, int y, int z, int data, shared_ptr<Player> player)
