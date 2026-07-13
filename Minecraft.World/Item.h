@@ -416,6 +416,14 @@ public:
 	static Item *nameTag;
 	static Item *cherries;
 
+	static Item *door_spruce;
+	static Item *door_birch;
+	static Item *door_jungle;
+	static Item *door_pink;
+	static Item *door_yellow;
+	static Item *door_green;
+	static Item *door_gold;
+
 
 	static const int shovel_iron_Id			= 256;
 	static const int pickAxe_iron_Id		= 257;
@@ -622,6 +630,14 @@ public:
 	static const int lead_Id = 420;
 	static const int nameTag_Id = 421;
 	static const int cherries_Id = 422;
+
+	static const int door_spruce_Id = 423;
+	static const int door_birch_Id = 424;
+	static const int door_jungle_Id = 425;
+	static const int door_pink_Id = 426;
+	static const int door_yellow_Id = 427;
+	static const int door_green_Id = 428;
+	static const int door_gold_Id = 429;
 
 public:
 	const int id;
