@@ -557,8 +557,6 @@ void BiomeSource::getFracs(intArray indices, float *fracs)
 	}
 }
 
-
-
 // 4J added - determine if this particular set of fractional amounts of biome types matches are requirements
 bool BiomeSource::getIsMatch(float *frac)
 {
@@ -590,15 +588,14 @@ bool BiomeSource::getIsMatch(float *frac)
 		true,	// cherry forest
 	};
 
-
 	// Don't want more than 15% ocean
 	if( frac[0] > 0.15f )
 	{
 		return false;
 	}
 
-	// Don't want more than 15% cherry forest
-	if( frac[0] > 0.15f )
+	// Don't want more than 10% cherry forest
+	if( frac[23] > 0.10f )
 	{
 		return false;
 	}
