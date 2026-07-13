@@ -12,9 +12,10 @@ using namespace std;
 #include "GenericStats.h"
 #include "DoorItem.h"
 
-DoorItem::DoorItem(int id, Material *material) :  Item(id)
+DoorItem::DoorItem(int id, Material *material, const wstring& doorType) : Item(id)
 {
 	this->material = material;
+	this->doorType = doorType;
 	maxStackSize = 1;
 }
 
@@ -25,8 +26,15 @@ bool DoorItem::useOn(shared_ptr<ItemInstance> instance, shared_ptr<Player> playe
 
 	Tile *tile;
 
-	if (material == Material::wood) tile = Tile::door_wood;
-	else tile = Tile::door_iron;
+	if		(doorType == L"doorWood")		tile = Tile::door_wood;
+	else if (doorType == L"doorSpruce")		tile = Tile::doorSpruce;
+	else if (doorType == L"doorBirch")		tile = Tile::doorBirch;
+	else if (doorType == L"doorJungle")		tile = Tile::doorJungle;
+	else if (doorType == L"doorPink")		tile = Tile::doorPink;
+	else if (doorType == L"doorYellow")		tile = Tile::doorYellow;
+	else if (doorType == L"doorGreen")		tile = Tile::doorGreen;
+	else if (doorType == L"doorIron")		tile = Tile::door_iron;
+	else if (doorType == L"doorGold")		tile = Tile::doorGold;
 
 	if (!player->mayUseItemAt(x, y, z, face, instance) || !player->mayUseItemAt(x, y + 1, z, face, instance)) return false;
 	if (!tile->mayPlace(level, x, y, z)) return false;
@@ -46,14 +54,12 @@ bool DoorItem::useOn(shared_ptr<ItemInstance> instance, shared_ptr<Player> playe
 
 void DoorItem::place(Level *level, int x, int y, int z, int dir, Tile *tile)
 {
-
 	int xra = 0;
 	int zra = 0;
 	if (dir == 0) zra = +1;
 	if (dir == 1) xra = -1;
 	if (dir == 2) zra = -1;
 	if (dir == 3) xra = +1;
-
 
 	int solidLeft = (level->isSolidBlockingTile(x - xra, y, z - zra) ? 1 : 0) + (level->isSolidBlockingTile(x - xra, y + 1, z - zra) ? 1 : 0);
 	int solidRight = (level->isSolidBlockingTile(x + xra, y, z + zra) ? 1 : 0) + (level->isSolidBlockingTile(x + xra, y + 1, z + zra) ? 1 : 0);
@@ -70,4 +76,3 @@ void DoorItem::place(Level *level, int x, int y, int z, int dir, Tile *tile)
 	level->updateNeighborsAt(x, y, z, tile->id);
 	level->updateNeighborsAt(x, y + 1, z, tile->id);
 }
-
