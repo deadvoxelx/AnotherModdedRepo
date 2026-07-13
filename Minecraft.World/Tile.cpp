@@ -497,7 +497,7 @@ void Tile::staticCtor()
 	Tile::doorPink = (new DoorTile(184, Material::wood, L"doorPink"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_pink")->setDescriptionId(IDS_TILE_DOOR_WOOD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Tile::doorYellow = (new DoorTile(185, Material::wood, L"doorYellow"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_yellow")->setDescriptionId(IDS_TILE_DOOR_WOOD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Tile::doorGreen = (new DoorTile(186, Material::wood, L"doorGreen"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_green")->setDescriptionId(IDS_TILE_DOOR_WOOD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
-	Tile::doorGold = (new DoorTile(187, Material::metal, L"doorGold"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_gold")->setDescriptionId(IDS_TILE_DOOR_IRON)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_DESC_DOOR_IRON)->disableMipmap();
+	Tile::doorGold = (new DoorTile(187, Material::metal, L"doorGold"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_gold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_TILE_DOOR_GOLD)->disableMipmap();
 
 
 	// Special cases for certain items since they can have different icons
