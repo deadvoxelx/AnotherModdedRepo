@@ -4526,6 +4526,7 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_GRANITE, L"Granite");
 		m_stringTable->registerString(IDS_TILE_NETHER_COAL_ORE, L"Nether Coal Ore");
 		m_stringTable->registerString(IDS_ITEM_NETHER_COAL, L"Nether Coal");
+		m_stringTable->registerString(IDS_TILE_NETHERRACK, L"Cobbled Netherrack");
 	}
 	else
 	{
