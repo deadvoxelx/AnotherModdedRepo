@@ -2331,3 +2331,5 @@
 #define IDS_TILE_NETHER_COAL_ORE							   2325
 #define IDS_ITEM_NETHER_COAL								   2326
 #define IDS_TILE_NETHERRACK									   2327
+#define IDS_TILE_LIMESTONE_COBBLED							   2328
+#define IDS_TILE_GRANITE_COBBLED							   2329
