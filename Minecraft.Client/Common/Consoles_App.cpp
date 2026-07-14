@@ -4522,6 +4522,10 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_COLORED_PLANKS_PINK, L"Pink Planks");
 
 		m_stringTable->registerString(IDS_TILE_DOOR_GOLD, L"Gold Door");
+		m_stringTable->registerString(IDS_TILE_LIMESTONE, L"Limestone");
+		m_stringTable->registerString(IDS_TILE_GRANITE, L"Granite");
+		m_stringTable->registerString(IDS_TILE_NETHER_COAL_ORE, L"Nether Coal Ore");
+		m_stringTable->registerString(IDS_ITEM_NETHER_COAL, L"Nether Coal");
 	}
 	else
 	{
