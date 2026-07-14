@@ -1043,6 +1043,7 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(24,	7,	L"door_gold_upper");
 		ADD_ICON(24,	8,	L"door_gold_lower");
 		ADD_ICON(24,	9,	L"netherCoalOre");
+		ADD_ICON(24,	10,	L"netherrackSmooth");
 
 		ADD_ICON(25,	0,	L"limestone");
 		ADD_ICON(25,	1,	L"limestoneCoal");
