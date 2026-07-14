@@ -545,7 +545,7 @@ void PreStitchedTextureMap::loadUVs()
 		//ADD_ICON(12,	5,	L"unused")
 		//ADD_ICON(12,	6,	L"unused")
 		ADD_ICON(12,	7,	L"minecart_tnt")
-		//ADD_ICON(12,	8,	L"unused")
+		ADD_ICON(12,	8,	L"netherCoal")
 		ADD_ICON(12,	9,	L"fireworks")
 		ADD_ICON(12,	10,	L"fireworks_charge")
 		ADD_ICON(12,	11,	L"fireworks_charge_overlay")
@@ -1026,21 +1026,39 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(22,	4,	L"door_yellow_lower");
 		ADD_ICON(22,	5,	L"door_green_lower");
 
-		ADD_ICON(23,	0,	L"palmSapling");
-		ADD_ICON(23,	1,	L"palmLeaves");
-		ADD_ICON(23,	2,	L"palmLog_side");
-		ADD_ICON(23,	3,	L"palmLog_top");
-		ADD_ICON(23,	4,	L"mossySapling");
-		ADD_ICON(23,	5,	L"mossyLog_side");
-		ADD_ICON(23,	6,	L"mossyLog_top");
-		ADD_ICON(23,	7,	L"door_gold_upper");
-		ADD_ICON(23,	8,	L"door_gold_lower");
+		ADD_ICON(23,	0,	L"trapdoorSpruce");
+		ADD_ICON(23,	1,	L"trapdoorBirch");
+		ADD_ICON(23,	2,	L"trapdoorJungle");
+		ADD_ICON(23,	3,	L"trapdoorPink");
+		ADD_ICON(23,	4,	L"trapdoorYellow");
+		ADD_ICON(23,	5,	L"trapdoorGreen");
 
-		ADD_ICON(24,	0,	L"trapdoorSpruce");
-		ADD_ICON(24,	1,	L"trapdoorBirch");
-		ADD_ICON(24,	2,	L"trapdoorJungle");
-		ADD_ICON(24,	3,	L"trapdoorPink");
-		ADD_ICON(24,	4,	L"trapdoorYellow");
-		ADD_ICON(24,	5,	L"trapdoorGreen");
+		ADD_ICON(24,	0,	L"palmSapling");
+		ADD_ICON(24,	1,	L"palmLeaves");
+		ADD_ICON(24,	2,	L"palmLog_side");
+		ADD_ICON(24,	3,	L"palmLog_top");
+		ADD_ICON(24,	4,	L"mossySapling");
+		ADD_ICON(24,	5,	L"mossyLog_side");
+		ADD_ICON(24,	6,	L"mossyLog_top");
+		ADD_ICON(24,	7,	L"door_gold_upper");
+		ADD_ICON(24,	8,	L"door_gold_lower");
+		ADD_ICON(24,	9,	L"netherCoalOre");
+
+		ADD_ICON(25,	0,	L"limestone");
+		ADD_ICON(25,	1,	L"limestoneCoal");
+		ADD_ICON(25,	2,	L"limestoneLapis");
+		ADD_ICON(25,	3,	L"limestoneIron");
+		ADD_ICON(25,	4,	L"limestoneGold");
+		ADD_ICON(25,	5,	L"limestoneRedstone");
+		ADD_ICON(25,	6,	L"limestoneDiamond");
+		ADD_ICON(25,	7,	L"limestoneCobbled");
+		ADD_ICON(25,	8,	L"granite");
+		ADD_ICON(25,	9,	L"graniteCoal");
+		ADD_ICON(25,	10,	L"graniteLapis");
+		ADD_ICON(25,	11,	L"graniteIron");
+		ADD_ICON(25,	12,	L"graniteGold");
+		ADD_ICON(25,	13,	L"graniteRedstone");
+		ADD_ICON(25,	14,	L"graniteDiamond");
+		ADD_ICON(25,	15,	L"graniteCobbled");
 	}
 }
