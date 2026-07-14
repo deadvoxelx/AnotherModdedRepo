@@ -821,6 +821,14 @@ Recipes::Recipes()
 		L'#', Item::stick,
 		L'T');
 
+	addShapedRecipy(new ItemInstance(Tile::torch, 8), //
+		L"sscicig",
+		L"X", //
+		L"#", //
+		L'X', Item::netherCoal,
+		L'#', Item::stick,
+		L'T');
+
 	addShapedRecipy(new ItemInstance(Tile::glowstone, 1), //
 		L"sscig",
 		L"##", //
