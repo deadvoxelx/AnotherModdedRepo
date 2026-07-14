@@ -424,6 +424,8 @@ public:
 	static Item *door_green;
 	static Item *door_gold;
 
+	static Item *netherCoal;
+
 
 	static const int shovel_iron_Id			= 256;
 	static const int pickAxe_iron_Id		= 257;
@@ -638,6 +640,8 @@ public:
 	static const int door_yellow_Id = 427;
 	static const int door_green_Id = 428;
 	static const int door_gold_Id = 429;
+
+	static const int netherCoal_Id = 430;
 
 public:
 	const int id;
