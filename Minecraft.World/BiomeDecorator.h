@@ -50,6 +50,9 @@ protected:
 	Feature *cactusFeature;
 	Feature *waterlilyFeature;
 
+	Feature *limestoneFeature;
+	Feature *graniteFeature;
+
 	int waterlilyCount;
 	int treeCount;
 	int flowerCount;
