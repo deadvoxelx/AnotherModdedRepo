@@ -392,6 +392,26 @@ public:
 	static const int doorGreen_Id = 186;
 	static const int doorGold_Id = 187;
 
+	static const int netherCoalOre_Id = 188;
+	static const int limestone_Id = 189;
+	static const int limestoneCobbled_Id = 190;
+	static const int granite_Id = 191;
+	static const int graniteCobbled_Id = 192;
+
+	static const int limestoneCoal_Id = 193;
+	static const int limestoneIron_Id = 194;
+	static const int limestoneLapis_Id = 195;
+	static const int limestoneGold_Id = 196;
+	static const int limestoneRedstone_Id = 197;
+	static const int limestoneDiamond_Id = 198;
+
+	static const int graniteCoal_Id = 199;
+	static const int graniteIron_Id = 200;
+	static const int graniteLapis_Id = 201;
+	static const int graniteGold_Id = 202;
+	static const int graniteRedstone_Id = 203;
+	static const int graniteDiamond_Id = 204;
+
 
 	static Tile *stone;
 	static GrassTile *grass;
@@ -593,6 +613,26 @@ public:
 	static Tile *doorYellow;
 	static Tile *doorGreen;
 	static Tile *doorGold;
+
+	static Tile *netherCoalOre;
+	static Tile *limestone;
+	static Tile *limestoneCobbled;
+	static Tile *granite;
+	static Tile *graniteCobbled;
+
+	static Tile *limestoneCoal;
+	static Tile *limestoneIron;
+	static Tile *limestoneLapis;
+	static Tile *limestoneGold;
+	static Tile *limestoneRedstone;
+	static Tile *limestoneDiamond;
+
+	static Tile *graniteCoal;
+	static Tile *graniteIron;
+	static Tile *graniteLapis;
+	static Tile *graniteGold;
+	static Tile *graniteRedstone;
+	static Tile *graniteDiamond;
 
 	static void staticCtor();
 
