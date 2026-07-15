@@ -320,6 +320,8 @@ int FurnaceTileEntity::getBurnDuration(shared_ptr<ItemInstance> itemInstance)
 
 	if (id == Item::coal->id) return BURN_INTERVAL * 8;
 
+	if (id == Item::netherCoal->id) return BURN_INTERVAL * 12;
+
 	if (id == Item::bucket_lava->id) return BURN_INTERVAL * 100;
 
 	if (id == Tile::sapling_Id) return BURN_INTERVAL / 2;

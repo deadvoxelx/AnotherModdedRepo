@@ -62,6 +62,9 @@ void BiomeDecorator::_init()
 	cactusFeature = new CactusFeature();
 	waterlilyFeature = new WaterlilyFeature();
 
+	limestoneFeature = new OreFeature(Tile::limestone_Id, 32);
+	graniteFeature = new OreFeature(Tile::granite_Id, 32);
+
 	waterlilyCount = 0;
 	treeCount = 0;
 	flowerCount = 2;
@@ -324,5 +327,8 @@ void BiomeDecorator::decorateOres()
 	decorateDepthSpan(8, redStoneOreFeature, 0, Level::genDepth / 8);
 	decorateDepthSpan(1, diamondOreFeature, 0, Level::genDepth / 8);
 	decorateDepthAverage(1, lapisOreFeature, Level::genDepth / 8, Level::genDepth / 8);
+
+	decorateDepthSpan(20, limestoneFeature, 0, Level::genDepth);
+	decorateDepthSpan(20, graniteFeature, 0, Level::genDepth);
 	level->setInstaTick(false);
 }

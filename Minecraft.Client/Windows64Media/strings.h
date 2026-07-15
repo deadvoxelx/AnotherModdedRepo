@@ -2326,3 +2326,10 @@
 #define IDS_TILE_COLORED_PLANKS_MAGENTA			               2320
 #define IDS_TILE_COLORED_PLANKS_PINK			               2321
 #define IDS_TILE_DOOR_GOLD									   2322
+#define IDS_TILE_LIMESTONE									   2323
+#define IDS_TILE_GRANITE									   2324
+#define IDS_TILE_NETHER_COAL_ORE							   2325
+#define IDS_ITEM_NETHER_COAL								   2326
+#define IDS_TILE_NETHERRACK									   2327
+#define IDS_TILE_LIMESTONE_COBBLED							   2328
+#define IDS_TILE_GRANITE_COBBLED							   2329

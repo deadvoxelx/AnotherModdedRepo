@@ -260,6 +260,8 @@ Item *Item::door_yellow = nullptr;
 Item *Item::door_green = nullptr;
 Item *Item::door_gold = nullptr;
 
+Item *Item::netherCoal = nullptr;
+
 void Item::staticCtor()
 {
 	Item::sword_wood		= ( new WeaponItem(12, _Tier::WOOD) )		->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_wood)		->setIconName(L"swordWood")->setDescriptionId(IDS_ITEM_SWORD_WOOD)->setUseDescriptionId(IDS_DESC_SWORD);
@@ -510,6 +512,7 @@ void Item::staticCtor()
 	Item::door_yellow = ( new DoorItem(171, Material::wood, L"doorYellow") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorYellow")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_green = ( new DoorItem(172, Material::wood, L"doorGreen") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorGreen")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_gold = ( new DoorItem(173, Material::metal, L"doorGold") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_gold)->setIconName(L"doorGold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setUseDescriptionId(IDS_TILE_DOOR_GOLD);
+	Item::netherCoal =	(new Item(174))										->setIconName(L"netherCoal")->setDescriptionId(IDS_ITEM_NETHER_COAL)->setUseDescriptionId(IDS_ITEM_NETHER_COAL);
 
 }
 
