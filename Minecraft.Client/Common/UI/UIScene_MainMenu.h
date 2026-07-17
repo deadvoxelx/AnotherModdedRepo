@@ -36,12 +36,12 @@ private:
 		UI_MAP_ELEMENT( m_buttons[(int)eControl_Leaderboards], "Button2")
 		UI_MAP_ELEMENT( m_buttons[(int)eControl_Achievements], "Button3")
 		UI_MAP_ELEMENT( m_buttons[(int)eControl_HelpAndOptions], "Button4")
-		UI_MAP_ELEMENT( m_buttons[(int)eControl_UnlockOrDLC], "Button5")
 #ifndef _DURANGO
-		UI_MAP_ELEMENT( m_buttons[(int)eControl_Exit], "Button6")
+		UI_MAP_ELEMENT( m_buttons[(int)eControl_Exit], "Button5")
 #else
-		UI_MAP_ELEMENT( m_buttons[(int)eControl_XboxHelp], "Button6")
+		UI_MAP_ELEMENT( m_buttons[(int)eControl_XboxHelp], "Button5")
 #endif
+		UI_MAP_ELEMENT( m_buttons[(int)eControl_UnlockOrDLC], "Button6")
 		UI_MAP_ELEMENT( m_controlTimer, "Timer")
 	UI_END_MAP_ELEMENTS_AND_NAMES()
 	
