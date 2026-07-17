@@ -811,6 +811,132 @@ void RandomLevelSource::postProcess(ChunkSource *parent, int xt, int zt)
 	}
 	PIXEndNamedEvent();
 
+	PIXBeginNamedEvent(0,"Decorate Stone");
+	if (pprandom->nextInt(3) == 0)
+	{
+		int x = xo + pprandom->nextInt(16) + 8;
+		int y = 12 + pprandom->nextInt(96);
+		int z = zo + pprandom->nextInt(16) + 8;
+		LimestoneBlobFeature(Tile::limestone_Id).place(level, pprandom, x, y, z);
+	}
+
+	if (pprandom->nextInt(3) == 0)
+	{
+		int x = xo + pprandom->nextInt(16) + 8;
+		int y = 12 + pprandom->nextInt(96);
+		int z = zo + pprandom->nextInt(16) + 8;
+		GraniteBlobFeature(Tile::granite_Id).place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneCoalFeature(Tile::limestoneCoal_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 20; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(128);
+		int z = zo + pprandom->nextInt(16);
+		limestoneCoalFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteCoalFeature(Tile::graniteCoal_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 20; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(128);
+		int z = zo + pprandom->nextInt(16);
+		graniteCoalFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneIronFeature(Tile::limestoneIron_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 20; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(64);
+		int z = zo + pprandom->nextInt(16);
+		limestoneIronFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteIronFeature(Tile::graniteIron_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 20; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(64);
+		int z = zo + pprandom->nextInt(16);
+		graniteIronFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneGoldFeature(Tile::limestoneGold_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 3; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(32);
+		int z = zo + pprandom->nextInt(16);
+		limestoneGoldFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteGoldFeature(Tile::graniteGold_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 3; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(32);
+		int z = zo + pprandom->nextInt(16);
+		graniteGoldFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneLapisFeature(Tile::limestoneLapis_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 3; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(32);
+		int z = zo + pprandom->nextInt(16);
+		limestoneLapisFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteLapisFeature(Tile::graniteLapis_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 3; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(32);
+		int z = zo + pprandom->nextInt(16);
+		graniteLapisFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneRedstoneFeature(Tile::limestoneRedstone_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 8; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(16);
+		int z = zo + pprandom->nextInt(16);
+		limestoneRedstoneFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteRedstoneFeature(Tile::graniteRedstone_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 8; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(16);
+		int z = zo + pprandom->nextInt(16);
+		graniteRedstoneFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature limestoneDiamondFeature(Tile::limestoneDiamond_Id, 16, Tile::limestone_Id);
+	for (int i = 0; i < 2; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(16);
+		int z = zo + pprandom->nextInt(16);
+		limestoneDiamondFeature.place(level, pprandom, x, y, z);
+	}
+
+	OreFeature graniteDiamondFeature(Tile::graniteDiamond_Id, 16, Tile::granite_Id);
+	for (int i = 0; i < 2; i++)
+	{
+		int x = xo + pprandom->nextInt(16);
+		int y = 4 + pprandom->nextInt(16);
+		int z = zo + pprandom->nextInt(16);
+		graniteDiamondFeature.place(level, pprandom, x, y, z);
+	}
+	PIXEndNamedEvent();
+
 	PIXBeginNamedEvent(0,"Monster rooms");
 	for (int i = 0; i < 8; i++)
 	{
