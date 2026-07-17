@@ -36,3 +36,5 @@
 #include "CherryTreeFeature.h"
 #include "CherryTreeLarge.h"
 #include "PalmTreeFeature.h"
+#include "LimestoneBlobFeature.h"
+#include "GraniteBlobFeature.h"
