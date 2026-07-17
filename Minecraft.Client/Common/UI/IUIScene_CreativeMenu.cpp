@@ -30,24 +30,32 @@ void IUIScene_CreativeMenu::staticCtor()
 	// Building Blocks
 	DEF(eCreativeInventory_BuildingBlocks)
 		ITEM(Tile::grass_Id)
+		ITEM(Tile::mycel_Id)
 		ITEM(Tile::dirt_Id)
-		ITEM(Tile::stone_Id)
-		ITEM(Tile::limestone_Id)
-		ITEM(Tile::granite_Id)
-		ITEM(Tile::cobblestone_Id)
-		ITEM(Tile::limestoneCobbled_Id)
-		ITEM(Tile::graniteCobbled_Id)
+		ITEM(Tile::gravel_Id)
+		ITEM(Tile::clay)
+		ITEM(Tile::ice_Id)
+		ITEM(Tile::snow_Id)
 		ITEM(Tile::sand_Id)
 		ITEM(Tile::sandStone_Id)
 		ITEM_AUX(Tile::sandStone_Id, SandStoneTile::TYPE_SMOOTHSIDE)
 		ITEM_AUX(Tile::sandStone_Id, SandStoneTile::TYPE_HEIROGLYPHS)
-		ITEM(Tile::coalBlock_Id)
-		ITEM(Tile::goldBlock_Id)
-		ITEM(Tile::ironBlock_Id)
-		ITEM(Tile::lapisBlock_Id)
-		ITEM(Tile::diamondBlock_Id)
-		ITEM(Tile::emeraldBlock_Id)
-		ITEM_AUX(Tile::quartzBlock_Id,QuartzBlockTile::TYPE_DEFAULT)
+		ITEM(Tile::stone_Id)
+		ITEM(Tile::limestone_Id)
+		ITEM(Tile::granite_Id)
+		ITEM(Tile::cobblestone_Id)
+		ITEM(Tile::mossyCobblestone_Id)
+		ITEM(Tile::limestoneCobbled_Id)
+		ITEM(Tile::graniteCobbled_Id)
+		ITEM_AUX(Tile::redBrick_Id, BrickTile::TYPE_STONE)
+		ITEM_AUX(Tile::redBrick_Id, BrickTile::TYPE_LIMESTONE)
+		ITEM_AUX(Tile::redBrick_Id, BrickTile::TYPE_GRANITE)
+		ITEM_AUX(Tile::redBrick_Id, BrickTile::TYPE_DEFAULT)
+		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_DEFAULT)
+		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_MOSSY)
+		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_CRACKED)
+		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_DETAIL)
+
 		ITEM(Tile::coalOre_Id)
 		ITEM(Tile::limestoneCoal_Id)
 		ITEM(Tile::graniteCoal_Id)
@@ -69,7 +77,21 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::emeraldOre_Id)
 		ITEM(Tile::netherQuartz_Id)
 		ITEM(Tile::netherCoalOre_Id)
-		ITEM(Tile::unbreakable_Id)
+		ITEM(Tile::coalBlock_Id)
+		ITEM(Tile::goldBlock_Id)
+		ITEM(Tile::ironBlock_Id)
+		ITEM(Tile::lapisBlock_Id)
+		ITEM(Tile::diamondBlock_Id)
+		ITEM(Tile::emeraldBlock_Id)
+
+		ITEM_AUX(Tile::treeTrunk_Id, 0)
+		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::DARK_TRUNK)
+		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::BIRCH_TRUNK)
+		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::JUNGLE_TRUNK)
+		ITEM(Tile::cherryLog_Id)
+		ITEM(Tile::palmLog_Id)
+		ITEM(Tile::mossyLog_Id)
+
 		ITEM_AUX(Tile::wood_Id,0)
 		ITEM_AUX(Tile::wood_Id,TreeTile::DARK_TRUNK)
 		ITEM_AUX(Tile::wood_Id,TreeTile::BIRCH_TRUNK)
@@ -92,38 +114,17 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM_AUX(Tile::coloredPlanks_Id, 14)
 		ITEM_AUX(Tile::coloredPlanks_Id, 15)
 
-		ITEM_AUX(Tile::treeTrunk_Id, 0)
-		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::DARK_TRUNK)
-		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::BIRCH_TRUNK)
-		ITEM_AUX(Tile::treeTrunk_Id, TreeTile::JUNGLE_TRUNK)
-		ITEM(Tile::cherryLog_Id)
-		ITEM(Tile::palmLog_Id)
-		ITEM(Tile::mossyLog_Id)
-
-		ITEM(Tile::gravel_Id)
-		ITEM(Tile::redBrick_Id)
-		ITEM(Tile::mossyCobblestone_Id)
-		ITEM(Tile::obsidian_Id)
-		ITEM(Tile::clay)
-		ITEM(Tile::ice_Id)
-		ITEM(Tile::snow_Id)
 		ITEM_AUX(Tile::netherRack_Id,NetherrackTile::TYPE_SMOOTH)
 		ITEM_AUX(Tile::netherRack_Id,NetherrackTile::TYPE_DEFAULT)
+		ITEM(Tile::netherBrick_Id)
 		ITEM(Tile::soulsand_Id)
 		ITEM(Tile::glowstone_Id)
-		
-		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_DEFAULT)
-		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_MOSSY)
-		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_CRACKED)
-		ITEM_AUX(Tile::stoneBrick_Id,SmoothStoneBrickTile::TYPE_DETAIL)
-		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_ROCK)
-		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_COBBLE)
-		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_STONEBRICK)
-		ITEM(Tile::mycel_Id)
-		ITEM(Tile::netherBrick_Id)
-		ITEM(Tile::endStone_Id)
+		ITEM_AUX(Tile::quartzBlock_Id,QuartzBlockTile::TYPE_DEFAULT)
 		ITEM_AUX(Tile::quartzBlock_Id,QuartzBlockTile::TYPE_CHISELED)
 		ITEM_AUX(Tile::quartzBlock_Id,QuartzBlockTile::TYPE_LINES_Y)
+		ITEM(Tile::endStone_Id)
+		ITEM(Tile::obsidian_Id)
+		ITEM(Tile::unbreakable_Id)
 
 		ITEM(Item::door_wood_Id)
 		ITEM(Item::door_spruce_Id)
@@ -145,54 +146,53 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::trapdoorIron_Id)
 		ITEM(Tile::trapdoorGold_Id)
 
-		ITEM(Tile::ironFence_Id)
 		ITEM(Tile::fence_Id)
 		ITEM(Tile::netherFence_Id)
 		ITEM(Tile::fenceGate_Id)
 		ITEM_AUX(Tile::cobbleWall_Id, WallTile::TYPE_NORMAL)
 		ITEM_AUX(Tile::cobbleWall_Id, WallTile::TYPE_MOSSY)
 
-		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::STONE_SLAB)
-		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::SAND_SLAB)
 		// AP - changed oak slab to be wood because it wouldn't burn
 //		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::WOOD_SLAB)
 		ITEM_AUX(Tile::woodSlabHalf_Id,0)
 		ITEM_AUX(Tile::woodSlabHalf_Id,TreeTile::DARK_TRUNK)
 		ITEM_AUX(Tile::woodSlabHalf_Id,TreeTile::BIRCH_TRUNK)
 		ITEM_AUX(Tile::woodSlabHalf_Id,TreeTile::JUNGLE_TRUNK)
+		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::STONE_SLAB)
 		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::COBBLESTONE_SLAB)
+		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::SAND_SLAB)
 		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::BRICK_SLAB)
 		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::SMOOTHBRICK_SLAB)
 		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::NETHERBRICK_SLAB)
 		ITEM_AUX(Tile::stoneSlabHalf_Id,StoneSlabTile::QUARTZ_SLAB)
 		ITEM(Tile::stairs_wood_Id)
-		ITEM(Tile::stairs_birchwood_Id)
 		ITEM(Tile::stairs_sprucewood_Id)
+		ITEM(Tile::stairs_birchwood_Id)
 		ITEM(Tile::stairs_junglewood_Id)
 		ITEM(Tile::stairs_stone_Id)
+		ITEM(Tile::stairs_sandstone_Id)
 		ITEM(Tile::stairs_bricks_Id)
 		ITEM(Tile::stairs_stoneBrick_Id)
 		ITEM(Tile::stairs_netherBricks_Id)
-		ITEM(Tile::stairs_sandstone_Id)
 		ITEM(Tile::stairs_quartz_Id)
 
 		ITEM(Tile::clayHardened_Id)
-		ITEM_AUX(Tile::clayHardened_colored_Id,14)	// Red
-		ITEM_AUX(Tile::clayHardened_colored_Id,1)	// Orange
-		ITEM_AUX(Tile::clayHardened_colored_Id,4)	// Yellow
-		ITEM_AUX(Tile::clayHardened_colored_Id,5)	// Lime
-		ITEM_AUX(Tile::clayHardened_colored_Id,3)	// Light Blue
-		ITEM_AUX(Tile::clayHardened_colored_Id,9)	// Cyan
-		ITEM_AUX(Tile::clayHardened_colored_Id,11)	// Blue
-		ITEM_AUX(Tile::clayHardened_colored_Id,10)	// Purple
-		ITEM_AUX(Tile::clayHardened_colored_Id,2)	// Magenta
-		ITEM_AUX(Tile::clayHardened_colored_Id,6)	// Pink
 		ITEM_AUX(Tile::clayHardened_colored_Id,0)	// White
 		ITEM_AUX(Tile::clayHardened_colored_Id,8)	// Light Gray
 		ITEM_AUX(Tile::clayHardened_colored_Id,7)	// Gray
 		ITEM_AUX(Tile::clayHardened_colored_Id,15)	// Black
-		ITEM_AUX(Tile::clayHardened_colored_Id,13)	// Green
 		ITEM_AUX(Tile::clayHardened_colored_Id,12)	// Brown
+		ITEM_AUX(Tile::clayHardened_colored_Id,14)	// Red
+		ITEM_AUX(Tile::clayHardened_colored_Id,1)	// Orange
+		ITEM_AUX(Tile::clayHardened_colored_Id,4)	// Yellow
+		ITEM_AUX(Tile::clayHardened_colored_Id,5)	// Lime
+		ITEM_AUX(Tile::clayHardened_colored_Id,13)	// Green
+		ITEM_AUX(Tile::clayHardened_colored_Id,9)	// Cyan
+		ITEM_AUX(Tile::clayHardened_colored_Id,3)	// Light Blue
+		ITEM_AUX(Tile::clayHardened_colored_Id,11)	// Blue
+		ITEM_AUX(Tile::clayHardened_colored_Id,10)	// Purple
+		ITEM_AUX(Tile::clayHardened_colored_Id,2)	// Magenta
+		ITEM_AUX(Tile::clayHardened_colored_Id,6)	// Pink
 
 	// Decoration
 	DEF(eCreativeInventory_Decoration)
@@ -233,8 +233,9 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::topSnow_Id)
 		// 4J-PB - Already got sugar cane in Materials ITEM_11(Tile::reeds_Id)
 		ITEM(Tile::web_Id)
-		ITEM(Tile::thinGlass_Id)
 		ITEM(Tile::glass_Id)
+		ITEM(Tile::thinGlass_Id)
+		ITEM(Tile::ironFence_Id)
 		ITEM(Item::painting_Id)
 		ITEM(Item::itemFrame_Id)
 		ITEM(Item::sign_Id)
@@ -397,6 +398,9 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Item::eyeOfEnder_Id)
 		ITEM(Item::nameTag_Id)
 		ITEM(Item::netherStar_Id)
+		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_ROCK)
+		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_COBBLE)
+		ITEM_AUX(Tile::monsterStoneEgg_Id,StoneMonsterTile::HOST_STONEBRICK)
 		ITEM_AUX(Item::spawnEgg_Id, 50); // Creeper
 		ITEM_AUX(Item::spawnEgg_Id, 51); // Skeleton
 		ITEM_AUX(Item::spawnEgg_Id, 52); // Spider

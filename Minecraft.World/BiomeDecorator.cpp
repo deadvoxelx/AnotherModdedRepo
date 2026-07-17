@@ -19,14 +19,11 @@ BiomeDecorator::BiomeDecorator(Biome *biome)
 
 void BiomeDecorator::decorate(Level *level, Random *random, int xo, int zo)
 {
-	if (this->level != nullptr)
-	{
-		app.DebugPrintf("BiomeDecorator::decorate - Already decorating!!\n");
-#ifndef _CONTENT_PACKAGE
-		DEBUG_BREAK();
-		//throw new RuntimeException("Already decorating!!");
-#endif
-	}
+	Level  *plevel  = this->level;
+	Random *prandom = this->random;
+	int pxo = this->xo;
+	int pzo = this->zo;
+
 	this->level = level;
 	this->random = random;
 	this->xo = xo;
@@ -34,11 +31,11 @@ void BiomeDecorator::decorate(Level *level, Random *random, int xo, int zo)
 
 	decorate();
 
-	this->level = nullptr;
-	this->random = nullptr;
+	this->level = plevel;
+	this->random = prandom;
+	this->xo = pxo;
+	this->zo = pzo;
 }
-
-
 
 void BiomeDecorator::_init()
 {
@@ -79,7 +76,6 @@ void BiomeDecorator::_init()
 	hugeMushrooms = 0;
 	liquids = true;
 }
-
 
 void BiomeDecorator::decorate()
 {
