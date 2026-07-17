@@ -519,7 +519,7 @@ void Tile::staticCtor()
 	Tile::doorGreen = (new DoorTile(186, Material::wood, L"doorGreen"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_green")->setDescriptionId(IDS_TILE_DOOR_WOOD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Tile::doorGold = (new DoorTile(187, Material::metal, L"doorGold"))			->setDestroyTime(3.0f)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"door_gold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setNotCollectStatistics()->sendTileData()->setUseDescriptionId(IDS_TILE_DOOR_GOLD);
 
-	Tile::netherCoalOre = (new OreTile(188))					->setDestroyTime(2.0f)->setSoundType(SOUND_STONE)->setIconName(L"netherCoalOre")->setDescriptionId(IDS_TILE_NETHER_COAL_ORE)->setUseDescriptionId(IDS_DESC_ORE_COAL);
+	Tile::netherCoalOre = (new OreTile(188))					->setLightEmission(0.5f)->setDestroyTime(2.0f)->setSoundType(SOUND_STONE)->setIconName(L"netherCoalOre")->setDescriptionId(IDS_TILE_NETHER_COAL_ORE)->setUseDescriptionId(IDS_DESC_ORE_COAL);
 	Tile::limestone = (new StoneTile(189))						->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"limestone")->setDescriptionId(IDS_TILE_LIMESTONE)->setUseDescriptionId(IDS_TILE_LIMESTONE);
 	Tile::limestoneCobbled = (new Tile(190, Material::stone))	->setDestroyTime(2.0f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"limestoneCobbled")->setDescriptionId(IDS_TILE_LIMESTONE_COBBLED)->setUseDescriptionId(IDS_TILE_LIMESTONE_COBBLED);
 	Tile::granite = (new StoneTile(191))						->setDestroyTime(1.5f)->setExplodeable(10)->setSoundType(Tile::SOUND_STONE)->setIconName(L"granite")->setDescriptionId(IDS_TILE_GRANITE)->setUseDescriptionId(IDS_TILE_GRANITE);
