@@ -501,7 +501,7 @@ Recipes::Recipes()
 		L"##", //
 		L"##", //
 
-		L'#', Tile::limestone,
+		L'#', Tile::limestoneCobbled,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::redBrick, 4, BrickTile::TYPE_GRANITE), //
@@ -509,7 +509,7 @@ Recipes::Recipes()
 		L"##", //
 		L"##", //
 
-		L'#', Tile::granite,
+		L'#', Tile::graniteCobbled,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::wool, 1), //
