@@ -191,14 +191,6 @@ Recipes::Recipes()
 		L'#', Tile::netherBrick,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::ironFence, 16), //
-		L"sscig",
-		L"###", //
-		L"###", //
-
-		L'#', Item::ironIngot,
-		L'S');
-
 	addShapedRecipy(new ItemInstance(Tile::cobbleWall, 6, WallTile::TYPE_NORMAL), //
 		L"ssctg",
 		L"###", //
@@ -488,12 +480,36 @@ Recipes::Recipes()
 		L'#', Item::clay,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::redBrick, 1), //
+	addShapedRecipy(new ItemInstance(Tile::redBrick, 1, BrickTile::TYPE_DEFAULT), //
 		L"sscig",
 		L"##", //
 		L"##", //
 
 		L'#', Item::brick,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::redBrick, 4, BrickTile::TYPE_STONE), //
+		L"ssctg",
+		L"##", //
+		L"##", //
+
+		L'#', Tile::cobblestone,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::redBrick, 4, BrickTile::TYPE_LIMESTONE), //
+		L"ssctg",
+		L"##", //
+		L"##", //
+
+		L'#', Tile::limestone,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::redBrick, 4, BrickTile::TYPE_GRANITE), //
+		L"ssctg",
+		L"##", //
+		L"##", //
+
+		L'#', Tile::granite,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::wool, 1), //
