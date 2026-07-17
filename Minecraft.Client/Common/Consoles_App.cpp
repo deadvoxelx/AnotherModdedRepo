@@ -4529,6 +4529,9 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_NETHERRACK, L"Cobbled Netherrack");
 		m_stringTable->registerString(IDS_TILE_LIMESTONE_COBBLED, L"Cobbled Limestone");
 		m_stringTable->registerString(IDS_TILE_GRANITE_COBBLED, L"Cobbled Granite");
+		m_stringTable->registerString(IDS_TILE_LIMESTONE_BRICK, L"Limestone Bricks");
+		m_stringTable->registerString(IDS_TILE_GRANITE_BRICK, L"Granite Bricks");
+		m_stringTable->registerString(IDS_TILE_COBBLED_BRICK, L"Cobbled Bricks");
 	}
 	else
 	{
