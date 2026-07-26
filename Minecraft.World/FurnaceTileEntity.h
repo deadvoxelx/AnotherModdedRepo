@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "FurnaceTile.h"
+#include "BlasterTile.h"
 #include "TileEntity.h"
 #include "WorldlyContainer.h"
 
@@ -65,6 +66,7 @@ public:
 
 private:
 	bool canBurn();
+	static int getCookInterval(Level *level, int x, int y, int z);
 
 public:
 	void burn();
