@@ -1131,6 +1131,15 @@ Recipes::Recipes()
 
 	pOreRecipies->addRecipes(this);
 
+	addShapedRecipy(new ItemInstance(Item::steelIngot), //
+		L"ssscig",
+		L" # ", //
+		L" # ", //
+		L" # ", //
+
+		L'#', Item::crudeSteel,
+		L'D');
+
 	addShapedRecipy(new ItemInstance(Item::goldIngot), //
 		L"ssscig",
 		L"###", //
