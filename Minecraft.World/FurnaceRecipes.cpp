@@ -44,6 +44,7 @@ FurnaceRecipes::FurnaceRecipes()
 	addFurnaceRecipy(Tile::emeraldOre_Id, new ItemInstance(Item::emerald), 1);
 	addFurnaceRecipy(Item::potato_Id, new ItemInstance(Item::potatoBaked), .35f);
 	addFurnaceRecipy(Tile::netherRack_Id, new ItemInstance(Tile::netherRack, 1, 1), .1f);
+	addFurnaceRecipy(Item::ironIngot_Id, new ItemInstance(Item::crudeSteel), .7f);
 
 	// special silk touch related recipes:
 	addFurnaceRecipy(Tile::coalOre_Id, new ItemInstance(Item::coal), .1f);
