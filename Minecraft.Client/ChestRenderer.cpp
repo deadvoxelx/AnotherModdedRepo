@@ -138,7 +138,6 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 	open = 1 - open;
 	open = 1 - open * open * open;
 
-	model->lid->xRot = -(open * PI / 2);
 	model->render(useCompiled);
 	glDisable(GL_RESCALE_NORMAL);
 	glPopMatrix();
