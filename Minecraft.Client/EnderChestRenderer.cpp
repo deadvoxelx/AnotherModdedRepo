@@ -40,7 +40,6 @@ void EnderChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double
 	open = 1 - open;
 	open = 1 - open * open * open;
 
-	chestModel.lid->xRot = -(open * PI / 2);
 	chestModel.render(useCompiled);
 	glDisable(GL_RESCALE_NORMAL);
 	glPopMatrix();
