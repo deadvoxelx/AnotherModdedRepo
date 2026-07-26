@@ -92,6 +92,17 @@ void StructureRecipies::addRecipes(Recipes *r)
 		L'#', Tile::graniteCobbled,
 		L'S');
 
+	r->addShapedRecipy(new ItemInstance(Tile::blaster), //
+		L"ssscictctg",
+		L"III", //
+		L"IFI", //
+		L"###", //
+
+		L'I', Item::ironIngot,
+		L'F', Tile::furnace,
+		L'#', Tile::stone,
+		L'S');
+
 	r->addShapedRecipy(new ItemInstance(static_cast<Tile *>(Tile::chest)), //
 		L"sssctg",
 		L"###", //
