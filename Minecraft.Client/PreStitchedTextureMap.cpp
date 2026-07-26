@@ -521,12 +521,12 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(10,	15,	L"dyePowder_orange")
 
 		ADD_ICON(11,	0,	L"leggingsCloth_overlay")
-		//ADD_ICON(11,	1,	L"unused")
-		//ADD_ICON(11,	2,	L"unused")
-		//ADD_ICON(11,	3,	L"unused")
-		//ADD_ICON(11,	4,	L"unused")
-		//ADD_ICON(11,	5,	L"unused")
-		//ADD_ICON(11,	6,	L"unused")
+		ADD_ICON(11,	1,	L"crudeSteel")
+		ADD_ICON(11,	2,	L"steelIngot")
+		ADD_ICON(11,	3,	L"steelHelmet")
+		ADD_ICON(11,	4,	L"steelChestplate")
+		ADD_ICON(11,	5,	L"steelLeggings")
+		ADD_ICON(11,	6,	L"steelBoots")
 		ADD_ICON(11,	7,	L"minecart_hopper")
 		ADD_ICON(11,	8,	L"hopper")
 		ADD_ICON(11,	9,	L"nether_star")
@@ -538,11 +538,11 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(11,	15,	L"dyePowder_white")
 
 		ADD_ICON(12,	0,	L"bootsCloth_overlay")
-		//ADD_ICON(12,	1,	L"unused")
-		//ADD_ICON(12,	2,	L"unused")
-		//ADD_ICON(12,	3,	L"unused")
-		//ADD_ICON(12,	4,	L"unused")
-		//ADD_ICON(12,	5,	L"unused")
+		ADD_ICON(12,	1,	L"steelSword")
+		ADD_ICON(12,	2,	L"steelAxe")
+		ADD_ICON(12,	3,	L"steelPickaxe")
+		ADD_ICON(12,	4,	L"steelShovel")
+		ADD_ICON(12,	5,	L"steelHoe")
 		//ADD_ICON(12,	6,	L"unused")
 		ADD_ICON(12,	7,	L"minecart_tnt")
 		ADD_ICON(12,	8,	L"netherCoal")
@@ -1044,9 +1044,9 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(24,	8,	L"door_gold_lower");
 		ADD_ICON(24,	9,	L"netherCoalOre");
 		ADD_ICON(24,	10,	L"netherrackSmooth");
-		ADD_ICON(24,	10,	L"brickStone");
-		ADD_ICON(24,	10,	L"brickLimestone");
-		ADD_ICON(24,	10,	L"brickGranite");
+		ADD_ICON(24,	11,	L"brickStone");
+		ADD_ICON(24,	12,	L"brickLimestone");
+		ADD_ICON(24,	13,	L"brickGranite");
 
 		ADD_ICON(25,	0,	L"limestone");
 		ADD_ICON(25,	1,	L"limestoneCoal");
@@ -1064,5 +1064,14 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(25,	13,	L"graniteRedstone");
 		ADD_ICON(25,	14,	L"graniteDiamond");
 		ADD_ICON(25,	15,	L"graniteCobbled");
+
+		ADD_ICON(26,	0,	L"blaster_top");
+		ADD_ICON(26,	1,	L"blaster_side");
+		ADD_ICON(26,	2,	L"blaster_front");
+		ADD_ICON(26,	3,	L"blaster_front_on");
+		ADD_ICON(26,	4,	L"steelBlock");
+		ADD_ICON(26,	5,	L"door_steel_upper");
+		ADD_ICON(26,	6,	L"door_steel_lower");
+		ADD_ICON(26,	7,	L"trapdoorSteel");
 	}
 }
