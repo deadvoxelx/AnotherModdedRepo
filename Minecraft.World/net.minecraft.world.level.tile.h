@@ -133,3 +133,4 @@
 #include "Leaf2Tile.h"
 #include "SaplingNew.h"
 #include "BrickTile.h"
+#include "BlasterTile.h"
