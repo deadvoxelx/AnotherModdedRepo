@@ -4532,6 +4532,19 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_LIMESTONE_BRICK, L"Limestone Bricks");
 		m_stringTable->registerString(IDS_TILE_GRANITE_BRICK, L"Granite Bricks");
 		m_stringTable->registerString(IDS_TILE_COBBLED_BRICK, L"Cobbled Bricks");
+		m_stringTable->registerString(IDS_TILE_STEEL_BLOCK, L"Steel Block");
+		m_stringTable->registerString(IDS_ITEM_STEEL_INGOT, L"Steel Ingot");
+		m_stringTable->registerString(IDS_ITEM_STEEL_CRUDE, L"Crude Steel");
+		m_stringTable->registerString(IDS_ITEM_STEEL_SWORD, L"Steel Sword");
+		m_stringTable->registerString(IDS_ITEM_STEEL_AXE, L"Steel Axe");
+		m_stringTable->registerString(IDS_ITEM_STEEL_PICKAXE, L"Steel Pickaxe");
+		m_stringTable->registerString(IDS_ITEM_STEEL_SHOVEL, L"Steel Shovel");
+		m_stringTable->registerString(IDS_ITEM_STEEL_HOE, L"Steel Hoe");
+		m_stringTable->registerString(IDS_ITEM_STEEL_HELMET, L"Steel Helmet");
+		m_stringTable->registerString(IDS_ITEM_STEEL_CHESTPLATE, L"Steel Chestplate");
+		m_stringTable->registerString(IDS_ITEM_STEEL_LEGGINGS, L"Steel Leggings");
+		m_stringTable->registerString(IDS_ITEM_STEEL_BOOTS, L"Steel Boots");
+		m_stringTable->registerString(IDS_TILE_BLASTER, L"Blaster");
 	}
 	else
 	{
