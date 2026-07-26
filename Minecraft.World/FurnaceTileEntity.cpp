@@ -13,13 +13,30 @@ int furnaceSlotsForUp [] = { FurnaceTileEntity::SLOT_INPUT };
 int furnaceSlotsForDown [] = { FurnaceTileEntity::SLOT_RESULT, FurnaceTileEntity::SLOT_FUEL };
 int furnaceSlotsForSides [] = { FurnaceTileEntity::SLOT_FUEL };
 
+/*static bool isEnchanterInput(int id)
+{
+	switch (id)
+	{
+		case Tile::quicksoil_Id:
+		case Tile::gravititeOre_Id:
+		case Tile::aercloud_Id:
+		case Tile::holystone_Id:
+		case Item::blueBerry_Id:
+		case Item::dartGold_Id:
+		case Item::dartShooterGold_Id:
+		return true;
+
+	default:
+		return false;
+	}
+}*/
+
 const intArray FurnaceTileEntity::SLOTS_FOR_UP = intArray(furnaceSlotsForUp, 1);
 const intArray FurnaceTileEntity::SLOTS_FOR_DOWN = intArray(furnaceSlotsForDown, 2);
 const intArray FurnaceTileEntity::SLOTS_FOR_SIDES = intArray(furnaceSlotsForSides, 1);
 
 const int FurnaceTileEntity::BURN_INTERVAL = 10 * 20;
 
-// 4J Stu - Need a ctor to initialise member variables
 FurnaceTileEntity::FurnaceTileEntity() : TileEntity()
 {
 	items = ItemInstanceArray(3);
@@ -36,18 +53,15 @@ FurnaceTileEntity::~FurnaceTileEntity()
 	delete[] items.data;
 }
 
-
 unsigned int FurnaceTileEntity::getContainerSize()
 {
 	return items.length;
 }
 
-
 shared_ptr<ItemInstance> FurnaceTileEntity::getItem(unsigned int slot)
 {
 	return items[slot];
 }
-
 
 shared_ptr<ItemInstance> FurnaceTileEntity::removeItem(unsigned int slot, int count)
 {
@@ -88,16 +102,22 @@ shared_ptr<ItemInstance> FurnaceTileEntity::removeItemNoUpdate(int slot)
 	return nullptr;
 }
 
-
 void FurnaceTileEntity::setItem(unsigned int slot, shared_ptr<ItemInstance> item)
 {
 	items[slot] = item;
 	if (item != nullptr && item->count > getMaxStackSize()) item->count = getMaxStackSize();
 }
 
-
 wstring FurnaceTileEntity::getName()
 {
+	if (level != NULL)
+	{
+		int tileId = level->getTile(x, y, z);
+		if (tileId == Tile::blaster_Id)
+		{
+			return hasCustomName() ? name : app.GetString(IDS_TILE_BLASTER);
+		}
+	}
 	return hasCustomName() ? name : app.GetString(IDS_TILE_FURNACE);
 }
 
@@ -136,7 +156,6 @@ void FurnaceTileEntity::load(CompoundTag *base)
 	m_charcoalUsed = base->getBoolean(L"CharcoalUsed");
 }
 
-
 void FurnaceTileEntity::save(CompoundTag *base)
 {
 	TileEntity::save(base);
@@ -159,18 +178,16 @@ void FurnaceTileEntity::save(CompoundTag *base)
 	base->putBoolean(L"CharcoalUsed", m_charcoalUsed);
 }
 
-
 int FurnaceTileEntity::getMaxStackSize() const
 {
 	return Container::LARGE_MAX_STACK_SIZE;
 }
 
-
 int FurnaceTileEntity::getBurnProgress(int max)
 {
-	return tickCount * max / BURN_INTERVAL;
+	int interval = getCookInterval(level, x, y, z);
+	return tickCount * max / interval;
 }
-
 
 int FurnaceTileEntity::getLitProgress(int max)
 {
@@ -178,12 +195,10 @@ int FurnaceTileEntity::getLitProgress(int max)
 	return litTime * max / litDuration;
 }
 
-
 bool FurnaceTileEntity::isLit()
 {
 	return litTime > 0;
 }
-
 
 void FurnaceTileEntity::tick()
 {
@@ -224,7 +239,8 @@ void FurnaceTileEntity::tick()
 		if (isLit() && canBurn())
 		{
 			tickCount++;
-			if (tickCount == BURN_INTERVAL)
+			int interval = getCookInterval(level, x, y, z);
+			if (tickCount >= interval)
 			{
 				tickCount = 0;
 				burn();
@@ -236,21 +252,38 @@ void FurnaceTileEntity::tick()
 			tickCount = 0;
 		}
 
-		if (wasLit != litTime > 0)
+		if (wasLit != litTime > 0 && level->getTile(x, y, z) == Tile::furnace_Id )
 		{
 			changed = true;
 			FurnaceTile::setLit(litTime > 0, level, x, y, z);
+		}
+		else if (wasLit != litTime > 0 && level->getTile(x, y, z) == Tile::blaster_Id )
+		{
+			changed = true;
+			BlasterTile::setLit(litTime > 0, level, x, y, z);
 		}
 	}
 
 	if (changed) setChanged();
 }
 
-
 bool FurnaceTileEntity::canBurn()
 {
 	if (items[SLOT_INPUT] == nullptr) return false;
 	const ItemInstance *burnResult = FurnaceRecipes::getInstance()->getResult(items[SLOT_INPUT]->getItem()->id);
+	int inputId = (items[SLOT_INPUT]->getItem()->id);
+	/*if (level != NULL)
+	{
+		int tileId = level->getTile(x, y, z);
+		if (tileId == Tile::enchanter_Id)
+		{
+			if (!isEnchanterInput(inputId)) return false;
+		}
+		else
+		{
+			if (isEnchanterInput(inputId)) return false;
+		}
+	}*/
 	if (burnResult == nullptr) return false;
 	if (items[SLOT_RESULT] == nullptr) return true;
 	if (!items[SLOT_RESULT]->sameItem_not_shared(burnResult)) return false;
@@ -258,7 +291,6 @@ bool FurnaceTileEntity::canBurn()
 	if (items[SLOT_RESULT]->count < burnResult->getMaxStackSize()) return true;
 	return false;
 }
-
 
 void FurnaceTileEntity::burn()
 {
@@ -271,7 +303,6 @@ void FurnaceTileEntity::burn()
 	items[SLOT_INPUT]->count--;
 	if (items[SLOT_INPUT]->count <= 0) items[SLOT_INPUT] = nullptr;
 }
-
 
 int FurnaceTileEntity::getBurnDuration(shared_ptr<ItemInstance> itemInstance)
 {
@@ -320,13 +351,13 @@ int FurnaceTileEntity::getBurnDuration(shared_ptr<ItemInstance> itemInstance)
 
 	if (id == Item::coal->id) return BURN_INTERVAL * 8;
 
-	if (id == Item::netherCoal->id) return BURN_INTERVAL * 12;
-
 	if (id == Item::bucket_lava->id) return BURN_INTERVAL * 100;
 
 	if (id == Tile::sapling_Id) return BURN_INTERVAL / 2;
 
 	if (id == Item::blazeRod_Id) return BURN_INTERVAL * 12;
+
+	if (id == Item::netherCoal->id) return BURN_INTERVAL * 12;
 
 	return 0;
 }
@@ -395,7 +426,6 @@ bool FurnaceTileEntity::canTakeItemThroughFace(int slot, shared_ptr<ItemInstance
 	return true;
 }
 
-// 4J Added
 shared_ptr<TileEntity> FurnaceTileEntity::clone()
 {
 	shared_ptr<FurnaceTileEntity> result = std::make_shared<FurnaceTileEntity>();
@@ -413,4 +443,17 @@ shared_ptr<TileEntity> FurnaceTileEntity::clone()
 		}
 	}
 	return result;
+}
+
+int FurnaceTileEntity::getCookInterval(Level *level, int x, int y, int z)
+{
+	if (level != NULL)
+	{
+		int tileId = level->getTile(x, y, z);
+		if (tileId == Tile::blaster_Id || tileId == Tile::blaster_lit_Id)
+		{
+			return (std::max)(1, FurnaceTileEntity::BURN_INTERVAL / 2);
+		}
+	}
+	return FurnaceTileEntity::BURN_INTERVAL;
 }
