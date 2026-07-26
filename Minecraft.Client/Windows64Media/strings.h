@@ -2336,3 +2336,16 @@
 #define IDS_TILE_LIMESTONE_BRICK							   2330
 #define IDS_TILE_GRANITE_BRICK								   2331
 #define IDS_TILE_COBBLED_BRICK								   2332
+#define IDS_TILE_STEEL_BLOCK								   2333
+#define IDS_ITEM_STEEL_INGOT								   2334
+#define IDS_ITEM_STEEL_CRUDE								   2335
+#define IDS_ITEM_STEEL_SWORD								   2336
+#define IDS_ITEM_STEEL_AXE									   2337
+#define IDS_ITEM_STEEL_PICKAXE								   2338
+#define IDS_ITEM_STEEL_SHOVEL								   2339
+#define IDS_ITEM_STEEL_HOE									   2340
+#define IDS_ITEM_STEEL_HELMET								   2341
+#define IDS_ITEM_STEEL_CHESTPLATE							   2342
+#define IDS_ITEM_STEEL_LEGGINGS								   2343
+#define IDS_ITEM_STEEL_BOOTS								   2344
+#define IDS_TILE_BLASTER									   2345
