@@ -26,7 +26,8 @@ const _Tier *_Tier::WOOD = new _Tier(0, 59, 2, 0, 15); //
 const _Tier *_Tier::STONE = new _Tier(1, 131, 4, 1, 5); //
 const _Tier *_Tier::IRON = new _Tier(2, 250, 6, 2, 14); //
 const _Tier *_Tier::DIAMOND = new _Tier(3, 1561, 8, 3, 10); //
-const _Tier *_Tier::GOLD = new _Tier(0, 32, 12, 0, 22);
+const _Tier *_Tier::GOLD = new _Tier(0, 182, 12, 0, 22); //
+const _Tier *_Tier::STEEL = new _Tier(2, 1251, 7, 2, 15); //
 
 Random *Item::random = new Random();
 
@@ -261,6 +262,17 @@ Item *Item::door_green = nullptr;
 Item *Item::door_gold = nullptr;
 
 Item *Item::netherCoal = nullptr;
+Item *Item::crudeSteel = nullptr;
+Item *Item::steelIngot = nullptr;
+Item *Item::steelSword = nullptr;
+Item *Item::steelAxe = nullptr;
+Item *Item::steelPickaxe = nullptr;
+Item *Item::steelShovel = nullptr;
+Item *Item::steelHoe = nullptr;
+Item *Item::steelHelmet = nullptr;
+Item *Item::steelChestplate = nullptr;
+Item *Item::steelLeggings = nullptr;
+Item *Item::steelBoots = nullptr;
 
 void Item::staticCtor()
 {
@@ -512,7 +524,18 @@ void Item::staticCtor()
 	Item::door_yellow = ( new DoorItem(171, Material::wood, L"doorYellow") )->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorYellow")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_green = ( new DoorItem(172, Material::wood, L"doorGreen") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorGreen")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);
 	Item::door_gold = ( new DoorItem(173, Material::metal, L"doorGold") )	->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_gold)->setIconName(L"doorGold")->setDescriptionId(IDS_TILE_DOOR_GOLD)->setUseDescriptionId(IDS_TILE_DOOR_GOLD);
-	Item::netherCoal =	(new Item(174))										->setIconName(L"netherCoal")->setDescriptionId(IDS_ITEM_NETHER_COAL)->setUseDescriptionId(IDS_ITEM_NETHER_COAL);
+	Item::netherCoal =	( new Item(174) )									->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_coal)->setIconName(L"netherCoal")->setDescriptionId(IDS_ITEM_NETHER_COAL)->setUseDescriptionId(IDS_ITEM_NETHER_COAL);
+	Item::crudeSteel = ( new Item(175) )									->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_steel)->setIconName(L"crudeSteel")->setDescriptionId(IDS_ITEM_STEEL_CRUDE)->setUseDescriptionId(IDS_ITEM_STEEL_CRUDE);
+	Item::steelIngot = ( new Item(176) )									->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_steel)->setIconName(L"steelIngot")->setDescriptionId(IDS_ITEM_STEEL_INGOT)->setUseDescriptionId(IDS_DESC_INGOT);
+	Item::steelSword = ( new WeaponItem(177, _Tier::STEEL) )				->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_steel)->setIconName(L"steelSword")->setDescriptionId(IDS_ITEM_STEEL_SWORD)->setUseDescriptionId(IDS_DESC_SWORD);
+	Item::steelAxe = ( new HatchetItem(178, _Tier::STEEL) )					->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_steel)->setIconName(L"steelAxe")->setDescriptionId(IDS_ITEM_STEEL_AXE)->setUseDescriptionId(IDS_DESC_HATCHET);
+	Item::steelPickaxe = ( new PickaxeItem(179, _Tier::STEEL) )				->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_steel)->setIconName(L"steelPickaxe")->setDescriptionId(IDS_ITEM_STEEL_PICKAXE)->setUseDescriptionId(IDS_DESC_PICKAXE);
+	Item::steelShovel = ( new ShovelItem(180, _Tier::STEEL) )				->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_steel)->setIconName(L"steelShovel")->setDescriptionId(IDS_ITEM_STEEL_SHOVEL)->setUseDescriptionId(IDS_DESC_SHOVEL);
+	Item::steelHoe = ( new HoeItem(181, _Tier::STEEL) )						->setBaseItemTypeAndMaterial(eBaseItemType_hoe,		eMaterial_steel)->setIconName(L"steelHoe")->setDescriptionId(IDS_ITEM_STEEL_HOE)->setUseDescriptionId(IDS_DESC_HOE);
+	Item::steelHelmet = static_cast<ArmorItem *>((new ArmorItem(182, ArmorItem::ArmorMaterial::STEEL, 5, ArmorItem::SLOT_HEAD))->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_steel)->setIconName(L"steelHelmet")->setDescriptionId(IDS_ITEM_STEEL_HELMET)->setUseDescriptionId(IDS_ITEM_STEEL_HELMET));
+	Item::steelChestplate = static_cast<ArmorItem *>((new ArmorItem(183, ArmorItem::ArmorMaterial::STEEL, 5, ArmorItem::SLOT_TORSO))->setBaseItemTypeAndMaterial(eBaseItemType_chestplate, eMaterial_steel)->setIconName(L"steelChestplate")->setDescriptionId(IDS_ITEM_STEEL_CHESTPLATE)->setUseDescriptionId(IDS_ITEM_STEEL_CHESTPLATE));
+	Item::steelLeggings = static_cast<ArmorItem *>((new ArmorItem(184, ArmorItem::ArmorMaterial::STEEL, 5, ArmorItem::SLOT_LEGS))->setBaseItemTypeAndMaterial(eBaseItemType_leggings, eMaterial_steel)->setIconName(L"steelLeggings")->setDescriptionId(IDS_ITEM_STEEL_LEGGINGS)->setUseDescriptionId(IDS_ITEM_STEEL_LEGGINGS));
+	Item::steelBoots = static_cast<ArmorItem *>((new ArmorItem(185, ArmorItem::ArmorMaterial::STEEL, 5, ArmorItem::SLOT_FEET))->setBaseItemTypeAndMaterial(eBaseItemType_boots, eMaterial_steel)->setIconName(L"steelBoots")->setDescriptionId(IDS_ITEM_STEEL_BOOTS)->setUseDescriptionId(IDS_ITEM_STEEL_BOOTS));
 
 }
 
