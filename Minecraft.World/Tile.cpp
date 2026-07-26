@@ -266,6 +266,10 @@ Tile *Tile::graniteGold = nullptr;
 Tile *Tile::graniteRedstone = nullptr;
 Tile *Tile::graniteDiamond = nullptr;
 
+Tile *Tile::steelBlock = nullptr;
+Tile *Tile::blaster = nullptr;
+Tile *Tile::blaster_lit = nullptr;
+
 DWORD Tile::tlsIdxShape = TlsAlloc();
 
 Tile::ThreadStorage::ThreadStorage()
@@ -538,6 +542,10 @@ void Tile::staticCtor()
 	Tile::graniteGold = (new OreTile(202))						->setDestroyTime(3.0f)->setExplodeable(5)->setSoundType(SOUND_STONE)->setIconName(L"graniteGold")->setDescriptionId(IDS_TILE_ORE_GOLD)->setUseDescriptionId(IDS_DESC_ORE_GOLD);
 	Tile::graniteRedstone = (new OreTile(203))					->setDestroyTime(3.0f)->setExplodeable(5)->setSoundType(SOUND_STONE)->setIconName(L"graniteRedstone")->setDescriptionId(IDS_TILE_ORE_REDSTONE)->setUseDescriptionId(IDS_DESC_ORE_REDSTONE);
 	Tile::graniteDiamond = (new OreTile(204))					->setDestroyTime(3.0f)->setExplodeable(5)->setSoundType(SOUND_STONE)->setIconName(L"graniteDiamond")->setDescriptionId(IDS_TILE_ORE_DIAMOND)->setUseDescriptionId(IDS_DESC_ORE_DIAMOND);
+
+	Tile::steelBlock = (new MetalTile(205))						->setBaseItemTypeAndMaterial(Item::eBaseItemType_block,	Item::eMaterial_steel)->setDestroyTime(5.0f)->setExplodeable(10)->setSoundType(Tile::SOUND_METAL)->setIconName(L"steelBlock")->setDescriptionId(IDS_TILE_STEEL_BLOCK)->setUseDescriptionId(IDS_TILE_STEEL_BLOCK);
+	Tile::blaster = (new BlasterTile(206, false))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_device,	Item::eMaterial_stone)->setDestroyTime(3.5f)->setSoundType(Tile::SOUND_STONE)->setIconName(L"furnace")->setDescriptionId(IDS_TILE_BLASTER)->sendTileData()->setUseDescriptionId(IDS_DESC_FURNACE);
+	Tile::blaster_lit = (new BlasterTile(207, true))			->setDestroyTime(3.5f)->setSoundType(Tile::SOUND_STONE)->setLightEmission(14 / 16.0f)->setIconName(L"blaster")->setDescriptionId(IDS_TILE_BLASTER)->sendTileData()->setUseDescriptionId(IDS_DESC_FURNACE);
 
 	// Special cases for certain items since they can have different icons
 	Item::items[wool_Id]				= ( new WoolTileItem(Tile::wool_Id- 256) )->setIconName(L"cloth")->setDescriptionId(IDS_TILE_CLOTH)->setUseDescriptionId(IDS_DESC_WOOL);
