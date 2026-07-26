@@ -412,6 +412,10 @@ public:
 	static const int graniteRedstone_Id = 203;
 	static const int graniteDiamond_Id = 204;
 
+	static const int steelBlock_Id = 205;
+	static const int blaster_Id = 206;
+	static const int blaster_lit_Id = 207;
+
 
 	static Tile *stone;
 	static GrassTile *grass;
@@ -633,6 +637,10 @@ public:
 	static Tile *graniteGold;
 	static Tile *graniteRedstone;
 	static Tile *graniteDiamond;
+
+	static Tile *steelBlock;
+	static Tile *blaster;
+	static Tile *blaster_lit;
 
 	static void staticCtor();
 
