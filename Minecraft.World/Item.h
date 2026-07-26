@@ -91,6 +91,7 @@ public:
 		eMaterial_bookshelf,
 		eMaterial_wheat,
 		eMaterial_stick,
+		eMaterial_steel,
 
 	}
 	eMaterial;
@@ -161,6 +162,7 @@ public:
 		static const Tier *IRON; //
 		static const Tier *DIAMOND; //
 		static const Tier *GOLD;
+		static const Tier *STEEL;
 
 	private:
 		const int level;
@@ -425,7 +427,17 @@ public:
 	static Item *door_gold;
 
 	static Item *netherCoal;
-
+	static Item *crudeSteel;
+	static Item *steelIngot;
+	static Item *steelSword;
+	static Item *steelAxe;
+	static Item *steelPickaxe;
+	static Item *steelShovel;
+	static Item *steelHoe;
+	static Item *steelHelmet;
+	static Item *steelChestplate;
+	static Item *steelLeggings;
+	static Item *steelBoots;
 
 	static const int shovel_iron_Id			= 256;
 	static const int pickAxe_iron_Id		= 257;
@@ -604,7 +616,7 @@ public:
 
 	static const int carrots_Id = 391;
 	static const int potato_Id = 392;
-	static const int potatoBaked_Id = 393;
+	static const int potatoBaked_Id = 3930;
 	static const int potatoPoisonous_Id = 394;
 
 	static const int emptyMap_Id = 395;
@@ -642,6 +654,17 @@ public:
 	static const int door_gold_Id = 429;
 
 	static const int netherCoal_Id = 430;
+	static const int crudeSteel_Id = 431;
+	static const int steelIngot_Id = 432;
+	static const int steelSword_Id = 433;
+	static const int steelAxe_Id = 434;
+	static const int steelPickaxe_Id = 435;
+	static const int steelShovel_Id = 436;
+	static const int steelHoe_Id = 437;
+	static const int steelHelmet_Id = 438;
+	static const int steelChestplate_Id = 439;
+	static const int steelLeggings_Id = 440;
+	static const int steelBoots_Id = 441;
 
 public:
 	const int id;
