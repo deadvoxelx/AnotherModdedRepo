@@ -257,7 +257,7 @@ void ServerLevel::tick()
 #endif
 	{
 		PIXBeginNamedEvent(0,"Incremental save");
-		save(false, nullptr);
+		//save(false, nullptr);
 		PIXEndNamedEvent();
 	}
 
