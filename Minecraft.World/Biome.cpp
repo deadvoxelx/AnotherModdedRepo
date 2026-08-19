@@ -40,7 +40,11 @@ Biome *Biome::smallerExtremeHills = nullptr;
 
 Biome *Biome::jungle = nullptr;
 Biome *Biome::jungleHills = nullptr;
+
 Biome *Biome::cherryForest = nullptr;
+Biome *Biome::birchForest = nullptr;
+Biome *Biome::wasteland = nullptr;
+Biome *Biome::rainForest = nullptr;
 
 void Biome::staticCtor()
 {
@@ -75,6 +79,9 @@ void Biome::staticCtor()
 	Biome::jungle = (new JungleBiome(21))->setColor(0x537b09)->setName(L"Jungle")->setDepthAndScale(0.1f, 1.2f)->setLeafColor(0x537b09)->setTemperatureAndDownfall(1.2f, 0.9f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Jungle, eMinecraftColour_Foliage_Jungle, eMinecraftColour_Water_Jungle,eMinecraftColour_Sky_Jungle);
 	Biome::jungleHills = (new JungleBiome(22))->setColor(0x2c4205)->setName(L"JungleHills")->setDepthAndScale(0.1f, 1.7f)->setLeafColor(0x537b09)->setTemperatureAndDownfall(1.2f, 0.9f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_JungleHills, eMinecraftColour_Foliage_JungleHills, eMinecraftColour_Water_JungleHills,eMinecraftColour_Sky_JungleHills);
 	Biome::cherryForest = (new CherryBiome(23))->setColor(0x056621)->setName(L"CherryForest")->setDepthAndScale(0.3f, 1.3f)->setLeafColor(0x4EBA31)->setTemperatureAndDownfall(0.35f, 0.8f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Plains, eMinecraftColour_Foliage_Forest, eMinecraftColour_Water_Forest,eMinecraftColour_Sky_Forest);
+	Biome::birchForest = (new BirchBiome(24))->setColor(0x056621)->setName(L"BirchForest")->setDepthAndScale(0.1f, 1.0f)->setLeafColor(0x4EBA31)->setTemperatureAndDownfall(0.55f, 0.8f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Forest, eMinecraftColour_Foliage_Forest, eMinecraftColour_Water_Forest,eMinecraftColour_Sky_Forest);
+	Biome::wasteland = (new WastelandBiome(25))->setColor(0xd25f12)->setName(L"Wasteland")->setDepthAndScale(0.1f, 1.2f)->setNoRain()->setTemperatureAndDownfall(2, 0)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_DesertHills, eMinecraftColour_Foliage_DesertHills, eMinecraftColour_Water_DesertHills,eMinecraftColour_Sky_DesertHills);
+	Biome::rainForest = (new RainforestBiome(26))->setColor(0x537b09)->setName(L"RainForest")->setDepthAndScale(0.1f, 1.5f)->setLeafColor(0x537b09)->setTemperatureAndDownfall(1.0f, 0.9f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Jungle, eMinecraftColour_Foliage_Jungle, eMinecraftColour_Water_Jungle,eMinecraftColour_Sky_Jungle);
 
 }
 
