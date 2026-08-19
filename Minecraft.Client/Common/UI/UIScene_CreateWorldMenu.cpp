@@ -429,7 +429,7 @@ void UIScene_CreateWorldMenu::handlePress(F64 controlId, F64 childId)
 #endif
 
 	//CD - Added for audio
-	ui.PlayUISFX(eSFX_Press);
+	//ui.PlayUISFX(eSFX_Press);
 
 	switch(static_cast<int>(controlId))
 	{
