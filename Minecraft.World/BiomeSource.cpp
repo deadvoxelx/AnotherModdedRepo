@@ -4,6 +4,7 @@
 #include "net.minecraft.world.level.biome.h"
 #include "net.minecraft.world.level.newbiome.layer.h"
 #include "System.h"
+#include "ChunkSource.h"
 #include "BiomeSource.h"
 #include "../Minecraft.Client/Minecraft.h"
 #include "../Minecraft.Client/ProgressRenderer.h"
@@ -16,21 +17,23 @@ void BiomeSource::_init()
 
 	cache = new BiomeCache(this);
 
-	playerSpawnBiomes.push_back(Biome::forest);
-	playerSpawnBiomes.push_back(Biome::taiga);
 	playerSpawnBiomes.push_back(Biome::plains);
-	playerSpawnBiomes.push_back(Biome::taigaHills);
+	playerSpawnBiomes.push_back(Biome::forest);
 	playerSpawnBiomes.push_back(Biome::forestHills);
+	playerSpawnBiomes.push_back(Biome::taiga);
+	playerSpawnBiomes.push_back(Biome::taigaHills);
 	playerSpawnBiomes.push_back(Biome::jungle);
 	playerSpawnBiomes.push_back(Biome::jungleHills);
 	playerSpawnBiomes.push_back(Biome::cherryForest);
+	playerSpawnBiomes.push_back(Biome::birchForest);
+	playerSpawnBiomes.push_back(Biome::rainForest);
 }
 
-void BiomeSource::_init(int64_t seed, LevelType *generator)
+void BiomeSource::_init(int64_t seed, LevelType *generator, int xzSize)
 {
 	_init();
 
-	LayerArray layers = Layer::getDefaultLayers(seed, generator);
+	LayerArray layers = Layer::getDefaultLayers(seed, generator, xzSize);
 	layer = layers[0];
 	zoomedLayer = layers[1];
 
@@ -45,13 +48,18 @@ BiomeSource::BiomeSource()
 // 4J added
 BiomeSource::BiomeSource(int64_t seed, LevelType *generator)
 {
-	_init(seed, generator);
+	_init(seed, generator, LEVEL_MIN_WIDTH);
+}
+
+BiomeSource::BiomeSource(int64_t seed, LevelType *generator, int xzSize)
+{
+	_init(seed, generator, xzSize);
 }
 
 // 4J - removal of separate temperature & downfall layers brought forward from 1.2.3
 BiomeSource::BiomeSource(Level *level)
 {
-	_init(level->getSeed(), level->getLevelData()->getGenerator());
+	_init(level->getSeed(), level->getLevelData()->getGenerator(), level->getLevelData()->getXZSize());
 }
 
 BiomeSource::~BiomeSource()
@@ -434,14 +442,22 @@ int64_t BiomeSource::findSeed(LevelType *generator)
 		for( int k = 0; k < DEBUG_SEEDS; k++ )
 #endif
 		{
+#ifdef _LARGE_WORLDS
+			int xzSize = app.GetGameNewWorldSize();
+#else
+			int xzSize = LEVEL_MIN_WIDTH;
+#endif
+			if (xzSize < LEVEL_MIN_WIDTH) xzSize = LEVEL_MIN_WIDTH;
+			if (xzSize > LEVEL_MAX_WIDTH) xzSize = LEVEL_MAX_WIDTH;
+
 			// Try and genuinely random this search up
 			Random *pr = new Random(System::nanoTime());
 
 			// Raw biome data has one result per 4x4 group of tiles.
 			// Removing a border of 8 from each side since we'll be doing special things at the edge to turn our world into an island, and so don't want to count things
 			// in the edge region in case they later get removed
-			static const int biomeWidth = ( 54 * 4 ) - 16;			// Should be even so we can offset evenly
-			static const int biomeOffset = -( biomeWidth / 2 );
+			const int biomeWidth = ( xzSize * 4 ) - 16;			// Should be even so we can offset evenly
+			const int biomeOffset = -( biomeWidth / 2 );
 
 			// Storage for our biome indices
 			intArray indices = intArray( biomeWidth * biomeWidth );
@@ -451,28 +467,28 @@ int64_t BiomeSource::findSeed(LevelType *generator)
 
 			bool matchFound = false;
 			int tryCount = 0;
+			const int MAX_TRIES = 1000;
 
 			// Just keeping trying to generate seeds until we find one that matches our criteria
 			do
 			{
 				int64_t seed = pr->nextLong();
-				BiomeSource *biomeSource = new BiomeSource(seed,generator);
+				bestSeed = seed;
+				BiomeSource *biomeSource = new BiomeSource(seed, generator, xzSize);
 
 				biomeSource->getRawBiomeIndices(indices, biomeOffset, biomeOffset, biomeWidth, biomeWidth);
 				getFracs(indices, toCompare);
 
 				matchFound = getIsMatch( toCompare );
 
-				if( matchFound ) bestSeed = seed;
-
 				delete biomeSource;
 				tryCount++;
 
-				mcprogress->progressStagePercentage( tryCount % 100 );
+				mcprogress->progressStagePercentage( ( tryCount * 100 ) / MAX_TRIES );
 #ifdef __PSVITA__
-			} while (!matchFound && *pServerRunning);
+			} while (!matchFound && *pServerRunning && tryCount < MAX_TRIES);
 #else
-			} while (!matchFound);
+			} while (!matchFound && tryCount < MAX_TRIES);
 #endif
 
 			// Clean up
@@ -564,11 +580,11 @@ bool BiomeSource::getIsMatch(float *frac)
 	static const bool critical[Biome::BIOME_COUNT] = {
 		true,	// ocean
 		true,	// plains
-		true,	// desert
+		false,	// desert
 		false,	// extreme hills
 		true,	// forest
-		true,	// taiga
-		true,	// swamps
+		false,	// taiga
+		false,	// swamps
 		false,	// river
 		false,	// hell
 		false,	// end biome
@@ -583,19 +599,16 @@ bool BiomeSource::getIsMatch(float *frac)
 		false,	// forest hills (combined with forest)
 		false,	// taiga hills (combined with taga)
 		false,	// small extreme hills
-		true,	// jungle
+		false,	// jungle
 		false,	// jungle hills (combined with jungle)
 		true,	// cherry forest
+		false,	// birch forest
+		false,	// wasteland
+		false,	// rainForest
 	};
 
 	// Don't want more than 15% ocean
 	if( frac[0] > 0.15f )
-	{
-		return false;
-	}
-
-	// Don't want more than 10% cherry forest
-	if( frac[23] > 0.10f )
 	{
 		return false;
 	}
