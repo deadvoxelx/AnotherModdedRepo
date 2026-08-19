@@ -713,7 +713,7 @@ void UIScene_LoadMenu::handlePress(F64 controlId, F64 childId)
 	if(m_bIgnoreInput) return;
 
 	//CD - Added for audio
-	ui.PlayUISFX(eSFX_Press);
+	//ui.PlayUISFX(eSFX_Press);
 
 	switch(static_cast<int>(controlId))
 	{
