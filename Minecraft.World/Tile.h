@@ -416,6 +416,13 @@ public:
 	static const int blaster_Id = 206;
 	static const int blaster_lit_Id = 207;
 
+	static const int woolSlab_Id = 208;
+	static const int woolSlabHalf_Id = 209;
+	static const int woolSlab2_Id = 210;
+	static const int woolSlab2Half_Id = 211;
+
+	static const int deadLog_Id = 212;
+
 
 	static Tile *stone;
 	static GrassTile *grass;
@@ -641,6 +648,13 @@ public:
 	static Tile *steelBlock;
 	static Tile *blaster;
 	static Tile *blaster_lit;
+
+	static HalfSlabTile *woolSlab;
+	static HalfSlabTile *woolSlabHalf;
+	static HalfSlabTile *woolSlab2;
+	static HalfSlabTile *woolSlab2Half;
+
+	static Tile *deadLog;
 
 	static void staticCtor();
 
