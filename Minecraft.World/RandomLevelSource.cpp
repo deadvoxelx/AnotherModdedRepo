@@ -22,7 +22,6 @@ static PerlinNoise_DataIn g_depthNoise_SPU __attribute__((__aligned__(16)));
 
 #endif
 
-
 const double RandomLevelSource::SNOW_SCALE = 0.3;
 const double RandomLevelSource::SNOW_CUTOFF = 0.5;
 
@@ -46,6 +45,7 @@ RandomLevelSource::RandomLevelSource(Level *level, int64_t seed, bool generateSt
 	lperlinNoise1 = new PerlinNoise(random, 16);
 	lperlinNoise2 = new PerlinNoise(random, 16);
 	perlinNoise1 = new PerlinNoise(random, 8);
+	perlinNoise2 = new PerlinNoise(random, 4);
 	perlinNoise3 = new PerlinNoise(random, 4);
 
 	scaleNoise = new PerlinNoise(random, 10);
@@ -80,6 +80,7 @@ RandomLevelSource::~RandomLevelSource()
 	delete lperlinNoise1;
 	delete lperlinNoise2;
 	delete perlinNoise1;
+	delete perlinNoise2;
 	delete perlinNoise3;
 
 	delete scaleNoise;
@@ -96,27 +97,16 @@ RandomLevelSource::~RandomLevelSource()
 	if( pows.data != nullptr ) delete [] pows.data;
 }
 
-
 int g_numPrepareHeightCalls = 0;
 LARGE_INTEGER g_totalPrepareHeightsTime = {0,0};
 LARGE_INTEGER g_averagePrepareHeightsTime = {0, 0};
-
-
-
-
-
 
 #ifdef _LARGE_WORLDS
 
 int RandomLevelSource::getMinDistanceToEdge(int xxx, int zzz, int worldSize, float falloffStart)
 {
-	// Get distance to edges of world in x
-	// we have to do a proper line dist check here
 	int min = -worldSize/2;
 	int max = (worldSize/2)-1;
-
-	// 	// only check if either x or z values are within the falloff
-	// 	if(xxx > (min - falloffStart)
 
 	Vec3* topLeft = Vec3::newTemp(min, 0, min);
 	Vec3* topRight = Vec3::newTemp(max, 0, min);
@@ -125,7 +115,6 @@ int RandomLevelSource::getMinDistanceToEdge(int xxx, int zzz, int worldSize, flo
 
 	float closest = falloffStart;
 	float dist;
-	// make sure we're in range of the edges before we do a full distance check
 	if( (xxx > (min-falloffStart)  && xxx < (min+falloffStart)) ||
 		(xxx > (max-falloffStart)  && xxx < (max+falloffStart)) )
 	{
@@ -137,7 +126,6 @@ int RandomLevelSource::getMinDistanceToEdge(int xxx, int zzz, int worldSize, flo
 		closest = dist;
 	}
 
-	// make sure we're in range of the edges before we do a full distance check
 	if( (zzz > (min-falloffStart)  && zzz < (min+falloffStart)) ||
 		(zzz > (max-falloffStart)  && zzz < (max+falloffStart)) )
 	{
@@ -149,23 +137,17 @@ int RandomLevelSource::getMinDistanceToEdge(int xxx, int zzz, int worldSize, flo
 		if(dist<closest)
 			closest = dist;
 	}
-
 	return closest;
 }
 
-
 float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 {
-	///////////////////////////////////////////////////////////////////
-	// 4J - add this chunk of code to make land "fall-off" at the edges of
-	// a finite world - size of that world is currently hard-coded in here
 	const int worldSize = m_XZSize * 16;
-	const int falloffStart = 32;			// chunks away from edge were we start doing fall-off
-	const float falloffMax = 128.0f;			// max value we need to get to falloff by the edge of the map
+	const int falloffStart = 32;
+	const float falloffMax = 128.0f;
 
 	float comp = 0.0f;
 	int emin = getMinDistanceToEdge(xxx, zzz, worldSize, falloffStart);
-	// check if we have a larger world that should have moats
 	int expandedWorldSizes[3] = {LEVEL_WIDTH_CLASSIC*16,
 								LEVEL_WIDTH_SMALL*16,
 								LEVEL_WIDTH_MEDIUM*16};
@@ -174,7 +156,6 @@ float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 	{
 		if(expandedMoatValues[i] && (worldSize > expandedWorldSizes[i]))
 		{
-			// this world has been expanded, with moat settings, so we need fallofs at this edges too
 			int eminMoat = getMinDistanceToEdge(xxx, zzz, expandedWorldSizes[i], falloffStart);
 			if(eminMoat < emin)
 			{
@@ -183,7 +164,6 @@ float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 		}
 	}
 
-	// Calculate how much we want the world to fall away, if we're in the defined region to do so
 	if( emin < falloffStart )
 	{
 		int falloff = falloffStart - emin;
@@ -191,36 +171,25 @@ float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 	}
 	*pEMin = emin;
 	return comp;
-	// 4J - end of extra code
-	///////////////////////////////////////////////////////////////////
 }
 
 #else
-
-
-// MGH  - go back to using the simpler version for PS3/vita/360, as it was causing a lot of slow down on the tuturial generation
 float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 {
-	///////////////////////////////////////////////////////////////////
-	// 4J - add this chunk of code to make land "fall-off" at the edges of
-	// a finite world - size of that world is currently hard-coded in here
 	const int worldSize = m_XZSize * 16;
-	const int falloffStart = 32;			// chunks away from edge were we start doing fall-off
-	const float falloffMax = 128.0f;			// max value we need to get to falloff by the edge of the map
+	const int falloffStart = 32;
+	const float falloffMax = 128.0f;
 
-	// Get distance to edges of world in x
 	int xxx0 = xxx + ( worldSize / 2 );
 	if( xxx0 < 0 ) xxx0 = 0;
 	int xxx1 = ( ( worldSize / 2 ) - 1 ) - xxx;
 	if( xxx1 < 0 ) xxx1 = 0;
 
-	// Get distance to edges of world in z
 	int zzz0 = zzz + ( worldSize / 2 );
 	if( zzz0 < 0 ) zzz0 = 0;
 	int zzz1 = ( ( worldSize / 2 ) - 1 ) - zzz;
 	if( zzz1 < 0 ) zzz1 = 0;
 
-	// Get min distance to any edge
 	int emin = xxx0;
 	if (xxx1 < emin ) emin = xxx1;
 	if (zzz0 < emin ) emin = zzz0;
@@ -228,14 +197,11 @@ float RandomLevelSource::getHeightFalloff(int xxx, int zzz, int* pEMin)
 
 	float comp = 0.0f;
 
-	// Calculate how much we want the world to fall away, if we're in the defined region to do so
 	if( emin < falloffStart )
 	{
 		int falloff = falloffStart - emin;
 		comp = ((float)falloff / (float)falloffStart ) * falloffMax;
 	}
-	// 4J - end of extra code
-	///////////////////////////////////////////////////////////////////
 	*pEMin = emin;
 	return comp;
 }
@@ -253,11 +219,11 @@ void RandomLevelSource::prepareHeights(int xOffs, int zOffs, byteArray blocks)
 	int ySize = Level::genDepth / CHUNK_HEIGHT + 1;
 	int zSize = xChunks + 1;
 
-	BiomeArray biomes;	// 4J created locally here for thread safety, java has this as a class member
+	BiomeArray biomes;
 
 	level->getBiomeSource()->getRawBiomeBlock(biomes, xOffs * CHUNK_WIDTH - 2, zOffs * CHUNK_WIDTH - 2, xSize + 5, zSize + 5);
 
-	doubleArray buffer;	// 4J - used to be declared with class level scope but tidying up for thread safety reasons
+	doubleArray buffer;
 	buffer = getHeights(buffer, xOffs * xChunks, 0, zOffs * xChunks, xSize, ySize, zSize, biomes);
 
 	QueryPerformanceCounter(&startTime);
@@ -299,20 +265,13 @@ void RandomLevelSource::prepareHeights(int xOffs, int zOffs, byteArray blocks)
 						val -= vala;
 						for (int z = 0; z < CHUNK_WIDTH; z++)
 						{
-// 4J Stu - I have removed all uses of the new getHeightFalloff function for now as we had some problems with PS3/PSVita world generation
-// I have fixed the non large worlds method, however we will be happier if the current builds go out with completely old code
-// We can put the new code back in mid-november 2014 once those PS3/Vita builds are gone (and the PS4 doesn't have world enlarging in these either anyway)
 							int xxx = ( ( xOffs * 16 ) + x + ( xc * CHUNK_WIDTH ) );
 							int zzz = ( ( zOffs * 16 ) + z + ( zc * CHUNK_WIDTH ) );
 							int emin;
 							float comp = getHeightFalloff(xxx, zzz, &emin);
 
 
-							// 4J - slightly rearranged this code (as of java 1.0.1 merge) to better fit with
-							// changes we've made edge-of-world things - original sets blocks[offs += step] directly
-							// here rather than setting a tileId
 							int tileId = 0;
-							// 4J - this comparison used to just be with 0.0f but is now varied by block above
 							if ((val += vala) > comp)
 							{
 								tileId = static_cast<byte>(Tile::stone_Id);
@@ -322,12 +281,9 @@ void RandomLevelSource::prepareHeights(int xOffs, int zOffs, byteArray blocks)
 								tileId = static_cast<byte>(Tile::calmWater_Id);
 							}
 
-							// 4J - more extra code to make sure that the column at the edge of the world is just water & rock, to match the infinite sea that
-							// continues on after the edge of the world.
 
 							if( emin == 0 )
 							{
-								// This matches code in MultiPlayerChunkCache that makes the geometry which continues at the edge of the world
 								if( yc * CHUNK_HEIGHT + y <= ( level->getSeaLevel() - 10 ) ) tileId = Tile::stone_Id;
 								else if( yc * CHUNK_HEIGHT + y < level->getSeaLevel() ) tileId = Tile::calmWater_Id;
 							}
@@ -356,10 +312,7 @@ void RandomLevelSource::prepareHeights(int xOffs, int zOffs, byteArray blocks)
 
 	delete [] buffer.data;
 	delete [] biomes.data;
-
-
 }
-
 
 void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, BiomeArray biomes)
 {
@@ -367,8 +320,12 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 
 	double s = 1 / 32.0;
 
-	doubleArray depthBuffer(16*16); // 4J - used to be declared with class level scope but moved here for thread safety
+	doubleArray sandBuffer(16*16);
+	doubleArray gravelBuffer(16*16);
+	doubleArray depthBuffer(16*16);
 
+	sandBuffer = perlinNoise2->getRegion(sandBuffer, xOffs * 16, zOffs * 16, 0, 16, 16, 1, s, s, 1);
+	gravelBuffer = perlinNoise2->getRegion(gravelBuffer, xOffs * 16, 109, zOffs * 16, 16, 1, 16, s, 1, s);
 	depthBuffer = perlinNoise3->getRegion(depthBuffer, xOffs * 16, zOffs * 16, 0, 16, 16, 1, s * 2, s * 2, s * 2);
 
 	for (int x = 0; x < 16; x++)
@@ -377,12 +334,17 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 		{
 			Biome *b = biomes[z + x * 16];
 			float temp = b->getTemperature();
+			bool sand = (sandBuffer[x + z * 16] + random->nextDouble() * 0.2) > 0;
+			bool gravel = (gravelBuffer[x + z * 16] + random->nextDouble() * 0.2) > 0;
 			int runDepth = static_cast<int>(depthBuffer[x + z * 16] / 3 + 3 + random->nextDouble() * 0.25);
 
 			int run = -1;
 
 			byte top = b->topMaterial;
 			byte material = b->material;
+			byte base = (byte) Tile::stone_Id;
+			if (sand) base = static_cast<byte>(Tile::granite_Id);
+			if (gravel) base = static_cast<byte>(Tile::limestone_Id);
 
 			LevelGenerationOptions *lgo = app.getLevelGenerationOptions();
 			if(lgo != nullptr)
@@ -395,7 +357,6 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 				int offs = (z * 16 + x) * Level::genDepth + y;
 
 				if (y <= 1 + random->nextInt(2))	// 4J - changed to make the bedrock not have bits you can get stuck in
-					//                if (y <= 0 + random->nextInt(5))
 				{
 					blocks[offs] = static_cast<byte>(Tile::unbreakable_Id);
 				}
@@ -448,14 +409,16 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 								material = static_cast<byte>(Tile::sandStone_Id);
 							}
 						}
+						else
+						{
+							blocks[offs] = base;
+						}
 					}
 				}
 			}
 		}
 	}
-
 	delete [] depthBuffer.data;
-
 }
 
 LevelChunk *RandomLevelSource::create(int x, int z)
@@ -467,18 +430,13 @@ LevelChunk *RandomLevelSource::getChunk(int xOffs, int zOffs)
 {
 	random->setSeed(xOffs * 341873128712l + zOffs * 132897987541l);
 
-	// 4J - now allocating this with a physical alloc & bypassing general memory management so that it will get cleanly freed
 	int blocksSize = Level::genDepth * 16 * 16;
 	byte *tileData = static_cast<byte *>(XPhysicalAlloc(blocksSize, MAXULONG_PTR, 4096, PAGE_READWRITE));
 	XMemSet128(tileData,0,blocksSize);
 	byteArray blocks = byteArray(tileData,blocksSize);
-	//    byteArray blocks = byteArray(16 * level->depth * 16);
-
-	// LevelChunk *levelChunk = new LevelChunk(level, blocks, xOffs, zOffs);		// 4J - moved to below
 
 	prepareHeights(xOffs, zOffs, blocks);
 
-	// 4J - Some changes made here to how biomes, temperatures and downfalls are passed around for thread safety
 	BiomeArray biomes;
 	level->getBiomeSource()->getBiomeBlock(biomes, xOffs * 16, zOffs * 16, 16, 16, true);
 
@@ -487,9 +445,6 @@ LevelChunk *RandomLevelSource::getChunk(int xOffs, int zOffs)
 	delete [] biomes.data;
 
 	caveFeature->apply(this, level, xOffs, zOffs, blocks);
-	// 4J Stu Design Change - 1.8 gen goes stronghold, mineshaft, village, canyon
-	// this changed in 1.2 to canyon, mineshaft, village, stronghold
-	// This change makes sense as it stops canyons running through other structures
 	canyonFeature->apply(this, level, xOffs, zOffs, blocks);
 	if (generateStructures)
 	{
@@ -498,30 +453,16 @@ LevelChunk *RandomLevelSource::getChunk(int xOffs, int zOffs)
 		strongholdFeature->apply(this, level, xOffs, zOffs, blocks);
 		scatteredFeature->apply(this, level, xOffs, zOffs, blocks);
 	}
-	//        canyonFeature.apply(this, level, xOffs, zOffs, blocks);
-	// townFeature.apply(this, level, xOffs, zOffs, blocks);
-	// addCaves(xOffs, zOffs, blocks);
-	// addTowns(xOffs, zOffs, blocks);
-
-	//    levelChunk->recalcHeightmap();		// 4J - removed & moved into its own method
-
-	// 4J - this now creates compressed block data from the blocks array passed in, so moved it until after the blocks are actually finalised. We also
-	// now need to free the passed in blocks as the LevelChunk doesn't use the passed in allocation anymore.
 	LevelChunk *levelChunk = new LevelChunk(level, blocks, xOffs, zOffs);
 	XPhysicalFree(tileData);
 
 	return levelChunk;
 }
 
-// 4J - removed & moved into its own method from getChunk, so we can call recalcHeightmap after the chunk is added into the cache. Without
-// doing this, then loads of the lightgaps() calls will fail to add any lights, because adding a light checks if the cache has this chunk in.
-// lightgaps also does light 1 block into the neighbouring chunks, and maybe that is somehow enough to get lighting to propagate round the world,
-// but this just doesn't seem right - this isn't a new fault in the 360 version, have checked that java does the same.
 void RandomLevelSource::lightChunk(LevelChunk *lc)
 {
 	lc->recalcHeightmap();
 }
-
 
 doubleArray RandomLevelSource::getHeights(doubleArray buffer, int x, int y, int z, int xSize, int ySize, int zSize, BiomeArray& biomes)
 {
@@ -545,7 +486,7 @@ doubleArray RandomLevelSource::getHeights(doubleArray buffer, int x, int y, int 
 	double s = 1 * 684.412;
 	double hs = 1 * 684.412;
 
-	doubleArray pnr, ar, br, sr, dr, fi, fis;	// 4J - used to be declared with class level scope but moved here for thread safety
+	doubleArray pnr, ar, br, sr, dr, fi, fis;
 
 	if (FLOATING_ISLANDS)
 	{
@@ -684,7 +625,6 @@ doubleArray RandomLevelSource::getHeights(doubleArray buffer, int x, int y, int 
 	delete [] fis.data;
 
 	return buffer;
-
 }
 
 bool RandomLevelSource::hasChunk(int x, int y)
@@ -748,10 +688,8 @@ void RandomLevelSource::calcWaterDepths(ChunkSource *parent, int xt, int zt)
 			}
 		}
 	}
-
 }
 
-// 4J - changed this to used pprandom rather than random, so that we can run it concurrently with getChunk
 void RandomLevelSource::postProcess(ChunkSource *parent, int xt, int zt)
 {
 	HeavyTile::instaFall = true;
@@ -812,128 +750,138 @@ void RandomLevelSource::postProcess(ChunkSource *parent, int xt, int zt)
 	PIXEndNamedEvent();
 
 	PIXBeginNamedEvent(0,"Decorate Stone");
-	if (pprandom->nextInt(3) == 0)
+
+	bool hasLimestone = false;
+	bool hasGranite = false;
+	LevelChunk *genChunk = level->getChunk(xt, zt);
+	if (genChunk != nullptr)
 	{
-		int x = xo + pprandom->nextInt(16) + 8;
-		int y = 12 + pprandom->nextInt(96);
-		int z = zo + pprandom->nextInt(16) + 8;
-		LimestoneBlobFeature(Tile::limestone_Id).place(level, pprandom, x, y, z);
+		for (int x = 0; x < 16 && !(hasLimestone && hasGranite); x++)
+		{
+			for (int z = 0; z < 16; z++)
+			{
+				for (int y = 0; y < Level::genDepth; y++)
+				{
+					int t = genChunk->getTile(x, y, z);
+					if (t == Tile::limestone_Id) hasLimestone = true;
+					else if (t == Tile::granite_Id) hasGranite = true;
+				}
+			}
+		}
 	}
 
-	if (pprandom->nextInt(3) == 0)
+	if (hasLimestone)
 	{
-		int x = xo + pprandom->nextInt(16) + 8;
-		int y = 12 + pprandom->nextInt(96);
-		int z = zo + pprandom->nextInt(16) + 8;
-		GraniteBlobFeature(Tile::granite_Id).place(level, pprandom, x, y, z);
+		OreFeature limestoneCoalFeature(Tile::limestoneCoal_Id, 0, 16, Tile::limestone_Id);
+		for (int i = 0; i < 20; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(128);
+			int z = zo + pprandom->nextInt(16);
+			limestoneCoalFeature.place(level, pprandom, x, y, z);
+		}
+
+		OreFeature limestoneIronFeature(Tile::limestoneIron_Id, 0, 11, Tile::limestone_Id);
+		for (int i = 0; i < 20; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(64);
+			int z = zo + pprandom->nextInt(16);
+			limestoneIronFeature.place(level, pprandom, x, y, z);
+		}
+
+		OreFeature limestoneGoldFeature(Tile::limestoneGold_Id, 0, 8, Tile::limestone_Id);
+		for (int i = 0; i < 3; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(32);
+			int z = zo + pprandom->nextInt(16);
+			limestoneGoldFeature.place(level, pprandom, x, y, z);
+		}
+
+		OreFeature limestoneLapisFeature(Tile::limestoneLapis_Id, 0, 4, Tile::limestone_Id);
+		for (int i = 0; i < 3; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(32);
+			int z = zo + pprandom->nextInt(16);
+			limestoneLapisFeature.place(level, pprandom, x, y, z);
+		}
+
+		OreFeature limestoneRedstoneFeature(Tile::limestoneRedstone_Id, 0, 9, Tile::limestone_Id);
+		for (int i = 0; i < 8; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(16);
+			int z = zo + pprandom->nextInt(16);
+			limestoneRedstoneFeature.place(level, pprandom, x, y, z);
+		}
+
+		OreFeature limestoneDiamondFeature(Tile::limestoneDiamond_Id, 0, 8, Tile::limestone_Id);
+		for (int i = 0; i < 2; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(16);
+			int z = zo + pprandom->nextInt(16);
+			limestoneDiamondFeature.place(level, pprandom, x, y, z);
+		}
 	}
 
-	OreFeature limestoneCoalFeature(Tile::limestoneCoal_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 20; i++)
+	if (hasGranite)
 	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(128);
-		int z = zo + pprandom->nextInt(16);
-		limestoneCoalFeature.place(level, pprandom, x, y, z);
-	}
+		OreFeature graniteCoalFeature(Tile::graniteCoal_Id, 0, 16, Tile::granite_Id);
+		for (int i = 0; i < 20; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(128);
+			int z = zo + pprandom->nextInt(16);
+			graniteCoalFeature.place(level, pprandom, x, y, z);
+		}
 
-	OreFeature graniteCoalFeature(Tile::graniteCoal_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 20; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(128);
-		int z = zo + pprandom->nextInt(16);
-		graniteCoalFeature.place(level, pprandom, x, y, z);
-	}
+		OreFeature graniteIronFeature(Tile::graniteIron_Id, 0, 11, Tile::granite_Id);
+		for (int i = 0; i < 20; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(64);
+			int z = zo + pprandom->nextInt(16);
+			graniteIronFeature.place(level, pprandom, x, y, z);
+		}
 
-	OreFeature limestoneIronFeature(Tile::limestoneIron_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 20; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(64);
-		int z = zo + pprandom->nextInt(16);
-		limestoneIronFeature.place(level, pprandom, x, y, z);
-	}
+		OreFeature graniteGoldFeature(Tile::graniteGold_Id, 0, 8, Tile::granite_Id);
+		for (int i = 0; i < 3; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(32);
+			int z = zo + pprandom->nextInt(16);
+			graniteGoldFeature.place(level, pprandom, x, y, z);
+		}
 
-	OreFeature graniteIronFeature(Tile::graniteIron_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 20; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(64);
-		int z = zo + pprandom->nextInt(16);
-		graniteIronFeature.place(level, pprandom, x, y, z);
-	}
+		OreFeature graniteLapisFeature(Tile::graniteLapis_Id, 0, 4, Tile::granite_Id);
+		for (int i = 0; i < 3; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(32);
+			int z = zo + pprandom->nextInt(16);
+			graniteLapisFeature.place(level, pprandom, x, y, z);
+		}
 
-	OreFeature limestoneGoldFeature(Tile::limestoneGold_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 3; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(32);
-		int z = zo + pprandom->nextInt(16);
-		limestoneGoldFeature.place(level, pprandom, x, y, z);
-	}
+		OreFeature graniteRedstoneFeature(Tile::graniteRedstone_Id, 0, 9, Tile::granite_Id);
+		for (int i = 0; i < 8; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(16);
+			int z = zo + pprandom->nextInt(16);
+			graniteRedstoneFeature.place(level, pprandom, x, y, z);
+		}
 
-	OreFeature graniteGoldFeature(Tile::graniteGold_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 3; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(32);
-		int z = zo + pprandom->nextInt(16);
-		graniteGoldFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature limestoneLapisFeature(Tile::limestoneLapis_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 3; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(32);
-		int z = zo + pprandom->nextInt(16);
-		limestoneLapisFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature graniteLapisFeature(Tile::graniteLapis_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 3; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(32);
-		int z = zo + pprandom->nextInt(16);
-		graniteLapisFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature limestoneRedstoneFeature(Tile::limestoneRedstone_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 8; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(16);
-		int z = zo + pprandom->nextInt(16);
-		limestoneRedstoneFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature graniteRedstoneFeature(Tile::graniteRedstone_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 8; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(16);
-		int z = zo + pprandom->nextInt(16);
-		graniteRedstoneFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature limestoneDiamondFeature(Tile::limestoneDiamond_Id, 16, Tile::limestone_Id);
-	for (int i = 0; i < 2; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(16);
-		int z = zo + pprandom->nextInt(16);
-		limestoneDiamondFeature.place(level, pprandom, x, y, z);
-	}
-
-	OreFeature graniteDiamondFeature(Tile::graniteDiamond_Id, 16, Tile::granite_Id);
-	for (int i = 0; i < 2; i++)
-	{
-		int x = xo + pprandom->nextInt(16);
-		int y = 4 + pprandom->nextInt(16);
-		int z = zo + pprandom->nextInt(16);
-		graniteDiamondFeature.place(level, pprandom, x, y, z);
+		OreFeature graniteDiamondFeature(Tile::graniteDiamond_Id, 0, 8, Tile::granite_Id);
+		for (int i = 0; i < 2; i++)
+		{
+			int x = xo + pprandom->nextInt(16);
+			int y = 0 + pprandom->nextInt(16);
+			int z = zo + pprandom->nextInt(16);
+			graniteDiamondFeature.place(level, pprandom, x, y, z);
+		}
 	}
 	PIXEndNamedEvent();
 
@@ -961,7 +909,6 @@ void RandomLevelSource::postProcess(ChunkSource *parent, int xt, int zt)
 	PIXEndNamedEvent();
 
 	PIXBeginNamedEvent(0,"Update ice and snow");
-	// 4J - brought forward from 1.2.3 to get snow back in taiga biomes
 	xo += 8;
 	zo += 8;
 	for (int x = 0; x < 16; x++)
