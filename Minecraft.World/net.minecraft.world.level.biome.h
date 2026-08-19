@@ -27,3 +27,5 @@
 #include "BeachBiome.h"
 #include "JungleBiome.h"
 #include "CherryBiome.h"
+#include "BirchBiome.h"
+#include "WastelandBiome.h"
