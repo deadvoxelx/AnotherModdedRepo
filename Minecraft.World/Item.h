@@ -616,7 +616,7 @@ public:
 
 	static const int carrots_Id = 391;
 	static const int potato_Id = 392;
-	static const int potatoBaked_Id = 3930;
+	static const int potatoBaked_Id = 393;
 	static const int potatoPoisonous_Id = 394;
 
 	static const int emptyMap_Id = 395;
