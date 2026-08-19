@@ -25,11 +25,12 @@ private:
 
 protected:
 	void _init();
-	void _init(int64_t seed, LevelType *generator);
+	void _init(int64_t seed, LevelType *generator, int xzSize);
     BiomeSource();
 
 public:
 	BiomeSource(int64_t seed, LevelType *generator);
+	BiomeSource(int64_t seed, LevelType *generator, int xzSize);
     BiomeSource(Level *level);
 private:
 	static bool getIsMatch(float *frac);					// 4J added
