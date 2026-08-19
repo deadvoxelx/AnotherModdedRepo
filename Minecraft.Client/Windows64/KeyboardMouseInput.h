@@ -26,6 +26,7 @@ public:
 	static const int KEY_CRAFTING = 'C';
 	static const int KEY_CRAFTING_ALT = 'R';
 	static const int KEY_CHAT = 'T';
+	static const int KEY_FULLBRIGHT = 'F';
 	static const int KEY_CONFIRM = VK_RETURN;
 	static const int KEY_CANCEL = VK_ESCAPE;
 	static const int KEY_PAUSE = VK_ESCAPE;
