@@ -38,3 +38,4 @@
 #include "PalmTreeFeature.h"
 #include "LimestoneBlobFeature.h"
 #include "GraniteBlobFeature.h"
+#include "DeadTreeFeature.h"
