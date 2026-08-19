@@ -17,7 +17,7 @@ bool SpikeFeature::place(Level *level, Random *random, int x, int y, int z)
 		return false;
 	}
 	int hh = random->nextInt(32) + 6;
-	int r = random->nextInt(4) + 1;
+	int r = random->nextInt(3) + 1;
 
 	for (int xx = x - r; xx <= x + r; xx++)
 		for (int zz = z - r; zz <= z + r; zz++)
@@ -116,55 +116,6 @@ bool SpikeFeature::placeWithIndex(Level *level, Random *random, int x, int y, in
 		{
 			app.DebugPrintf("Breaking out of spike feature\n");
 			break;
-		}
-	}
-
-	// cap the last spikes with a fence to stop lucky arrows hitting the crystal
-
-	if(iIndex>5)
-	{
-		for (int yy = y; yy < y + hh; yy++)
-		{
-			if (yy < Level::genDepth)
-			{
-				for (int xx = x - 2; xx <= x + 2; xx++)
-				{
-					for (int zz = z - 2; zz <= z + 2; zz++)
-					{
-						int xd = xx - x;
-						int zd = zz - z;
-						int iVal = xd * xd + zd * zd;
-						if ( iVal >= 2 * 2)
-						{
-							if(yy==(y + hh - 1))
-							{
-								placeBlock(level, xx, y + hh, zz, Tile::ironFence_Id, 0);
-								placeBlock(level, xx, y + hh +1, zz, Tile::ironFence_Id, 0);
-								placeBlock(level, xx, y + hh +2, zz, Tile::ironFence_Id, 0);
-							}
-						}
-					}
-				}
-			} 
-			else 
-			{
-				app.DebugPrintf("Breaking out of spike feature\n");
-				break;
-			}
-		}
-
-		// and cap off the top
-		int yy =  y + hh + 3;
-
-		if (yy < Level::genDepth)
-		{
-			for (int xx = x - 2; xx <= x + 2; xx++)
-			{
-				for (int zz = z - 2; zz <= z + 2; zz++)
-				{
-					placeBlock(level, xx, yy, zz, Tile::ironFence_Id, 0);
-				}
-			}
 		}
 	}
 
