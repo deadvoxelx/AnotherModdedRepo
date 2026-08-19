@@ -137,7 +137,7 @@ void CanyonFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray bloc
 						{
 							int block = blocks[p];
 							if (block == Tile::grass_Id) hasGrass = true;
-							if (block == Tile::stone_Id || block == Tile::dirt_Id || block == Tile::grass_Id)
+							if (block == Tile::stone_Id || block == Tile::limestone_Id || block == Tile::granite_Id || block == Tile::dirt_Id || block == Tile::grass_Id)
 							{
 								if (yy < 10)
 								{
