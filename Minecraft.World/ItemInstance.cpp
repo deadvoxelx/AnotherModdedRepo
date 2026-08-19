@@ -22,6 +22,10 @@ const wchar_t *ItemInstance::TAG_ENCH_LEVEL = L"lvl";
 void ItemInstance::_init(int id, int count, int auxValue)
 {
 	this->popTime = 0;
+	if (id < 0 || id >= Item::ITEM_NUM_COUNT || Item::items[id] == nullptr)
+	{
+		id = Tile::stone_Id;
+	}
 	this->id = id;
 	this->count = count;
 	this->auxValue = auxValue;
@@ -105,7 +109,12 @@ shared_ptr<ItemInstance> ItemInstance::remove(int count)
 
 Item *ItemInstance::getItem() const
 {
-	return Item::items[id];
+	if (id < 0 || id >= Item::ITEM_NUM_COUNT)
+	{
+		return Item::items[Tile::stone_Id];
+	}
+	Item *item = Item::items[id];
+	return item != nullptr ? item : Item::items[Tile::stone_Id];
 }
 
 Icon *ItemInstance::getIcon()
@@ -156,6 +165,10 @@ void ItemInstance::load(CompoundTag *compoundTag)
 {
 	popTime = 0;
 	id = compoundTag->getShort(L"id");
+	if (id < 0 || id >= Item::ITEM_NUM_COUNT || Item::items[id] == nullptr)
+	{
+		id = Tile::stone_Id;
+	}
 	count = compoundTag->getByte(L"Count");
 	auxValue = compoundTag->getShort(L"Damage");
 	if (auxValue < 0)
@@ -181,7 +194,7 @@ bool ItemInstance::isStackable()
 
 bool ItemInstance::isDamageableItem()
 {
-	return Item::items[id]->getMaxDamage() > 0;
+	return getItem()->getMaxDamage() > 0;
 }
 
 /**
@@ -193,7 +206,7 @@ bool ItemInstance::isDamageableItem()
 
 bool ItemInstance::isStackedByData()
 {
-	return Item::items[id]->isStackedByData();
+	return getItem()->isStackedByData();
 }
 
 bool ItemInstance::isDamaged()
@@ -222,7 +235,7 @@ void ItemInstance::setAuxValue(int value)
 
 int ItemInstance::getMaxDamage()
 {
-	return Item::items[id]->getMaxDamage();
+	return getItem()->getMaxDamage();
 }
 
 bool ItemInstance::hurt(int dmg, Random *random)
@@ -281,23 +294,23 @@ void ItemInstance::hurtAndBreak(int dmg, shared_ptr<LivingEntity> owner)
 void ItemInstance::hurtEnemy(shared_ptr<LivingEntity> mob, shared_ptr<Player> attacker)
 {
 	//bool used =
-	Item::items[id]->hurtEnemy(shared_from_this(), mob, attacker);
+	getItem()->hurtEnemy(shared_from_this(), mob, attacker);
 }
 
 void ItemInstance::mineBlock(Level *level, int tile, int x, int y, int z, shared_ptr<Player> owner)
 {
 	//bool used =
-	Item::items[id]->mineBlock( shared_from_this(), level, tile, x, y, z, owner);
+	getItem()->mineBlock( shared_from_this(), level, tile, x, y, z, owner);
 }
 
 bool ItemInstance::canDestroySpecial(Tile *tile)
 {
-	return Item::items[id]->canDestroySpecial(tile);
+	return getItem()->canDestroySpecial(tile);
 }
 
 bool ItemInstance::interactEnemy(shared_ptr<Player> player, shared_ptr<LivingEntity> mob)
 {
-	return Item::items[id]->interactEnemy(shared_from_this(), player, mob);
+	return getItem()->interactEnemy(shared_from_this(), player, mob);
 }
 
 shared_ptr<ItemInstance> ItemInstance::copy() const
@@ -400,12 +413,12 @@ bool ItemInstance::sameItem_not_shared(const ItemInstance *b)
 
 unsigned int ItemInstance::getUseDescriptionId()
 {
-	return Item::items[id]->getUseDescriptionId(shared_from_this());
+	return getItem()->getUseDescriptionId(shared_from_this());
 }
 
 unsigned int ItemInstance::getDescriptionId(int iData /*= -1*/)
 {
-	return Item::items[id]->getDescriptionId(shared_from_this());
+	return getItem()->getDescriptionId(shared_from_this());
 }
 
 ItemInstance *ItemInstance::setDescriptionId(unsigned int id)
@@ -426,21 +439,15 @@ wstring ItemInstance::toString()
 
 	std::wostringstream oss;
 	// 4J-PB - TODO - temp fix until ore recipe issue is fixed
-	if(Item::items[id]==nullptr)
-	{
-		oss << std::dec << count << L"x" << L" Item::items[id] is nullptr " << L"@" << auxValue;
-	}
-	else
-	{
-		oss << std::dec << count << L"x" << Item::items[id]->getDescription(shared_from_this()) << L"@" << auxValue;
-	}
+	Item *item = getItem();
+	oss << std::dec << count << L"x" << item->getDescription(shared_from_this()) << L"@" << auxValue;
 	return oss.str();
 }
 
 void ItemInstance::inventoryTick(Level *level, shared_ptr<Entity> owner, int slot, bool selected)
 {
 	if (popTime > 0) popTime--;
-	Item::items[id]->inventoryTick(shared_from_this(), level, owner, slot, selected);
+	getItem()->inventoryTick(shared_from_this(), level, owner, slot, selected);
 }
 
 void ItemInstance::onCraftedBy(Level *level, shared_ptr<Player> player, int craftCount)
@@ -453,7 +460,7 @@ void ItemInstance::onCraftedBy(Level *level, shared_ptr<Player> player, int craf
 		GenericStats::param_itemsCrafted(id, auxValue, craftCount)
 		);
 
-	Item::items[id]->onCraftedBy(shared_from_this(), level, player);
+	getItem()->onCraftedBy(shared_from_this(), level, player);
 }
 
 bool ItemInstance::equals(shared_ptr<ItemInstance> ii)
@@ -554,7 +561,7 @@ bool ItemInstance::hasCustomHoverName()
 vector<HtmlString> *ItemInstance::getHoverText(shared_ptr<Player> player, bool advanced)
 {
 	vector<HtmlString> *lines = new vector<HtmlString>();
-	Item *item = Item::items[id];
+	Item *item = getItem();
 	HtmlString title = HtmlString(getHoverName());
 
 	if (hasCustomHoverName())
@@ -678,7 +685,7 @@ vector<HtmlString> *ItemInstance::getHoverText(shared_ptr<Player> player, bool a
 vector<HtmlString> *ItemInstance::getHoverTextOnly(shared_ptr<Player> player, bool advanced)
 {
 	vector<HtmlString> *lines = new vector<HtmlString>();
-	Item *item = Item::items[id];
+	Item *item = getItem();
 
 	item->appendHoverText(shared_from_this(), player, lines, advanced);
 
@@ -705,7 +712,9 @@ vector<HtmlString> *ItemInstance::getHoverTextOnly(shared_ptr<Player> player, bo
 
 bool ItemInstance::isFoil()
 {
-	return getItem()->isFoil(shared_from_this());
+	Item *item = getItem();
+	if (item == nullptr) return false;
+	return item->isFoil(shared_from_this());
 }
 
 const Rarity *ItemInstance::getRarity()
