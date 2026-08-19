@@ -24,10 +24,10 @@ void BeachBiome::decorate(Level *level, Random *random, int xo, int zo)
 	PIXBeginNamedEvent(0, "Palm Trees");
 	PalmTreeFeature *palm = new PalmTreeFeature(false);
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		int x = xo + random->nextInt(16) + 8;
-		int y = 63 + random->nextInt(3);
+		int y = 63 + random->nextInt(2);
 		int z = zo + random->nextInt(16) + 8;
 		palm->place(level, random, x, y, z);
 	}
