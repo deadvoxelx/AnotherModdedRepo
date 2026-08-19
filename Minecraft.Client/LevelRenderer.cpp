@@ -991,7 +991,8 @@ void LevelRenderer::renderSky(float alpha)
 			if (i == 4) glRotatef(90, 0, 0, 1);
 			if (i == 5) glRotatef(-90, 0, 0, 1);
 			t->begin();
-			t->color(0x282828);
+			//t->color(0x282828);
+			t->color(0x060606);
 			t->vertexUV(-100, -100, -100, 0, 0);
 			t->vertexUV(-100, -100, +100, 0, 16);
 			t->vertexUV(+100, -100, +100, 16, 16);
