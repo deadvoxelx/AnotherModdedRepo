@@ -42,14 +42,14 @@ void BiomeDecorator::_init()
 	clayFeature = new ClayFeature(4);
 	sandFeature = new SandFeature(7, Tile::sand_Id);
 	gravelFeature = new SandFeature(6, Tile::gravel_Id);
-	dirtOreFeature = new OreFeature(Tile::dirt_Id, 32);
-	gravelOreFeature = new OreFeature(Tile::gravel_Id, 32);
-	coalOreFeature = new OreFeature(Tile::coalOre_Id, 16);
-	ironOreFeature = new OreFeature(Tile::ironOre_Id, 8);
-	goldOreFeature = new OreFeature(Tile::goldOre_Id, 8);
-	redStoneOreFeature = new OreFeature(Tile::redStoneOre_Id, 7);
-	diamondOreFeature = new OreFeature(Tile::diamondOre_Id, 7);
-	lapisOreFeature = new OreFeature(Tile::lapisOre_Id, 6);
+	dirtOreFeature = new OreFeature(Tile::dirt_Id, 0, 32);
+	gravelOreFeature = new OreFeature(Tile::gravel_Id, 0, 32);
+	coalOreFeature = new OreFeature(Tile::coalOre_Id, 0, 16);
+	ironOreFeature = new OreFeature(Tile::ironOre_Id, 0, 8);
+	goldOreFeature = new OreFeature(Tile::goldOre_Id, 0, 8);
+	redStoneOreFeature = new OreFeature(Tile::redStoneOre_Id, 0, 7);
+	diamondOreFeature = new OreFeature(Tile::diamondOre_Id, 0, 7);
+	lapisOreFeature = new OreFeature(Tile::lapisOre_Id, 0, 6);
 	yellowFlowerFeature = new FlowerFeature(Tile::flower_Id);
 	roseFlowerFeature = new FlowerFeature(Tile::rose_Id);
 	brownMushroomFeature = new FlowerFeature(Tile::mushroom_brown_Id);
@@ -58,9 +58,6 @@ void BiomeDecorator::_init()
 	reedsFeature = new ReedsFeature();
 	cactusFeature = new CactusFeature();
 	waterlilyFeature = new WaterlilyFeature();
-
-	limestoneFeature = new OreFeature(Tile::limestone_Id, 32);
-	graniteFeature = new OreFeature(Tile::granite_Id, 32);
 
 	waterlilyCount = 0;
 	treeCount = 0;
@@ -323,8 +320,5 @@ void BiomeDecorator::decorateOres()
 	decorateDepthSpan(8, redStoneOreFeature, 0, Level::genDepth / 8);
 	decorateDepthSpan(1, diamondOreFeature, 0, Level::genDepth / 8);
 	decorateDepthAverage(1, lapisOreFeature, Level::genDepth / 8, Level::genDepth / 8);
-
-	decorateDepthSpan(20, limestoneFeature, 0, Level::genDepth);
-	decorateDepthSpan(20, graniteFeature, 0, Level::genDepth);
 	level->setInstaTick(false);
 }
