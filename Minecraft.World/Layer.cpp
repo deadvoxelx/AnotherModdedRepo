@@ -2,6 +2,7 @@
 #include "net.minecraft.world.level.newbiome.layer.h"
 #include "net.minecraft.world.level.h"
 #include "BiomeOverrideLayer.h"
+#include "ChunkSource.h"
 
 #ifdef __PSVITA__
 // AP - this is used to perform fast 64bit divides of known values
@@ -16,7 +17,7 @@ libdivide::divider<long long> fast_d7(7);
 libdivide::divider<long long> fast_d10(10);
 #endif
 
-LayerArray Layer::getDefaultLayers(int64_t seed, LevelType *levelType)
+LayerArray Layer::getDefaultLayers(int64_t seed, LevelType *levelType, int xzSize)
 {
 	// 4J - Some changes moved here from 1.2.3. Temperature & downfall layers are no longer created & returned, and a debug layer is isn't.
 	// For reference with regard to future merging, things NOT brought forward from the 1.2.3 version are new layer types that we
@@ -33,10 +34,16 @@ LayerArray Layer::getDefaultLayers(int64_t seed, LevelType *levelType)
 	islandLayer = std::make_shared<AddIslandLayer>(4, islandLayer);
 //	islandLayer = shared_ptr<Layer>(new AddMushroomIslandLayer(5, islandLayer));		// 4J - old position of mushroom island layer
 
-	int zoomLevel = 4;
+	int zoomLevel = 3;
+
+	for (int threshold = LEVEL_MIN_WIDTH * 2; xzSize >= threshold; threshold *= 2)
+	{
+		zoomLevel++;
+	}
+
 	if (levelType == LevelType::lvl_largeBiomes)
 	{
-		zoomLevel = 6;
+		zoomLevel += 2;
 	}
 
 	shared_ptr<Layer> riverLayer = islandLayer;

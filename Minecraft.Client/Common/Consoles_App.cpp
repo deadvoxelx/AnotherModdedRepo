@@ -4524,8 +4524,8 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_TILE_DOOR_GOLD, L"Gold Door");
 		m_stringTable->registerString(IDS_TILE_LIMESTONE, L"Limestone");
 		m_stringTable->registerString(IDS_TILE_GRANITE, L"Granite");
-		m_stringTable->registerString(IDS_TILE_NETHER_COAL_ORE, L"Nether Coal Ore");
-		m_stringTable->registerString(IDS_ITEM_NETHER_COAL, L"Nether Coal");
+		m_stringTable->registerString(IDS_TILE_NETHER_COAL_ORE, L"Blaze Coal Ore");
+		m_stringTable->registerString(IDS_ITEM_NETHER_COAL, L"Blaze Coal");
 		m_stringTable->registerString(IDS_TILE_NETHERRACK, L"Cobbled Netherrack");
 		m_stringTable->registerString(IDS_TILE_LIMESTONE_COBBLED, L"Cobbled Limestone");
 		m_stringTable->registerString(IDS_TILE_GRANITE_COBBLED, L"Cobbled Granite");
@@ -4545,6 +4545,9 @@ void CMinecraftApp::loadStringTable()
 		m_stringTable->registerString(IDS_ITEM_STEEL_LEGGINGS, L"Steel Leggings");
 		m_stringTable->registerString(IDS_ITEM_STEEL_BOOTS, L"Steel Boots");
 		m_stringTable->registerString(IDS_TILE_BLASTER, L"Blaster");
+		m_stringTable->registerString(IDS_TILE_WOOL_SLAB, L"Wool Slab");
+		m_stringTable->registerString(IDS_TILE_DEAD_LOG, L"Dead Log");
+		m_stringTable->registerString(IDS_TILE_DRY_DIRT, L"Dry Dirt");
 	}
 	else
 	{

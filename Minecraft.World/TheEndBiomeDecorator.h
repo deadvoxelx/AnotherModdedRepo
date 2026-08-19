@@ -18,7 +18,4 @@ protected:
 	Feature *spikeFeature;
 	Feature *endPodiumFeature;
 	virtual void decorate();
-
-
-	static SPIKE SpikeValA[8];
 };

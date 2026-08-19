@@ -101,6 +101,13 @@ Recipes::Recipes()
 		L'#', Tile::mossyLog,
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_SILVER), //
+		L"sctg",
+		L"#", //
+
+		L'#', Tile::deadLog,
+		L'S');
+
 	addShapedRecipy(new ItemInstance(Item::stick, 4), //
 		L"ssctg",
 		L"#", //
@@ -530,6 +537,36 @@ Recipes::Recipes()
 		L'#', Tile::sand,
 		L'T');
 
+	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, 0), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wood, 1, 0),
+		L'S');
+	// TU9 - adding wood slabs
+
+	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::BIRCH_TRUNK), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wood, 1, TreeTile::BIRCH_TRUNK),
+		L'S');
+
+
+	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::DARK_TRUNK), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wood, 1, TreeTile::DARK_TRUNK),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::JUNGLE_TRUNK), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wood, 1, TreeTile::JUNGLE_TRUNK),
+		L'S');
+
 	addShapedRecipy(new ItemInstance(Tile::stoneSlabHalf, 6, StoneSlabTile::SAND_SLAB), //
 		L"sctg",
 		L"###", //
@@ -578,39 +615,117 @@ Recipes::Recipes()
 		L'#', Tile::quartzBlock,
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, 0), //
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::WHITE), //
 		L"sczg",
 		L"###", //
 
-		L'#', new ItemInstance(Tile::wood, 1, 0),
+		L'#', new ItemInstance(Tile::wool, 1, 0),
 		L'S');
-	// TU9 - adding wood slabs
 
-	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::BIRCH_TRUNK), //
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::SILVER), //
 		L"sczg",
 		L"###", //
 
-		L'#', new ItemInstance(Tile::wood, 1, TreeTile::BIRCH_TRUNK),
+		L'#', new ItemInstance(Tile::wool, 1, 8),
 		L'S');
 
-
-	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::DARK_TRUNK), //
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::GRAY), //
 		L"sczg",
 		L"###", //
 
-		L'#', new ItemInstance(Tile::wood, 1, TreeTile::DARK_TRUNK),
+		L'#', new ItemInstance(Tile::wool, 1, 7),
 		L'S');
 
-	addShapedRecipy(new ItemInstance(Tile::woodSlabHalf, 6, TreeTile::JUNGLE_TRUNK), //
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::BLACK), //
 		L"sczg",
 		L"###", //
 
-		L'#', new ItemInstance(Tile::wood, 1, TreeTile::JUNGLE_TRUNK),
+		L'#', new ItemInstance(Tile::wool, 1, 15),
 		L'S');
 
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::BROWN), //
+		L"sczg",
+		L"###", //
 
+		L'#', new ItemInstance(Tile::wool, 1, 12),
+		L'S');
 
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::RED), //
+		L"sczg",
+		L"###", //
 
+		L'#', new ItemInstance(Tile::wool, 1, 14),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::ORANGE), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 1),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlabHalf, 6, WoolSlabTile::YELLOW), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 4),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::LIME), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 5),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::GREEN), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 13),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::CYAN), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 9),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::LIGHT_BLUE), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 3),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::BLUE), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 11),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::PURPLE), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 10),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::MAGENTA), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 2),
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Tile::woolSlab2Half, 6, WoolSlab2Tile::PINK), //
+		L"sczg",
+		L"###", //
+
+		L'#', new ItemInstance(Tile::wool, 1, 6),
+		L'S');
 
 	//iCount=getRecipies()->size();
 

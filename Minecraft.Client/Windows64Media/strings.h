@@ -2349,3 +2349,6 @@
 #define IDS_ITEM_STEEL_LEGGINGS								   2343
 #define IDS_ITEM_STEEL_BOOTS								   2344
 #define IDS_TILE_BLASTER									   2345
+#define IDS_TILE_WOOL_SLAB									   2346
+#define IDS_TILE_DEAD_LOG									   2347
+#define IDS_TILE_DRY_DIRT									   2348

@@ -134,3 +134,5 @@
 #include "SaplingNew.h"
 #include "BrickTile.h"
 #include "BlasterTile.h"
+#include "WoolSlabTile.h"
+#include "WoolSlab2Tile.h"

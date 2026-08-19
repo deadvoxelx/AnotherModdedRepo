@@ -31,7 +31,6 @@ void LargeCaveFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray b
 		singleStep = true;
 	}
 
-
 	int splitPoint = random.nextInt(dist / 2) + dist / 4;
 	bool steep = random.nextInt(6) == 0;
 
@@ -61,7 +60,6 @@ void LargeCaveFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray b
 		yRota *= 0.75f;
 		xRota += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2;
 		yRota += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4;
-
 
 		if (!singleStep && step == splitPoint && thickness > 1 && dist > 0)
 		{
@@ -140,7 +138,7 @@ void LargeCaveFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray b
 						{
 							int block = blocks[p];
 							if (block == Tile::grass_Id) hasGrass = true;
-							if (block == Tile::stone_Id || block == Tile::dirt_Id || block == Tile::grass_Id)
+							if (block == Tile::stone_Id || block == Tile::limestone_Id || block == Tile::granite_Id || block == Tile::dirt_Id || block == Tile::grass_Id)
 							{
 								if (yy < 10)
 								{
@@ -160,7 +158,6 @@ void LargeCaveFeature::addTunnel(int64_t seed, int xOffs, int zOffs, byteArray b
 		}
 		if (singleStep) break;
 	}
-
 }
 
 void LargeCaveFeature::addFeature(Level *level, int x, int z, int xOffs, int zOffs, byteArray blocks)
@@ -192,5 +189,4 @@ void LargeCaveFeature::addFeature(Level *level, int x, int z, int xOffs, int zOf
 			addTunnel(random->nextLong(), xOffs, zOffs, blocks, xCave, yCave, zCave, thickness, yRot, xRot, 0, 0, 1.0);
 		}
 	}
-
 }

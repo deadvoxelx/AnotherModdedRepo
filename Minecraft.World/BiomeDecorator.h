@@ -16,6 +16,9 @@ class BiomeDecorator
 	friend class BeachBiome;
 	friend class JungleBiome;
 	friend class CherryBiome;
+	friend class BirchBiome;
+	friend class WastelandBiome;
+	friend class RainforestBiome;
 
 protected:
 	Level *level;
@@ -49,9 +52,6 @@ protected:
 	Feature *reedsFeature;
 	Feature *cactusFeature;
 	Feature *waterlilyFeature;
-
-	Feature *limestoneFeature;
-	Feature *graniteFeature;
 
 	int waterlilyCount;
 	int treeCount;

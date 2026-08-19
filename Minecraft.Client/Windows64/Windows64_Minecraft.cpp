@@ -799,13 +799,11 @@ HRESULT InitDevice()
 	HRESULT hr = S_OK;
 
 	RECT rc;
-	GetClientRect( g_hWnd, &rc );
-	UINT width = rc.right - rc.left;
-	UINT height = rc.bottom - rc.top;
-//app.DebugPrintf("width: %d, height: %d\n", width, height);
-	width = g_rScreenWidth;
-	height = g_rScreenHeight;
-//app.DebugPrintf("width: %d, height: %d\n", width, height);
+GetClientRect( g_hWnd, &rc );
+UINT width = rc.right - rc.left;
+UINT height = rc.bottom - rc.top;
+g_rScreenWidth = static_cast<int>(width);
+g_rScreenHeight = static_cast<int>(height);
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG

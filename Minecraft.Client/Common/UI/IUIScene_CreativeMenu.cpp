@@ -31,7 +31,8 @@ void IUIScene_CreativeMenu::staticCtor()
 	DEF(eCreativeInventory_BuildingBlocks)
 		ITEM(Tile::grass_Id)
 		ITEM(Tile::mycel_Id)
-		ITEM(Tile::dirt_Id)
+		ITEM_AUX(Tile::dirt_Id, DirtTile::TYPE_DEFAULT)
+		ITEM_AUX(Tile::dirt_Id, DirtTile::TYPE_DRY)
 		ITEM(Tile::gravel_Id)
 		ITEM(Tile::clay)
 		ITEM(Tile::ice_Id)
@@ -92,6 +93,7 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::cherryLog_Id)
 		ITEM(Tile::palmLog_Id)
 		ITEM(Tile::mossyLog_Id)
+		ITEM(Tile::deadLog_Id)
 
 		ITEM_AUX(Tile::wood_Id,0)
 		ITEM_AUX(Tile::wood_Id,TreeTile::DARK_TRUNK)
@@ -243,73 +245,91 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::bookshelf_Id)
 		ITEM(Item::flowerPot_Id)
 		ITEM(Tile::hayBlock_Id)
-		ITEM_AUX(Tile::wool_Id,14)	// Red
-		ITEM_AUX(Tile::wool_Id,1)	// Orange
-		ITEM_AUX(Tile::wool_Id,4)	// Yellow
-		ITEM_AUX(Tile::wool_Id,5)	// Lime
-		ITEM_AUX(Tile::wool_Id,3)	// Light Blue
-		ITEM_AUX(Tile::wool_Id,9)	// Cyan
-		ITEM_AUX(Tile::wool_Id,11)	// Blue
-		ITEM_AUX(Tile::wool_Id,10)	// Purple
-		ITEM_AUX(Tile::wool_Id,2)	// Magenta
-		ITEM_AUX(Tile::wool_Id,6)	// Pink
-		ITEM_AUX(Tile::wool_Id,0)	// White
-		ITEM_AUX(Tile::wool_Id,8)	// Light Gray
-		ITEM_AUX(Tile::wool_Id,7)	// Gray
-		ITEM_AUX(Tile::wool_Id,15)	// Black
-		ITEM_AUX(Tile::wool_Id,13)	// Green
-		ITEM_AUX(Tile::wool_Id,12)	// Brown
 
-		ITEM_AUX(Tile::woolCarpet_Id,14)	// Red
-		ITEM_AUX(Tile::woolCarpet_Id,1)	// Orange
-		ITEM_AUX(Tile::woolCarpet_Id,4)	// Yellow
-		ITEM_AUX(Tile::woolCarpet_Id,5)	// Lime
-		ITEM_AUX(Tile::woolCarpet_Id,3)	// Light Blue
-		ITEM_AUX(Tile::woolCarpet_Id,9)	// Cyan
-		ITEM_AUX(Tile::woolCarpet_Id,11)	// Blue
-		ITEM_AUX(Tile::woolCarpet_Id,10)	// Purple
-		ITEM_AUX(Tile::woolCarpet_Id,2)	// Magenta
-		ITEM_AUX(Tile::woolCarpet_Id,6)	// Pink
-		ITEM_AUX(Tile::woolCarpet_Id,0)	// White
-		ITEM_AUX(Tile::woolCarpet_Id,8)	// Light Gray
-		ITEM_AUX(Tile::woolCarpet_Id,7)	// Gray
-		ITEM_AUX(Tile::woolCarpet_Id,15)	// Black
-		ITEM_AUX(Tile::woolCarpet_Id,13)	// Green
-		ITEM_AUX(Tile::woolCarpet_Id,12)	// Brown
+		ITEM_AUX(Tile::wool_Id, 0)	// White
+		ITEM_AUX(Tile::wool_Id, 8)	// Light Gray
+		ITEM_AUX(Tile::wool_Id, 7)	// Gray
+		ITEM_AUX(Tile::wool_Id, 15)	// Black
+		ITEM_AUX(Tile::wool_Id, 12)	// Brown
+		ITEM_AUX(Tile::wool_Id, 14)	// Red
+		ITEM_AUX(Tile::wool_Id, 1)	// Orange
+		ITEM_AUX(Tile::wool_Id, 4)	// Yellow
+		ITEM_AUX(Tile::wool_Id, 5)	// Lime
+		ITEM_AUX(Tile::wool_Id, 13)	// Green
+		ITEM_AUX(Tile::wool_Id, 9)	// Cyan
+		ITEM_AUX(Tile::wool_Id, 3)	// Light Blue
+		ITEM_AUX(Tile::wool_Id, 11)	// Blue
+		ITEM_AUX(Tile::wool_Id, 10)	// Purple
+		ITEM_AUX(Tile::wool_Id, 2)	// Magenta
+		ITEM_AUX(Tile::wool_Id, 6)	// Pink
 
-		ITEM_AUX(Tile::stained_glass_Id,14)	// Red
-		ITEM_AUX(Tile::stained_glass_Id,1)	// Orange
-		ITEM_AUX(Tile::stained_glass_Id,4)	// Yellow
-		ITEM_AUX(Tile::stained_glass_Id,5)	// Lime
-		ITEM_AUX(Tile::stained_glass_Id,3)	// Light Blue
-		ITEM_AUX(Tile::stained_glass_Id,9)	// Cyan
-		ITEM_AUX(Tile::stained_glass_Id,11)	// Blue
-		ITEM_AUX(Tile::stained_glass_Id,10)	// Purple
-		ITEM_AUX(Tile::stained_glass_Id,2)	// Magenta
-		ITEM_AUX(Tile::stained_glass_Id,6)	// Pink
+		ITEM_AUX(Tile::woolSlabHalf_Id, 0)	// White
+		ITEM_AUX(Tile::woolSlabHalf_Id, 1)	// Light Gray
+		ITEM_AUX(Tile::woolSlabHalf_Id, 2)	// Gray
+		ITEM_AUX(Tile::woolSlabHalf_Id, 3)	// Black
+		ITEM_AUX(Tile::woolSlabHalf_Id, 4)	// Brown
+		ITEM_AUX(Tile::woolSlabHalf_Id, 5)	// Red
+		ITEM_AUX(Tile::woolSlabHalf_Id, 6)	// Orange
+		ITEM_AUX(Tile::woolSlabHalf_Id, 7)	// Yellow
+		ITEM_AUX(Tile::woolSlab2Half_Id, 0)	// Lime
+		ITEM_AUX(Tile::woolSlab2Half_Id, 1)	// Green
+		ITEM_AUX(Tile::woolSlab2Half_Id, 2)	// Cyan
+		ITEM_AUX(Tile::woolSlab2Half_Id, 3)	// Light Blue
+		ITEM_AUX(Tile::woolSlab2Half_Id, 4)	// Blue
+		ITEM_AUX(Tile::woolSlab2Half_Id, 5)	// Purple
+		ITEM_AUX(Tile::woolSlab2Half_Id, 6)	// Magenta
+		ITEM_AUX(Tile::woolSlab2Half_Id, 7)	// Pink
+
+		ITEM_AUX(Tile::woolCarpet_Id, 0)	// White
+		ITEM_AUX(Tile::woolCarpet_Id, 8)	// Light Gray
+		ITEM_AUX(Tile::woolCarpet_Id, 7)	// Gray
+		ITEM_AUX(Tile::woolCarpet_Id, 15)	// Black
+		ITEM_AUX(Tile::woolCarpet_Id, 12)	// Brown
+		ITEM_AUX(Tile::woolCarpet_Id, 14)	// Red
+		ITEM_AUX(Tile::woolCarpet_Id, 1)	// Orange
+		ITEM_AUX(Tile::woolCarpet_Id, 4)	// Yellow
+		ITEM_AUX(Tile::woolCarpet_Id, 5)	// Lime
+		ITEM_AUX(Tile::woolCarpet_Id, 13)	// Green
+		ITEM_AUX(Tile::woolCarpet_Id, 9)	// Cyan
+		ITEM_AUX(Tile::woolCarpet_Id, 3)	// Light Blue
+		ITEM_AUX(Tile::woolCarpet_Id, 11)	// Blue
+		ITEM_AUX(Tile::woolCarpet_Id, 10)	// Purple
+		ITEM_AUX(Tile::woolCarpet_Id, 2)	// Magenta
+		ITEM_AUX(Tile::woolCarpet_Id, 6)	// Pink
+
 		ITEM_AUX(Tile::stained_glass_Id,0)	// White
 		ITEM_AUX(Tile::stained_glass_Id,8)	// Light Gray
 		ITEM_AUX(Tile::stained_glass_Id,7)	// Gray
 		ITEM_AUX(Tile::stained_glass_Id,15)	// Black
-		ITEM_AUX(Tile::stained_glass_Id,13)	// Green
 		ITEM_AUX(Tile::stained_glass_Id,12)	// Brown
+		ITEM_AUX(Tile::stained_glass_Id,14)	// Red
+		ITEM_AUX(Tile::stained_glass_Id,1)	// Orange
+		ITEM_AUX(Tile::stained_glass_Id,4)	// Yellow
+		ITEM_AUX(Tile::stained_glass_Id,5)	// Lime
+		ITEM_AUX(Tile::stained_glass_Id,13)	// Green
+		ITEM_AUX(Tile::stained_glass_Id,9)	// Cyan
+		ITEM_AUX(Tile::stained_glass_Id,3)	// Light Blue
+		ITEM_AUX(Tile::stained_glass_Id,11)	// Blue
+		ITEM_AUX(Tile::stained_glass_Id,10)	// Purple
+		ITEM_AUX(Tile::stained_glass_Id,2)	// Magenta
+		ITEM_AUX(Tile::stained_glass_Id,6)	// Pink
 
-		ITEM_AUX(Tile::stained_glass_pane_Id,14)	// Red
-		ITEM_AUX(Tile::stained_glass_pane_Id,1)	// Orange
-		ITEM_AUX(Tile::stained_glass_pane_Id,4)	// Yellow
-		ITEM_AUX(Tile::stained_glass_pane_Id,5)	// Lime
-		ITEM_AUX(Tile::stained_glass_pane_Id,3)	// Light Blue
-		ITEM_AUX(Tile::stained_glass_pane_Id,9)	// Cyan
-		ITEM_AUX(Tile::stained_glass_pane_Id,11)	// Blue
-		ITEM_AUX(Tile::stained_glass_pane_Id,10)	// Purple
-		ITEM_AUX(Tile::stained_glass_pane_Id,2)	// Magenta
-		ITEM_AUX(Tile::stained_glass_pane_Id,6)	// Pink
 		ITEM_AUX(Tile::stained_glass_pane_Id,0)	// White
 		ITEM_AUX(Tile::stained_glass_pane_Id,8)	// Light Gray
 		ITEM_AUX(Tile::stained_glass_pane_Id,7)	// Gray
-		ITEM_AUX(Tile::stained_glass_pane_Id,15)	// Black
-		ITEM_AUX(Tile::stained_glass_pane_Id,13)	// Green
-		ITEM_AUX(Tile::stained_glass_pane_Id,12)	// Brown
+		ITEM_AUX(Tile::stained_glass_pane_Id,15)// Black
+		ITEM_AUX(Tile::stained_glass_pane_Id,12)// Brown
+		ITEM_AUX(Tile::stained_glass_pane_Id,14)// Red
+		ITEM_AUX(Tile::stained_glass_pane_Id,1)	// Orange
+		ITEM_AUX(Tile::stained_glass_pane_Id,4)	// Yellow
+		ITEM_AUX(Tile::stained_glass_pane_Id,5)	// Lime
+		ITEM_AUX(Tile::stained_glass_pane_Id,13)// Green
+		ITEM_AUX(Tile::stained_glass_pane_Id,9)	// Cyan
+		ITEM_AUX(Tile::stained_glass_pane_Id,3)	// Light Blue
+		ITEM_AUX(Tile::stained_glass_pane_Id,11)// Blue
+		ITEM_AUX(Tile::stained_glass_pane_Id,10)// Purple
+		ITEM_AUX(Tile::stained_glass_pane_Id,2)	// Magenta
+		ITEM_AUX(Tile::stained_glass_pane_Id,6)	// Pink
 
 #ifndef _CONTENT_PACKAGE
 	DEF(eCreativeInventory_ArtToolsDecorations)

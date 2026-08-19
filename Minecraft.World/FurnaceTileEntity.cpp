@@ -252,15 +252,19 @@ void FurnaceTileEntity::tick()
 			tickCount = 0;
 		}
 
-		if (wasLit != litTime > 0 && level->getTile(x, y, z) == Tile::furnace_Id )
+		if (wasLit != litTime > 0)
 		{
-			changed = true;
-			FurnaceTile::setLit(litTime > 0, level, x, y, z);
-		}
-		else if (wasLit != litTime > 0 && level->getTile(x, y, z) == Tile::blaster_Id )
-		{
-			changed = true;
-			BlasterTile::setLit(litTime > 0, level, x, y, z);
+			int tileId = level->getTile(x, y, z);
+			if (tileId == Tile::furnace_Id || tileId == Tile::furnace_lit_Id)
+			{
+				changed = true;
+				FurnaceTile::setLit(litTime > 0, level, x, y, z);
+			}
+			else if (tileId == Tile::blaster_Id || tileId == Tile::blaster_lit_Id)
+			{
+				changed = true;
+				BlasterTile::setLit(litTime > 0, level, x, y, z);
+			}
 		}
 	}
 

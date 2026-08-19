@@ -270,6 +270,13 @@ Tile *Tile::steelBlock = nullptr;
 Tile *Tile::blaster = nullptr;
 Tile *Tile::blaster_lit = nullptr;
 
+HalfSlabTile *Tile::woolSlab = nullptr;
+HalfSlabTile *Tile::woolSlabHalf = nullptr;
+HalfSlabTile *Tile::woolSlab2 = nullptr;
+HalfSlabTile *Tile::woolSlab2Half = nullptr;
+
+Tile *Tile::deadLog = nullptr;
+
 DWORD Tile::tlsIdxShape = TlsAlloc();
 
 Tile::ThreadStorage::ThreadStorage()
@@ -547,6 +554,14 @@ void Tile::staticCtor()
 	Tile::blaster = (new BlasterTile(206, false))				->setBaseItemTypeAndMaterial(Item::eBaseItemType_device,	Item::eMaterial_stone)->setDestroyTime(3.5f)->setSoundType(Tile::SOUND_STONE)->setIconName(L"furnace")->setDescriptionId(IDS_TILE_BLASTER)->sendTileData()->setUseDescriptionId(IDS_DESC_FURNACE);
 	Tile::blaster_lit = (new BlasterTile(207, true))			->setDestroyTime(3.5f)->setSoundType(Tile::SOUND_STONE)->setLightEmission(14 / 16.0f)->setIconName(L"blaster")->setDescriptionId(IDS_TILE_BLASTER)->sendTileData()->setUseDescriptionId(IDS_DESC_FURNACE);
 
+	Tile::woolSlab = static_cast<HalfSlabTile *>((new WoolSlabTile(Tile::woolSlab_Id, true))->setBaseItemTypeAndMaterial(Item::eBaseItemType_slab, Item::eMaterial_cloth)->setDestroyTime(0.8f)->setSoundType(Tile::SOUND_CLOTH)->setIconName(L"woolSlab")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_SLAB));
+	Tile::woolSlabHalf = static_cast<HalfSlabTile *>((new WoolSlabTile(Tile::woolSlabHalf_Id, false))->setBaseItemTypeAndMaterial(Item::eBaseItemType_halfslab, Item::eMaterial_cloth)->setDestroyTime(0.8f)->setSoundType(Tile::SOUND_CLOTH)->setIconName(L"woolSlab")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_HALFSLAB));
+	Tile::woolSlab2 = static_cast<HalfSlabTile *>((new WoolSlab2Tile(Tile::woolSlab2_Id, true))->setBaseItemTypeAndMaterial(Item::eBaseItemType_slab, Item::eMaterial_cloth)->setDestroyTime(0.8f)->setSoundType(Tile::SOUND_CLOTH)->setIconName(L"woolSlab2")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_SLAB));
+	Tile::woolSlab2Half = static_cast<HalfSlabTile *>((new WoolSlab2Tile(Tile::woolSlab2Half_Id, false))->setBaseItemTypeAndMaterial(Item::eBaseItemType_halfslab, Item::eMaterial_cloth)->setDestroyTime(0.8f)->setSoundType(Tile::SOUND_CLOTH)->setIconName(L"woolSlab2")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_HALFSLAB));
+
+	Tile::deadLog = (new CherryLogTile(212))					->setDestroyTime(2.0f)->setExplodeable(5)->setSoundType(Tile::SOUND_WOOD)->setIconName(L"deadLog")->setDescriptionId(IDS_TILE_DEAD_LOG)->setUseDescriptionId(IDS_TILE_DEAD_LOG);
+
+
 	// Special cases for certain items since they can have different icons
 	Item::items[wool_Id]				= ( new WoolTileItem(Tile::wool_Id- 256) )->setIconName(L"cloth")->setDescriptionId(IDS_TILE_CLOTH)->setUseDescriptionId(IDS_DESC_WOOL);
 	Item::items[clayHardened_colored_Id]= ( new WoolTileItem(Tile::clayHardened_colored_Id - 256))->setIconName(L"clayHardenedStained")->setDescriptionId(IDS_TILE_STAINED_CLAY)->setUseDescriptionId(IDS_DESC_STAINED_CLAY);
@@ -580,7 +595,12 @@ void Tile::staticCtor()
 	Item::items[leaves2_Id]				= ( new MultiTextureTileItem(Tile::leaves2_Id - 256, leaves2, (int *)Leaf2Tile::LEAF_NAMES, 4) )->setIconName(L"cherryLeaves")->setDescriptionId(IDS_TILE_LEAVES_CHERRY)->setUseDescriptionId(IDS_DESC_LEAVES);
 	Item::items[netherRack_Id]			= ( new MultiTextureTileItem(Tile::netherRack_Id - 256,Tile::netherRack,(int*)NetherrackTile::NETHERRACK_NAMES, NetherrackTile::NETHERRACK_NAMES_LENGTH))->setIconName(L"netherrack")->setDescriptionId(IDS_TILE_HELL_ROCK);
 	Item::items[redBrick_Id]			= ( new MultiTextureTileItem(Tile::redBrick_Id - 256,Tile::redBrick,(int*)BrickTile::BRICK_NAMES, BrickTile::BRICK_NAMES_LENGTH))->setIconName(L"brick")->setDescriptionId(IDS_DESC_BRICK);
+	Item::items[dirt_Id]				= ( new MultiTextureTileItem(Tile::dirt_Id - 256,Tile::dirt,(int*)DirtTile::DIRT_NAMES, DirtTile::DIRT_NAMES_LENGTH))->setIconName(L"dirt")->setDescriptionId(IDS_DESC_DIRT);
 
+	Item::items[woolSlabHalf_Id]		= ( new StoneSlabTileItem(Tile::woolSlabHalf_Id - 256, Tile::woolSlabHalf,	Tile::woolSlab, false) )->setIconName(L"woolSlab")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_HALFSLAB);
+	Item::items[woolSlab_Id]			= ( new StoneSlabTileItem(Tile::woolSlab_Id - 256,	Tile::woolSlabHalf, Tile::woolSlab, true))->setIconName(L"woolSlab")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_SLAB);
+	Item::items[woolSlab2Half_Id]		= ( new StoneSlabTileItem(Tile::woolSlab2Half_Id - 256, Tile::woolSlab2Half,	Tile::woolSlab2, false) )->setIconName(L"woolSlab2")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_HALFSLAB);
+	Item::items[woolSlab2_Id]			= ( new StoneSlabTileItem(Tile::woolSlab2_Id - 256,	Tile::woolSlab2Half, Tile::woolSlab2, true))->setIconName(L"woolSlab2")->setDescriptionId(IDS_TILE_WOOL_SLAB)->setUseDescriptionId(IDS_DESC_SLAB);
 
 	for (int i = 0; i < 256; i++)
 	{

@@ -15,6 +15,7 @@ class SwampTreeFeature;
 class CherryTreeFeature;
 class CherryTreeLarge;
 class PalmTreeFeature;
+class DeadTreeFeature;
 class ChunkRebuildData;
 
 class Biome
@@ -50,8 +51,11 @@ public:
 	static Biome *jungle;
 	static Biome *jungleHills;
 	static Biome *cherryForest;
+	static Biome *birchForest;
+	static Biome *wasteland;
+	static Biome *rainForest;
 
-	static const int BIOME_COUNT = 24; // 4J Stu added
+	static const int BIOME_COUNT = 27; // 4J Stu added
 
 public:
 	wstring m_name;

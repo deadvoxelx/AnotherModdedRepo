@@ -1047,6 +1047,8 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(24,	11,	L"brickStone");
 		ADD_ICON(24,	12,	L"brickLimestone");
 		ADD_ICON(24,	13,	L"brickGranite");
+		ADD_ICON(24,	14,	L"deadLog_side");
+		ADD_ICON(24,	15,	L"deadLog_top");
 
 		ADD_ICON(25,	0,	L"limestone");
 		ADD_ICON(25,	1,	L"limestoneCoal");
@@ -1073,5 +1075,6 @@ void PreStitchedTextureMap::loadUVs()
 		ADD_ICON(26,	5,	L"door_steel_upper");
 		ADD_ICON(26,	6,	L"door_steel_lower");
 		ADD_ICON(26,	7,	L"trapdoorSteel");
+		ADD_ICON(26,	8,	L"dryDirt");
 	}
 }

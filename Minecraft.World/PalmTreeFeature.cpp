@@ -11,23 +11,32 @@ PalmTreeFeature::PalmTreeFeature(bool doUpdate) : Feature(doUpdate)
 bool PalmTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 {
 	int belowTile = level->getTile(x, y - 1, z);
-    int thisTile = level->getTile(x, y, z);
 	int baseHeight = 5 + random->nextInt(3);
 	int midHeight = 2 + random->nextInt(2);
 	int topHeight = 1 + random->nextInt(1);
+
+	if (belowTile != Tile::grass_Id && belowTile != Tile::sand_Id && belowTile != Tile::dirt_Id) return false;
 
 	for (int xx = -8; xx <= 8; xx++)
 	{
 		for (int zz = -8; zz <= 8; zz++)
 		{
-			if (level->getBiome(xx, zz)->hasSnow())
+			if (level->getBiome(xx, zz)->hasSnow()) return false;
+		}
+	}
+
+	for (int xy = -4; xy <= 4; xy++)
+	{
+		for (int yy = 0; yy <= 4; yy++)
+		{
+			for (int zy = -4; zy <= 4; zy++)
 			{
-				return false;
+				int thisTile = level->getTile(x + xy, y + yy + 5, z + zy);
+				if ((thisTile != 0 && thisTile != Tile::tallgrass_Id && thisTile != Tile::leaves_Id && thisTile != Tile::leaves2_Id)) return false;
 			}
 		}
 	}
 
-	if ((belowTile == Tile::grass_Id || belowTile == Tile::sand_Id || belowTile == Tile::dirt_Id) && (thisTile == 0 || thisTile == Tile::tallgrass_Id || thisTile == Tile::leaves_Id || thisTile == Tile::leaves2_Id))
 	{
 		placeBlock(level, x, y - 1, z, Tile::dirt_Id, 0);
 			
@@ -72,7 +81,7 @@ bool PalmTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 				}
 			}
 		}
-		else /*if (random->nextInt(3) == 3)*/
+		else
 		{
 			for (int trunkmid = 0; trunkmid <= midHeight; trunkmid++)
 			{
@@ -85,102 +94,84 @@ bool PalmTreeFeature::place(Level *level, Random *random, int x, int y, int z)
 			}
 		}
 	}
-    return true;
+	return true;
 }
 
 bool PalmTreeFeature::foliage(Level* level, Random* random, int x, int y, int z)
 {
-	int baseHeight = 5 + random->nextInt(3);
-	int midHeight = 2 + random->nextInt(2);
-	int topHeight = 1 + random->nextInt(1);
-
-	for (int leavesx = -6; leavesx <= 6; leavesx++)
+	for (int blobx = -1; blobx <= 1; blobx++)
 	{
-		for (int leavesy = -2; leavesy <= 2; leavesy++)
+		for (int bloby = 0; bloby <= 1; bloby++)
 		{
-			for (int leavesz = -6; leavesz <= 6; leavesz++)
+			for (int blobz = -1; blobz <= 1; blobz++)
 			{
-				for (int blobx = -1; blobx <= 1; blobx++)
+				if (level->isEmptyTile(x + blobx, y + bloby, z + blobz))
 				{
-					for (int bloby = 0; bloby <= 1; bloby++)
-					{
-						for (int blobz = -1; blobz <= 1; blobz++)
-						{
-							int blob = level->getTile(x + blobx, y + bloby, z + blobz);
-							if (blob == 0 || blob == Tile::leaves_Id || blob == Tile::leaves2_Id)
-							{
-								placeBlock(level, x + blobx, y + bloby, z + blobz, Tile::leaves2_Id, 1);
-							}
-						}
-					}
-				}
-
-				int flow = level->getTile(x + leavesx, y + leavesy, z + leavesz);
-				if (flow == 0 || flow == Tile::leaves_Id || flow == Tile::leaves2_Id)
-				{
-					for (int leavesx2 = -3; leavesx2 <= 3; leavesx2++)
-					{
-						placeBlock(level, x + leavesx2, y + 1, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + leavesx2, y + 1, z - 1, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 3, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 3, y, z - 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 3, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 3, y, z - 1, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 4, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 4, y, z - 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 4, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 4, y, z - 1, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 5, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 5, y, z - 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 5, y, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 5, y, z - 1, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 5, y - 1, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 5, y - 1, z - 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 5, y - 1, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 5, y - 1, z - 1, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 6, y - 1, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 6, y - 1, z - 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 6, y - 1, z + 1, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 6, y - 1, z - 1, Tile::leaves2_Id, 1);
-					}
-					for (int leavesz2 = -3; leavesz2 <= 3; leavesz2++)
-					{
-						placeBlock(level, x + 1, y + 1, z + leavesz2, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y + 1, z + leavesz2, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 1, y, z + 3, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z + 3, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 1, y, z - 3, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z - 3, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 1, y, z + 4, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z + 4, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 1, y, z - 4, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z - 4, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 1, y, z + 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z + 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 1, y, z - 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y, z - 5, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 1, y - 1, z + 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y - 1, z + 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 1, y - 1, z - 5, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y - 1, z - 5, Tile::leaves2_Id, 1);
-
-						placeBlock(level, x + 1, y - 1, z + 6, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y - 1, z + 6, Tile::leaves2_Id, 1);
-						placeBlock(level, x + 1, y - 1, z - 6, Tile::leaves2_Id, 1);
-						placeBlock(level, x - 1, y - 1, z - 6, Tile::leaves2_Id, 1);
-					}
+					placeBlock(level, x + blobx, y + bloby, z + blobz, Tile::leaves2_Id, 1);
 				}
 			}
 		}
+	}
+
+	for (int leavesx2 = -3; leavesx2 <= 3; leavesx2++)
+	{
+		placeBlock(level, x + leavesx2, y + 1, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + leavesx2, y + 1, z - 1, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 3, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 3, y, z - 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 3, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 3, y, z - 1, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 4, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 4, y, z - 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 4, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 4, y, z - 1, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 5, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 5, y, z - 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 5, y, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 5, y, z - 1, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 5, y - 1, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 5, y - 1, z - 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 5, y - 1, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 5, y - 1, z - 1, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 6, y - 1, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 6, y - 1, z - 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 6, y - 1, z + 1, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 6, y - 1, z - 1, Tile::leaves2_Id, 1);
+	}
+	for (int leavesz2 = -3; leavesz2 <= 3; leavesz2++)
+	{
+		placeBlock(level, x + 1, y + 1, z + leavesz2, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y + 1, z + leavesz2, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 1, y, z + 3, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z + 3, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 1, y, z - 3, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z - 3, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 1, y, z + 4, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z + 4, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 1, y, z - 4, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z - 4, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 1, y, z + 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z + 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 1, y, z - 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y, z - 5, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 1, y - 1, z + 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y - 1, z + 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 1, y - 1, z - 5, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y - 1, z - 5, Tile::leaves2_Id, 1);
+
+		placeBlock(level, x + 1, y - 1, z + 6, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y - 1, z + 6, Tile::leaves2_Id, 1);
+		placeBlock(level, x + 1, y - 1, z - 6, Tile::leaves2_Id, 1);
+		placeBlock(level, x - 1, y - 1, z - 6, Tile::leaves2_Id, 1);
 	}
 	return true;
 }
