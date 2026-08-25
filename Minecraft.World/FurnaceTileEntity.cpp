@@ -13,23 +13,17 @@ int furnaceSlotsForUp [] = { FurnaceTileEntity::SLOT_INPUT };
 int furnaceSlotsForDown [] = { FurnaceTileEntity::SLOT_RESULT, FurnaceTileEntity::SLOT_FUEL };
 int furnaceSlotsForSides [] = { FurnaceTileEntity::SLOT_FUEL };
 
-/*static bool isEnchanterInput(int id)
+static bool isBlasterInput(int id)
 {
 	switch (id)
 	{
-		case Tile::quicksoil_Id:
-		case Tile::gravititeOre_Id:
-		case Tile::aercloud_Id:
-		case Tile::holystone_Id:
-		case Item::blueBerry_Id:
-		case Item::dartGold_Id:
-		case Item::dartShooterGold_Id:
+		case Item::crudeSteel_Id:
 		return true;
 
 	default:
 		return false;
 	}
-}*/
+}
 
 const intArray FurnaceTileEntity::SLOTS_FOR_UP = intArray(furnaceSlotsForUp, 1);
 const intArray FurnaceTileEntity::SLOTS_FOR_DOWN = intArray(furnaceSlotsForDown, 2);
@@ -276,18 +270,14 @@ bool FurnaceTileEntity::canBurn()
 	if (items[SLOT_INPUT] == nullptr) return false;
 	const ItemInstance *burnResult = FurnaceRecipes::getInstance()->getResult(items[SLOT_INPUT]->getItem()->id);
 	int inputId = (items[SLOT_INPUT]->getItem()->id);
-	/*if (level != NULL)
+	if (level != NULL)
 	{
 		int tileId = level->getTile(x, y, z);
-		if (tileId == Tile::enchanter_Id)
+		if (tileId != Tile::blaster_Id && tileId != Tile::blaster_lit_Id)
 		{
-			if (!isEnchanterInput(inputId)) return false;
+			if (isBlasterInput(inputId)) return false;
 		}
-		else
-		{
-			if (isEnchanterInput(inputId)) return false;
-		}
-	}*/
+	}
 	if (burnResult == nullptr) return false;
 	if (items[SLOT_RESULT] == nullptr) return true;
 	if (!items[SLOT_RESULT]->sameItem_not_shared(burnResult)) return false;
