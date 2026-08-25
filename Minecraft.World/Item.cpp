@@ -25,9 +25,9 @@ wstring Item::ICON_DESCRIPTION_PREFIX = L"item.";
 const _Tier *_Tier::WOOD = new _Tier(0, 59, 2, 0, 15); //
 const _Tier *_Tier::STONE = new _Tier(1, 131, 4, 1, 5); //
 const _Tier *_Tier::IRON = new _Tier(2, 250, 6, 2, 14); //
-const _Tier *_Tier::DIAMOND = new _Tier(3, 1561, 8, 3, 10); //
+const _Tier *_Tier::DIAMOND = new _Tier(4, 1561, 8, 3, 10); //
 const _Tier *_Tier::GOLD = new _Tier(0, 182, 12, 0, 22); //
-const _Tier *_Tier::STEEL = new _Tier(2, 1251, 7, 2, 15); //
+const _Tier *_Tier::STEEL = new _Tier(3, 1251, 7, 2, 15); //
 
 Random *Item::random = new Random();
 
@@ -386,7 +386,7 @@ void Item::staticCtor()
 	Item::redStone = ( new RedStoneItem(75) )							->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_redstone)->setIconName(L"redstone")->setDescriptionId(IDS_ITEM_REDSTONE)->setUseDescriptionId(IDS_DESC_REDSTONE_DUST)->setPotionBrewingFormula(PotionBrewing::MOD_REDSTONE);
 	Item::snowBall = ( new SnowballItem(76) )							->setIconName(L"snowball")->setDescriptionId(IDS_ITEM_SNOWBALL)->setUseDescriptionId(IDS_DESC_SNOWBALL);
 
-	Item::boat = ( new BoatItem(77) )									->setIconName(L"boat")->setDescriptionId(IDS_ITEM_BOAT)->setUseDescriptionId(IDS_DESC_BOAT);
+	Item::boat = ( new BoatItem(77) )									->setBaseItemTypeAndMaterial(Item::eBaseItemType_boat, Item::eMaterial_boat)->setIconName(L"boat")->setDescriptionId(IDS_ITEM_BOAT)->setUseDescriptionId(IDS_DESC_BOAT);
 
 	Item::leather = ( new Item(78) )									->setIconName(L"leather")->setDescriptionId(IDS_ITEM_LEATHER)->setUseDescriptionId(IDS_DESC_LEATHER);
 	Item::brick = ( new Item(80) )										->setIconName(L"brick")->setDescriptionId(IDS_ITEM_BRICK)->setUseDescriptionId(IDS_DESC_BRICK);
@@ -411,7 +411,7 @@ void Item::staticCtor()
 	//Item::cake = ( new TilePlanterItem(98, Tile::cake) )->setMaxStackSize(1)->setIcon(13, 1)->setDescriptionId(IDS_ITEM_CAKE)->setUseDescriptionId(IDS_DESC_CAKE);
 	Item::cake = ( new TilePlanterItem(98, Tile::cake) )				->setIconName(L"cake")->setDescriptionId(IDS_ITEM_CAKE)->setUseDescriptionId(IDS_DESC_CAKE)->setMaxStackSize(1);
 
-	Item::bed = ( new BedItem(99) )										->setMaxStackSize(1)->setIconName(L"bed")->setDescriptionId(IDS_ITEM_BED)->setUseDescriptionId(IDS_DESC_BED);
+	Item::bed = ( new BedItem(99) )										->setBaseItemTypeAndMaterial(eBaseItemType_bed, eMaterial_bed)->setMaxStackSize(1)->setIconName(L"bed")->setDescriptionId(IDS_ITEM_BED)->setUseDescriptionId(IDS_DESC_BED);
 
 	Item::repeater = ( new TilePlanterItem(100, static_cast<Tile *>(Tile::diode_off)) )			->setIconName(L"diode")->setDescriptionId(IDS_ITEM_DIODE)->setUseDescriptionId(IDS_DESC_REDSTONEREPEATER);
 	Item::cookie = ( new FoodItem(101, 2, FoodConstants::FOOD_SATURATION_POOR, false) )	->setIconName(L"cookie")->setDescriptionId(IDS_ITEM_COOKIE)->setUseDescriptionId(IDS_DESC_COOKIE)->setMaxStackSize(16);
