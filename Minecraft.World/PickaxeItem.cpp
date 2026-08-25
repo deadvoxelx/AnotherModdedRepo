@@ -38,8 +38,8 @@ PickaxeItem::PickaxeItem(int id, const Tier *tier) : DiggerItem(id, 2, tier, &di
 
 bool PickaxeItem::canDestroySpecial(Tile *tile)
 {
-	if (tile == Tile::obsidian) return tier->getLevel() == 3;
-	if (tile == Tile::diamondBlock || tile == Tile::diamondOre) return tier->getLevel() >= 2;
+	if (tile == Tile::obsidian) return tier->getLevel() >= 4;
+	if (tile == Tile::diamondBlock || tile == Tile::diamondOre) return tier->getLevel() >= 3;
 	if (tile == Tile::emeraldBlock || tile == Tile::emeraldOre) return tier->getLevel() >= 2;
 	if (tile == Tile::goldBlock || tile == Tile::goldOre) return tier->getLevel() >= 2;
 	if (tile == Tile::ironBlock || tile == Tile::ironOre) return tier->getLevel() >= 1;
