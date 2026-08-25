@@ -145,15 +145,6 @@ void StructureRecipies::addRecipes(Recipes *r)
 		L'#', Tile::stone,
 		L'S');
 
-	// 4J Stu - Move this into "Recipes" to change the order things are displayed on the crafting menu
-	//r->addShapedRecipy(new ItemInstance(Tile::ironFence, 16), //
-	//	L"sscig",
-	//	L"###", //
-	//	L"###", //
-
-	//	L'#', Item::ironIngot,
-	//	L'S');
-
 	r->addShapedRecipy(new ItemInstance(Tile::thinGlass, 16), //
 		L"ssctg",
 		L"###", //
@@ -161,25 +152,6 @@ void StructureRecipies::addRecipes(Recipes *r)
 
 		L'#', Tile::glass,
 		L'D');
-	
-// Stained Glass block + pane per color
-for (int i = 0; i < 16; i++)
-{
-    r->addShapedRecipy(new ItemInstance(Tile::stained_glass, 8, ColoredTile::getItemAuxValueForTileData(i)),
-        L"sssczczg",
-        L"###",
-        L"#X#",
-        L"###",
-        L'#', new ItemInstance(Tile::glass),
-        L'X', new ItemInstance(Item::dye_powder, 1, i),
-        L'D');
-    r->addShapedRecipy(new ItemInstance(Tile::stained_glass_pane, 16, ColoredTile::getItemAuxValueForTileData(i)),
-        L"ssczg",
-        L"###",
-        L"###",
-        L'#', new ItemInstance(Tile::stained_glass, 1, ColoredTile::getItemAuxValueForTileData(i)),
-        L'D');
-}
 
 	r->addShapedRecipy(new ItemInstance(Tile::ironFence, 16), //
 		L"sscig",
