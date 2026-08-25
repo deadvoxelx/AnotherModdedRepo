@@ -85,28 +85,28 @@ Recipes::Recipes()
 		L"#", //
 
 		L'#', Tile::cherryLog,
-		L'S');
+		L'D');
 
 	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_YELLOW), //
 		L"sctg",
 		L"#", //
 
 		L'#', Tile::palmLog,
-		L'S');
+		L'D');
 
 	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_GREEN), //
 		L"sctg",
 		L"#", //
 
 		L'#', Tile::mossyLog,
-		L'S');
+		L'D');
 
 	addShapedRecipy(new ItemInstance(Tile::coloredPlanks, 4, ColoredPlanksTile::TYPE_SILVER), //
 		L"sctg",
 		L"#", //
 
 		L'#', Tile::deadLog,
-		L'S');
+		L'D');
 
 	addShapedRecipy(new ItemInstance(Item::stick, 4), //
 		L"ssctg",
@@ -136,6 +136,13 @@ Recipes::Recipes()
 		L"###", //
 		L"XXX", //
 		L'#', Tile::wool, L'X', Tile::wood,
+		L'S');
+
+	addShapedRecipy(new ItemInstance(Item::bed, 1), //
+		L"ssctctg",
+		L"###", //
+		L"XXX", //
+		L'#', Tile::wool, L'X', Tile::coloredPlanks,
 		L'S');
 
 	addShapedRecipy(new ItemInstance(Tile::enchantTable, 1), //
@@ -836,6 +843,14 @@ Recipes::Recipes()
 		L"###", //
 
 		L'#', Tile::wood,
+		L'V');
+
+	addShapedRecipy(new ItemInstance(Item::boat, 1), //
+		L"ssctg",
+		L"# #", //
+		L"###", //
+
+		L'#', Tile::coloredPlanks,
 		L'V');
 
 	addShapedRecipy(new ItemInstance((Item *)Item::fishingRod, 1), //
