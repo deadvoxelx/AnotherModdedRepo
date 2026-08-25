@@ -342,9 +342,15 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 
 			byte top = b->topMaterial;
 			byte material = b->material;
-			byte base = (byte) Tile::stone_Id;
-			if (sand) base = static_cast<byte>(Tile::granite_Id);
-			if (gravel) base = static_cast<byte>(Tile::limestone_Id);
+			byte base = static_cast<byte>(Tile::stone_Id);
+			if (sand && !gravel)
+			{
+				base = static_cast<byte>(Tile::granite_Id);
+			}
+			else if (gravel && !sand)
+			{
+				base = static_cast<byte>(Tile::limestone_Id);
+			}
 
 			LevelGenerationOptions *lgo = app.getLevelGenerationOptions();
 			if(lgo != nullptr)

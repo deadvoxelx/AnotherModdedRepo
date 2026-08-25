@@ -21,7 +21,7 @@ int ChestTileEntity::getContainerType()
 
 void ChestTileEntity::_init(bool isBonusChest)
 {
-	items = new ItemInstanceArray(9 * 4);
+	items = new ItemInstanceArray(9 * 3);
 
 	hasCheckedNeighbors = false;
 	this->isBonusChest = isBonusChest;
@@ -55,16 +55,18 @@ ChestTileEntity::~ChestTileEntity()
 
 unsigned int ChestTileEntity::getContainerSize()
 {
-	return 9 * 3;
+	return items != nullptr ? items->length : 9 * 3;
 }
 
 shared_ptr<ItemInstance> ChestTileEntity::getItem(unsigned int slot)
 {
+	if (items == nullptr || slot >= items->length) return nullptr;
 	return items->data[slot];
 }
 
 shared_ptr<ItemInstance> ChestTileEntity::removeItem(unsigned int slot, int count)
 {
+	if (items == nullptr || slot >= items->length) return nullptr;
 	if (items->data[slot] != nullptr)
 	{
 		if (items->data[slot]->count <= count)
@@ -91,6 +93,7 @@ shared_ptr<ItemInstance> ChestTileEntity::removeItem(unsigned int slot, int coun
 
 shared_ptr<ItemInstance> ChestTileEntity::removeItemNoUpdate(int slot)
 {
+	if (items == nullptr || slot < 0 || static_cast<unsigned int>(slot) >= items->length) return nullptr;
 	if (items->data[slot] != nullptr)
 	{
 		shared_ptr<ItemInstance> item = items->data[slot];
@@ -102,6 +105,7 @@ shared_ptr<ItemInstance> ChestTileEntity::removeItemNoUpdate(int slot)
 
 void ChestTileEntity::setItem(unsigned int slot, shared_ptr<ItemInstance> item)
 {
+	if (items == nullptr || slot >= items->length) return;
 	items->data[slot] = item;
 	if (item != nullptr && item->count > getMaxStackSize()) item->count = getMaxStackSize();
 	this->setChanged();
@@ -136,13 +140,24 @@ void ChestTileEntity::load(CompoundTag *base)
 		delete [] items->data;
 		delete items;
 	}
-	items = new ItemInstanceArray(getContainerSize());
+	items = new ItemInstanceArray(9 * 3);
 	if (base->contains(L"CustomName")) name = base->getString(L"CustomName");
-	for (int i = 0; i < inventoryList->size(); i++)
+	if (inventoryList != nullptr)
 	{
-		CompoundTag *tag = inventoryList->get(i);
-		unsigned int slot = tag->getByte(L"Slot") & 0xff;
-		if (slot >= 0 && slot < items->length) (*items)[slot] = ItemInstance::fromTag(tag);
+		for (int i = 0; i < inventoryList->size(); i++)
+		{
+			CompoundTag *tag = inventoryList->get(i);
+			unsigned int slot = tag->getByte(L"Slot") & 0xff;
+			if (slot < items->length)
+			{
+				short itemId = tag->getShort(L"id");
+				if (itemId >= 0 && itemId < Item::items.length && Item::items[itemId] != nullptr)
+				{
+					shared_ptr<ItemInstance> item = ItemInstance::fromTag(tag);
+					if (item != nullptr && item->count > 0) (*items)[slot] = item;
+				}
+			}
+		}
 	}
 	isBonusChest = base->getBoolean(L"bonus");
 }

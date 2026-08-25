@@ -115,11 +115,6 @@ Icon *WoolTileItem::getIcon(int itemAuxValue)
 #ifndef _CONTENT_PACKAGE
 	if(Tile::tiles[id])
 	{
-		if (id == Tile::stained_glass_Id || id == Tile::stained_glass_pane_Id)
-		{
-			return Tile::tiles[id]->getTexture(2, itemAuxValue);
-		}
-
 		return Tile::tiles[id]->getTexture(2, ColoredTile::getTileDataForItemAuxValue(itemAuxValue));
 	}
 	else
@@ -139,12 +134,6 @@ unsigned int WoolTileItem::getDescriptionId(shared_ptr<ItemInstance> instance)
 	int tileId = getTileId();
 	switch(getTileId())
 	{
-	case Tile::stained_glass_Id:
-		return GLASS_COLOR_DESCS[ColoredTile::getTileDataForItemAuxValue(instance->getAuxValue())];
-	case Tile::stained_glass_pane_Id:
-		return GLASS_PANE_COLOR_DESCS[ColoredTile::getTileDataForItemAuxValue(instance->getAuxValue())];
-	case Tile::clayHardened_colored_Id:
-		return CLAY_COLOR_DESCS[ColoredTile::getTileDataForItemAuxValue(instance->getAuxValue())];
 	case Tile::woolCarpet_Id:
 		return CARPET_COLOR_DESCS[ColoredTile::getTileDataForItemAuxValue(instance->getAuxValue())];
 	case Tile::wool_Id:

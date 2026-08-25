@@ -288,7 +288,7 @@ public:
 	static const int cake_Id = 92;
 	static const int diode_off_Id = 93;
 	static const int diode_on_Id = 94;
-	static const int stained_glass_Id = 95;
+	//static const int stained_glass_Id = 95;
 	static const int trapdoor_Id = 96;
 	static const int monsterStoneEgg_Id = 97;
 	static const int stoneBrick_Id = 98;
@@ -358,8 +358,8 @@ public:
 	static const int stairs_quartz_Id = 156;
 	static const int activatorRail_Id = 157;
 	static const int dropper_Id = 158;
-	static const int clayHardened_colored_Id = 159;
-	static const int stained_glass_pane_Id = 160;
+	//static const int clayHardened_colored_Id = 159;
+	//static const int stained_glass_pane_Id = 160;
 
 	static const int coloredPlanks_Id = 161;
 	static const int cherryLog_Id = 162;
@@ -518,7 +518,7 @@ public:
 	static Tile *cake;
 	static RepeaterTile *diode_off;
 	static RepeaterTile *diode_on;
-	static Tile *stained_glass;
+	//static Tile *stained_glass;
 	static Tile *trapdoor;
 
 	static Tile *monsterStoneEgg;
@@ -591,8 +591,8 @@ public:
 	static Tile *stairs_quartz;
 	static Tile *activatorRail;
 	static Tile *dropper;
-	static Tile *clayHardened_colored;
-	static Tile *stained_glass_pane;
+	//static Tile *clayHardened_colored;
+	//static Tile *stained_glass_pane;
 
 	static Tile *coloredPlanks;
 	static Tile *cherryLog;

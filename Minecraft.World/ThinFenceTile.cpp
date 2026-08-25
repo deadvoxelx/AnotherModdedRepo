@@ -134,7 +134,7 @@ Icon *ThinFenceTile::getEdgeTexture()
 
 bool ThinFenceTile::attachsTo(int tile)
 {
-	return Tile::solid[tile] || tile == id || tile == Tile::glass_Id || tile == Tile::stained_glass_Id || tile == Tile::stained_glass_pane_Id;
+	return Tile::solid[tile] || tile == id || tile == Tile::glass_Id;
 }
 
 bool ThinFenceTile::isSilkTouchable()

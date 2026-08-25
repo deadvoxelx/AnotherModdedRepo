@@ -85,7 +85,12 @@ shared_ptr<ItemInstance> ItemInstance::fromTag(CompoundTag *itemTag)
 {
 	shared_ptr<ItemInstance> itemInstance = shared_ptr<ItemInstance>(new ItemInstance());
 	itemInstance->load(itemTag);
-	return itemInstance->getItem() != nullptr ? itemInstance : nullptr;
+	if (itemInstance->id < 0 || itemInstance->id >= Item::ITEM_NUM_COUNT ||
+		Item::items[itemInstance->id] == nullptr || itemInstance->count <= 0)
+	{
+		return nullptr;
+	}
+	return itemInstance;
 }
 
 ItemInstance::~ItemInstance()
@@ -165,10 +170,6 @@ void ItemInstance::load(CompoundTag *compoundTag)
 {
 	popTime = 0;
 	id = compoundTag->getShort(L"id");
-	if (id < 0 || id >= Item::ITEM_NUM_COUNT || Item::items[id] == nullptr)
-	{
-		id = Tile::stone_Id;
-	}
 	count = compoundTag->getByte(L"Count");
 	auxValue = compoundTag->getShort(L"Damage");
 	if (auxValue < 0)

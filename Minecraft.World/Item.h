@@ -92,6 +92,8 @@ public:
 		eMaterial_wheat,
 		eMaterial_stick,
 		eMaterial_steel,
+		eMaterial_bed,
+		eMaterial_boat,
 
 	}
 	eMaterial;
@@ -144,6 +146,8 @@ public:
 		eBaseItemType_paper,
 		eBaseItemType_stick,
 		eBaseItemType_wall,
+		eBaseItemType_bed,
+		eBaseItemType_boat,
 		eBaseItemType_MAXTYPES,
 	}
 	eBaseItemType;

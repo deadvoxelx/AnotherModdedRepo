@@ -10,6 +10,7 @@ private:
 	int foodLevel;
 	float saturationLevel;
 	float exhaustionLevel;
+	float fastRegenBudget;
 
 	int tickTimer;
 	int lastFoodLevel;

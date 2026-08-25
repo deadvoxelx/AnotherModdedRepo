@@ -11,6 +11,7 @@
 FoodData::FoodData()
 {
 	exhaustionLevel = 0;
+	fastRegenBudget = 0.0f;
 	tickTimer = 0;
 
 	foodLevel = FoodConstants::MAX_FOOD;
@@ -22,6 +23,7 @@ void FoodData::eat(int food, float saturationModifier)
 {
 	foodLevel = min(food + foodLevel, FoodConstants::MAX_FOOD);
 	saturationLevel = min(saturationLevel + (float) food * saturationModifier * 2.0f, (float)foodLevel);
+	fastRegenBudget += saturationModifier;
 }
 
 void FoodData::eat(FoodItem *item)
@@ -52,12 +54,28 @@ void FoodData::tick(shared_ptr<Player> player)
 	if (player->isHurt())
 	{
 		tickTimer++;
-		if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT) {
-			float spent = min(getSaturationLevel(), 6.0f);
-			player->heal(spent / 6.0f);
-			addExhaustion(spent);
+
+		if (fastRegenBudget > 0.0001f)
+		{
+			if (tickTimer >= FoodConstants::HEALTH_TICK_COUNT)
+			{
+				float oldHealth = player->getHealth();
+				float requestedHeal = min(1.0f, fastRegenBudget * 10.0f);
+				player->heal(requestedHeal);
+
+				float healed = player->getHealth() - oldHealth;
+				fastRegenBudget = max(fastRegenBudget - healed * 0.1f, 0.0f);
+				if (fastRegenBudget < 0.0001f) fastRegenBudget = 0.0f;
+				tickTimer = 0;
+			}
+		}
+		else if (tickTimer >= FoodConstants::BASE_HEALTH_TICK_COUNT)
+		{
+			player->heal(1.0f);
 			tickTimer = 0;
 		}
+
+		addExhaustion(FoodConstants::EXHAUSTION_HEAL);
 	}
 
 	else if (foodLevel <= FoodConstants::STARVE_LEVEL)
@@ -88,6 +106,7 @@ void FoodData::readAdditionalSaveData(CompoundTag *entityTag)
 		tickTimer = entityTag->getInt(L"foodTickTimer");
 		saturationLevel = entityTag->getFloat(L"foodSaturationLevel");
 		exhaustionLevel = entityTag->getFloat(L"foodExhaustionLevel");
+		fastRegenBudget = entityTag->contains(L"foodFastRegenBudget") ? entityTag->getFloat(L"foodFastRegenBudget") : 0.0f;
 	}
 }
 
@@ -97,6 +116,7 @@ void FoodData::addAdditonalSaveData(CompoundTag *entityTag)
 	entityTag->putInt(L"foodTickTimer", tickTimer);
 	entityTag->putFloat(L"foodSaturationLevel", saturationLevel);
 	entityTag->putFloat(L"foodExhaustionLevel", exhaustionLevel);
+	entityTag->putFloat(L"foodFastRegenBudget", fastRegenBudget);
 }
 
 int FoodData::getFoodLevel()

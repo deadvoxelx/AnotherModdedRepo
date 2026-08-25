@@ -53,7 +53,7 @@ intArray BiomeInitLayer::getArea(int xo, int yo, int w, int h)
                 {
                     pickedBiome = Biome::plains;
                 }
-                if (pickedBiome == Biome::birchForest && nextRandom(3) != 0)
+                if ((pickedBiome == Biome::birchForest || pickedBiome == Biome::rainForest) && nextRandom(3) != 0)
                 {
                     pickedBiome = Biome::forest;
                 }
