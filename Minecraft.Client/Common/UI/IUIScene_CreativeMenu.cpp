@@ -35,6 +35,7 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM_AUX(Tile::dirt_Id, DirtTile::TYPE_DRY)
 		ITEM(Tile::gravel_Id)
 		ITEM(Tile::clay)
+		ITEM(Tile::clayHardened_Id)
 		ITEM(Tile::ice_Id)
 		ITEM(Tile::snow_Id)
 		ITEM(Tile::sand_Id)
@@ -179,24 +180,6 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM(Tile::stairs_netherBricks_Id)
 		ITEM(Tile::stairs_quartz_Id)
 
-		ITEM(Tile::clayHardened_Id)
-		ITEM_AUX(Tile::clayHardened_colored_Id,0)	// White
-		ITEM_AUX(Tile::clayHardened_colored_Id,8)	// Light Gray
-		ITEM_AUX(Tile::clayHardened_colored_Id,7)	// Gray
-		ITEM_AUX(Tile::clayHardened_colored_Id,15)	// Black
-		ITEM_AUX(Tile::clayHardened_colored_Id,12)	// Brown
-		ITEM_AUX(Tile::clayHardened_colored_Id,14)	// Red
-		ITEM_AUX(Tile::clayHardened_colored_Id,1)	// Orange
-		ITEM_AUX(Tile::clayHardened_colored_Id,4)	// Yellow
-		ITEM_AUX(Tile::clayHardened_colored_Id,5)	// Lime
-		ITEM_AUX(Tile::clayHardened_colored_Id,13)	// Green
-		ITEM_AUX(Tile::clayHardened_colored_Id,9)	// Cyan
-		ITEM_AUX(Tile::clayHardened_colored_Id,3)	// Light Blue
-		ITEM_AUX(Tile::clayHardened_colored_Id,11)	// Blue
-		ITEM_AUX(Tile::clayHardened_colored_Id,10)	// Purple
-		ITEM_AUX(Tile::clayHardened_colored_Id,2)	// Magenta
-		ITEM_AUX(Tile::clayHardened_colored_Id,6)	// Pink
-
 	// Decoration
 	DEF(eCreativeInventory_Decoration)
 		ITEM_AUX(Item::skull_Id,SkullTileEntity::TYPE_SKELETON)
@@ -296,40 +279,6 @@ void IUIScene_CreativeMenu::staticCtor()
 		ITEM_AUX(Tile::woolCarpet_Id, 10)	// Purple
 		ITEM_AUX(Tile::woolCarpet_Id, 2)	// Magenta
 		ITEM_AUX(Tile::woolCarpet_Id, 6)	// Pink
-
-		ITEM_AUX(Tile::stained_glass_Id,0)	// White
-		ITEM_AUX(Tile::stained_glass_Id,8)	// Light Gray
-		ITEM_AUX(Tile::stained_glass_Id,7)	// Gray
-		ITEM_AUX(Tile::stained_glass_Id,15)	// Black
-		ITEM_AUX(Tile::stained_glass_Id,12)	// Brown
-		ITEM_AUX(Tile::stained_glass_Id,14)	// Red
-		ITEM_AUX(Tile::stained_glass_Id,1)	// Orange
-		ITEM_AUX(Tile::stained_glass_Id,4)	// Yellow
-		ITEM_AUX(Tile::stained_glass_Id,5)	// Lime
-		ITEM_AUX(Tile::stained_glass_Id,13)	// Green
-		ITEM_AUX(Tile::stained_glass_Id,9)	// Cyan
-		ITEM_AUX(Tile::stained_glass_Id,3)	// Light Blue
-		ITEM_AUX(Tile::stained_glass_Id,11)	// Blue
-		ITEM_AUX(Tile::stained_glass_Id,10)	// Purple
-		ITEM_AUX(Tile::stained_glass_Id,2)	// Magenta
-		ITEM_AUX(Tile::stained_glass_Id,6)	// Pink
-
-		ITEM_AUX(Tile::stained_glass_pane_Id,0)	// White
-		ITEM_AUX(Tile::stained_glass_pane_Id,8)	// Light Gray
-		ITEM_AUX(Tile::stained_glass_pane_Id,7)	// Gray
-		ITEM_AUX(Tile::stained_glass_pane_Id,15)// Black
-		ITEM_AUX(Tile::stained_glass_pane_Id,12)// Brown
-		ITEM_AUX(Tile::stained_glass_pane_Id,14)// Red
-		ITEM_AUX(Tile::stained_glass_pane_Id,1)	// Orange
-		ITEM_AUX(Tile::stained_glass_pane_Id,4)	// Yellow
-		ITEM_AUX(Tile::stained_glass_pane_Id,5)	// Lime
-		ITEM_AUX(Tile::stained_glass_pane_Id,13)// Green
-		ITEM_AUX(Tile::stained_glass_pane_Id,9)	// Cyan
-		ITEM_AUX(Tile::stained_glass_pane_Id,3)	// Light Blue
-		ITEM_AUX(Tile::stained_glass_pane_Id,11)// Blue
-		ITEM_AUX(Tile::stained_glass_pane_Id,10)// Purple
-		ITEM_AUX(Tile::stained_glass_pane_Id,2)	// Magenta
-		ITEM_AUX(Tile::stained_glass_pane_Id,6)	// Pink
 
 #ifndef _CONTENT_PACKAGE
 	DEF(eCreativeInventory_ArtToolsDecorations)
